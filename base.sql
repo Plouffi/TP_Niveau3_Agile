@@ -9,17 +9,12 @@ CREATE TABLE IF NOT EXISTS Passager
 	primary key(numPasseport)
 );
 
-/* Tables recensant la liste des rôles des membres du personnel (pilote, technicien) en 2 catégories*/
-CREATE TABLE IF NOT EXISTS RoleNonNavigant
+/* Table recensant la liste des rôles des membres du personnel (pilote, technicien) en 2 catégories*/
+CREATE TABLE IF NOT EXISTS Role
 (
 	role varchar(255) not null UNIQUE,
-	primary key(role)
-);
-
-CREATE TABLE IF NOT EXISTS RoleNavigant
-(
-  role varchar(255) not null UNIQUE,
-	primary key (role)
+	type ENUM('Navigant', 'NonNavigant'),
+	primary key(role, type)
 );
 
 /* Table personnel contenant les infos d'un membre du personnel ainsi que son rôle et mot de passe*/
@@ -31,8 +26,10 @@ CREATE TABLE IF NOT EXISTS Personnel
   adresse varchar(255) not null,
   noTelephone bigint(19) not null,
 	motDePasse varchar(255) not null, /*Le mot de passe sera hashé en bdd*/
-  type ENUM('Navigant', 'NonNavigant'),
   role varchar(255) not null, /*un trigger s'occupera de vérifier si le rôle est référencé*/
+	type varchar(12) not null,
+	foreign key (role) references Role(role),
+	foreign key (type) references Role(type),
 	primary key(id)
 );
 /*Table pilote qui stock le nombre total d'heure de vol*/
@@ -173,23 +170,6 @@ FOR EACH ROW
 BEGIN
   IF 'Pilote' NOT IN (SELECT role FROM  Personnel WHERE id = NEW.id) THEN
     CALL 'Insert not allowed'
-  END IF;
-END;
-DELIMITER ;
-
-/* Empêche l'insertion si le role indiqué ne correspond pas au type de personnel */
-DELIMITER $
-CREATE TRIGGER insertPersonnelChecking BEFORE INSERT ON Personnel
-FOR EACH ROW
-BEGIN
-  IF NEW.type == 'Navigant' THEN
-    IF NEW.role NOT IN ( SELECT role FROM RoleNavigant ) THEN
-      CALL 'Insert not allowed'
-    END IF;
-    ELSE IF NEW.type == 'NonNavigant' THEN
-    IF NEW.role NOT IN ( SELECT role FROM RoleNonNavigant ) THEN
-      CALL 'Insert not allowed'
-    END IF;
   END IF;
 END;
 DELIMITER ;
