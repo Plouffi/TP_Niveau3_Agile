@@ -3,7 +3,9 @@ package data_access_object;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-abstract class DAO<T,V,R> {
+import data_model.TypeAvion;
+
+public abstract class DAO<T> {
 
 	protected Connection connexion;
 
@@ -21,6 +23,6 @@ abstract class DAO<T,V,R> {
 	 * nous sommes obligés de placer un type générique en paramètre de la fonction 
 	 * car l'identifiant des tables est différent selon les tables  
 	 * */
-	public abstract R find(V id) throws SQLException;
+	public abstract T find(T obj) throws SQLException;
 	
 }

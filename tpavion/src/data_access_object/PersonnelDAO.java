@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import data_model.Personnel;
-import data_model.TypePossible;
+import data_model.TypeRole;
 
-public class PersonnelDAO extends DAO<Personnel, Integer, Personnel> {
+public class PersonnelDAO extends DAO<Personnel> {
 
 	PersonnelDAO(Connection connexion) {
 		super(connexion);
@@ -24,7 +24,8 @@ public class PersonnelDAO extends DAO<Personnel, Integer, Personnel> {
 			statement.setString(5, obj.getRole());
 			statement.setString(6, obj.getMotDePasse());
 			statement.setString(7, obj.getType().getType());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -33,13 +34,14 @@ public class PersonnelDAO extends DAO<Personnel, Integer, Personnel> {
 		String requete ="delete from personnel where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getId());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
 	@Override
 	public boolean update(Personnel obj) throws SQLException {	
-		String requete ="update personnel set prenom=?,nom=?,adresse=?,noTelephone=?,role=?,motDePasse=?,type=? where id='?';";
+		String requete ="update personnel set prenom=?,nom=?,adresse=?,noTelephone=?,role=?,motDePasse=?,type=? where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getPrenom());
 			statement.setString(2, obj.getNom());
@@ -49,25 +51,43 @@ public class PersonnelDAO extends DAO<Personnel, Integer, Personnel> {
 			statement.setString(6, obj.getMotDePasse());
 			statement.setString(7, obj.getType().getType());
 			statement.setInt(8, obj.getId());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
 	@Override
-	public Personnel find(Integer id) throws SQLException {
+	public Personnel find(Personnel obj) throws SQLException {
 		String requete = "select * from personnel where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, id);
+			statement.setInt(1, obj.getId());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first()) {
 					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
 							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
-							TypePossible.getTypePossible(result.getString("type")),result.getString("role"));
+							result.getString("type"),result.getString("role"));
 				}
 				return null;
 			}
 		}
 	}
+	
+	public Personnel findConnection(int id, String mdp) throws SQLException {
+		String requete = "select * from personnel where id=? and motDePasse=?;";
+		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+			statement.setInt(1, id);
+			statement.setString(2, mdp);
+			try(ResultSet result = statement.executeQuery();){
+				if(result.first()) {
+					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
+							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
+							result.getString("type"),result.getString("role"));
+				}
+				return null;
+			}
+		}
+	}
+
 
 	
 }

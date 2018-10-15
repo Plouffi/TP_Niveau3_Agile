@@ -11,11 +11,11 @@ public class Personnel {
 	private String adresse;
 	private BigInteger noTelephone;
 	private String motDePasse; 
-	private TypePossible type;
+	private TypeRole type;
 	private String role;
 	
 	public Personnel(String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
-			TypePossible type, String role) {
+			TypeRole type, String role) {
 		this.prenom = prenom;
 		this.nom = nom;
 		this.adresse = adresse;
@@ -26,17 +26,21 @@ public class Personnel {
 	}
 	
 	public Personnel(int id, String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
-			TypePossible type, String role) {
+			String type, String role) {
 		this.id = id;
 		this.prenom = prenom;
 		this.nom = nom;
 		this.adresse = adresse;
 		this.noTelephone = noTelephone;
 		this.motDePasse = motDePasse;
-		this.type = type;
+		this.type = TypeRole.getTypePossible(type);
 		this.role = role;
 	}
 
+	public Personnel(int id) {
+		this.id = id;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -85,11 +89,11 @@ public class Personnel {
 		this.motDePasse = motDePasse;
 	}
 
-	public TypePossible getType() {
+	public TypeRole getType() {
 		return type;
 	}
 
-	public void setType(TypePossible type) {
+	public void setType(TypeRole type) {
 		this.type = type;
 	}
 

@@ -2,6 +2,21 @@ package data_access_object;
 
 import java.sql.Connection;
 
+import data_model.Avion;
+import data_model.Depart;
+import data_model.DepartAvion;
+import data_model.DepartPassager;
+import data_model.Passager;
+import data_model.Personnel;
+import data_model.Pilote;
+import data_model.RapportPilote;
+import data_model.Role;
+import data_model.TempsVolType;
+import data_model.Troncon;
+import data_model.TypeAvion;
+import data_model.Vol;
+import data_model.VolTroncon;
+
 
 public class DAOFactory {
 	
@@ -11,67 +26,59 @@ public class DAOFactory {
 		this.connexion = connexion;
 	}
 	
-	public AvionDAO createAvionDAO() {
+	public DAO<Avion> createAvionDAO() {
 		return new AvionDAO(connexion);
 	}
 
-	public DepartAvionDAO createDepartAvionDAO() {
+	public DAO<DepartAvion> createDepartAvionDAO() {
 		return new DepartAvionDAO(connexion);
 	}
 	
-	public DepartDAO createDepartDAO() {
+	public DAO<Depart> createDepartDAO() {
 		return new DepartDAO(connexion);
 	}
 	
-	public DepartPassagerDAO createDepartPassagerDAO() {
+	public DAO<DepartPassager> createDepartPassagerDAO() {
 		return new DepartPassagerDAO(connexion);
 	}
 	
-	public PassagerDAO createPassagerDAO() {
+	public DAO<Passager> createPassagerDAO() {
 		return new PassagerDAO(connexion);
 	}
 	
-	public PassagerDAO createPersonneDAO() {
-		return new PassagerDAO(connexion);
-	}
-	
-	public PersonnelDAO createPersonnelDAO() {
+	public DAO<Personnel> createPersonnelDAO() {
 		return new PersonnelDAO(connexion);
 	}
 	
-	public PiloteDAO createPiloteDAO() {
+	public DAO<Pilote> createPiloteDAO() {
 		return new PiloteDAO(connexion);
 	}
 	
-	public RapportPiloteDAO createRapportPiloteDAO() {
+	public DAO<RapportPilote> createRapportPiloteDAO() {
 		return new RapportPiloteDAO(connexion);
 	}
 	
-	public TempsVolTypeDAO createTempsVolTypeDAO() {
+	public DAO<TempsVolType> createTempsVolTypeDAO() {
 		return new TempsVolTypeDAO(connexion);
 	}
 	
-	public TronconDAO createTronconDAO() {
+	public DAO<Troncon> createTronconDAO() {
 		return new TronconDAO(connexion);
 	}
 	
-	public TypeAvionDAO createTypeAvionDAO() {
+	public DAO<TypeAvion> createTypeAvionDAO() {
 		return new TypeAvionDAO(connexion);
 	}
 	
-	public RoleNavigantDAO createTypeNavigantDAO() {
-		return new RoleNavigantDAO(connexion);
+	public DAO<Role> createRoleDAO() {
+		return new RoleDAO(connexion);
 	}
-	
-	public RoleNonNavigantDAO createTypeNonNavigantDAO() {
-		return new RoleNonNavigantDAO(connexion);
-	}
-	
-	public VolDAO createVolDAO() {
+
+	public DAO<Vol> createVolDAO() {
 		return new VolDAO(connexion);
 	}
 	
-	public VolTronconDAO createVolTronconDAO() {
+	public DAO<VolTroncon> createVolTronconDAO() {
 		return new VolTronconDAO(connexion);
 	}
 }

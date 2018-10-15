@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import data_model.Depart;
 
-public class DepartDAO extends DAO<Depart, Integer, List<Depart>> {
+public class DepartDAO extends DAO<Depart> {
 
 	DepartDAO(Connection connexion) {
 		super(connexion);
@@ -20,8 +18,9 @@ public class DepartDAO extends DAO<Depart, Integer, List<Depart>> {
 	    String requete ="insert into depart values (?,?);";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getId());
-			statement.setDate(2, obj.getDateDepart());
-			return statement.execute();
+			statement.setDate(2, obj.getDateDepart());			
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -30,7 +29,8 @@ public class DepartDAO extends DAO<Depart, Integer, List<Depart>> {
 	    String requete = "delete from depart where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getId());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -41,16 +41,15 @@ public class DepartDAO extends DAO<Depart, Integer, List<Depart>> {
 	}
 
 	@Override
-	public List<Depart> find(Integer id) throws SQLException {
+	public Depart find(Depart obj) throws SQLException {
 		String requete = "select * from depart where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, id);
+			statement.setInt(1, obj.getId());
 			try(ResultSet result = statement.executeQuery();){
-				List<Depart>retour = new ArrayList<>();
-				while (result.next()) {
-					retour.add(new Depart(result.getInt("id"),result.getDate("dateDepart")));
+				if(result.first()) {
+					return new Depart(result.getInt("id"),result.getDate("dateDepart"));
 				}
-				return retour;
+				return null;
 			}
 		}
 	}

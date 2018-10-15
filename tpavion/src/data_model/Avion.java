@@ -11,6 +11,10 @@ public class Avion {
 		this.type = type;
 	}
 	
+	public Avion(String immatriculation) {
+		this.immatriculation = immatriculation;
+	}
+	
 	public String getImmatriculation() {
 		return immatriculation;
 	}

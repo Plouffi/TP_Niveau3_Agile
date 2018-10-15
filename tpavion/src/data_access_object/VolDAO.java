@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import data_model.Vol;
 
-public class VolDAO extends DAO<Vol, Integer,Vol> {
+public class VolDAO extends DAO<Vol> {
 
 	VolDAO(Connection connexion) {
 		super(connexion);
@@ -17,7 +17,8 @@ public class VolDAO extends DAO<Vol, Integer,Vol> {
 		String requete = "insert into Vol values ('?');";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getFrequence());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -26,7 +27,8 @@ public class VolDAO extends DAO<Vol, Integer,Vol> {
 		String requete = "delete from Vol where id='?';";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getId());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -36,15 +38,16 @@ public class VolDAO extends DAO<Vol, Integer,Vol> {
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getFrequence());
 			statement.setInt(2, obj.getId());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
 	@Override
-	public Vol find(Integer id) throws SQLException {
+	public Vol find(Vol obj) throws SQLException {
 		String requete ="select * from Vol where id='?'";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, id);
+			statement.setInt(1, obj.getId());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
 		        	return new Vol(result.getInt("id"),result.getInt("frequence"));

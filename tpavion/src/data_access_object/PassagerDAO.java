@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import data_model.Passager;
 
-public class PassagerDAO extends DAO<Passager, Integer, Passager> {
+public class PassagerDAO extends DAO<Passager> {
 
 	PassagerDAO(Connection connexion) {
 		super(connexion);
@@ -16,12 +16,13 @@ public class PassagerDAO extends DAO<Passager, Integer, Passager> {
 	public boolean create(Passager obj) throws SQLException {
 		String requete ="insert into passager values (?,?,?,?,?);";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, obj.getNumPasseport());
+			statement.setString(1, obj.getNumPasseport());
 			statement.setString(2, obj.getPrenom());
 			statement.setString(3, obj.getNom());
 			statement.setString(4, obj.getAdresse());
 			statement.setLong(5, obj.getNoTelephone().longValue());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -29,8 +30,9 @@ public class PassagerDAO extends DAO<Passager, Integer, Passager> {
 	public boolean delete(Passager obj) throws SQLException {		
 		String requete ="delete from passager where numPasseport='?';";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, obj.getNumPasseport());
-			return statement.execute();
+			statement.setString(1, obj.getNumPasseport());
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -42,19 +44,21 @@ public class PassagerDAO extends DAO<Passager, Integer, Passager> {
 			statement.setString(2, obj.getNom());
 			statement.setString(3, obj.getAdresse());
 			statement.setLong(4, obj.getNoTelephone().longValue());
-			statement.setInt(5,obj.getNumPasseport());
-			return statement.execute();
+			statement.setString(5,obj.getNumPasseport());
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
 	@Override
-	public Passager find(Integer id) throws SQLException {
+	public Passager find(Passager obj) throws SQLException {
 		String requete ="select * from passager where numPasseport=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, id);
+			statement.setString(1, obj.getNumPasseport());
 			try(ResultSet result = statement.executeQuery();){
-				result.first();
-				return new Passager(result.getInt("numPasseport"),result.getString("prenom"),result.getString("nom"),result.getString("adresse"),result.getBigDecimal("noTelephone").toBigInteger());
+				if(result.first())
+					return new Passager(result.getString("numPasseport"),result.getString("prenom"),result.getString("nom"),result.getString("adresse"),result.getBigDecimal("noTelephone").toBigInteger());
+				return null;
 			}
 		}
 	}

@@ -7,7 +7,7 @@ public class Implementation implements Abstraction {
     {
        // affichage commun a tous les decorateurs
        System.out.println("----------MENU-----------");
-       System.out.println(" --> Déconnexion");
+       System.out.println(" 1 --> Déconnexion");
     }
 
 }

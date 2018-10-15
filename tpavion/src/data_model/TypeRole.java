@@ -1,11 +1,11 @@
 package data_model;
 
-public enum TypePossible {
+public enum TypeRole {
 	NAVIGANT ("navigant"),
 	NONNAVIGANT ("nonnavigant");
 	
 	private String type="";
-	private TypePossible(String type){
+	private TypeRole(String type){
 	    this.type = type;
 	  }
 	   
@@ -13,12 +13,12 @@ public enum TypePossible {
 	    return type;
 	}
 	
-	public static TypePossible getTypePossible(String typePersonnel) {
+	public static TypeRole getTypePossible(String typePersonnel) {
 		switch(typePersonnel) {
 			case "navigant":
-				return TypePossible.NAVIGANT;
+				return TypeRole.NAVIGANT;
 			case "nonnavigant":
-				return TypePossible.NONNAVIGANT;
+				return TypeRole.NONNAVIGANT;
 			default:
 				return null;
 		}

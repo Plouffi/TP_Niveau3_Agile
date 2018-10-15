@@ -11,6 +11,8 @@ public class Depart {
 		this.id = id;
 		this.dateDepart = dateDepart;
 	}
+	
+	
 	public int getId() {
 		return id;
 	}

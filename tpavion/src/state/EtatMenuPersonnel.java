@@ -4,46 +4,73 @@ import java.math.BigInteger;
 import java.util.Scanner;
 
 import decorator.DecorateurMenuPersonnel;
+import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
+import systeme.SystemeGestion;
 
-public class EtatMenuPersonnel implements Etat {
+public class EtatMenuPersonnel extends Etat {
 
 	@Override
-	public void goNext(Contexte c) {
+	public void goNext(SystemeGestion systemeGestion) {
     	Implementation i = new Implementation();
-        DecorateurMenuPersonnel d = new DecorateurMenuPersonnel(i);
+        DecorateurMenuPersonnel d = new DecorateurMenuPersonnel(new DecorateurNonNavigant(i));
         d.affichage();
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
         switch (choix){
         	case 1 :
-        		System.out.println("Déconnexion ...");
-        		c.getElement().getSystemeGestionUtilisateur().deconnexion();
-        		c.setState(new EtatInitial());
+        		deconnexion(systemeGestion);
         		break;
         	case 2:
-        		System.out.println("Ajout d'un passager à un départ");
-        		c.setState(new EtatMenuPersonnel());
+        		ajoutPassager(systemeGestion);
         		break;
         	case 3:
         		System.out.println("Ajout d'un nouvel utilisateur");
-        		ajoutUilisateur(c);
+        		ajoutUilisateur(systemeGestion);
         		break;
         	case 4:
-        		System.out.println("Menu Technique");
-        		c.setState(new EtatMenuTechnique());
+        		System.out.println("Ajout d'un nouveau rôle");
+        		ajoutRole(systemeGestion);
         		break;
         	case 5:
-        		System.out.println("Menu Pilote");
-        		c.setState(new EtatMenuPilote());
+        		systemeGestion.setState(new EtatModificationPersonnel());
+        		break;
+        	case 6:
+        		System.out.println("Supprimer un utilisateur");
+                sc = new Scanner(System.in);
+        		System.out.println("id du membre :");
+                sc = new Scanner(System.in);
+                int id = sc.nextInt();
+                if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(id))
+                	System.out.println("L'utilisateur a bien été supprimé.");
+                else
+                	System.out.println("Erreur lors de la suppression");
+        		break;
+        	case 7:
+        		systemeGestion.retourMenuPrecedent();
         		break;
         	default:
         		System.out.println("Erreur...");
+        		break;
         }
-        c.setState(this);
+        systemeGestion.setState(this);
 	}
 
-	private void ajoutUilisateur(Contexte c) {
+	private void ajoutRole(SystemeGestion systemeGestion) {
+        Scanner sc = new Scanner(System.in);
+		System.out.println("Nouveau rôle :");
+        sc = new Scanner(System.in);
+        String role = sc.nextLine();
+		System.out.println(" Type : ");
+        sc = new Scanner(System.in);
+        String type = sc.nextLine();
+        if(systemeGestion.getSystemeGestionUtilisateur().ajouterRole(role,type))
+        	System.out.println("Rôle ajouté");
+        else
+        	System.out.println("Erreur lors de l'ajout");
+	}
+
+	private void ajoutUilisateur(SystemeGestion systemeGestion) {
         Scanner sc = new Scanner(System.in);
 		System.out.println("Nouvel Utilisateur :");
 		System.out.println(" Nom : ");
@@ -58,13 +85,19 @@ public class EtatMenuPersonnel implements Etat {
 		System.out.println(" numéro de téléphone : ");
         sc = new Scanner(System.in);
         BigInteger noTelephone = BigInteger.valueOf(sc.nextLong());
+		System.out.println(" motDePasse : ");
+        sc = new Scanner(System.in);
+        String motDePasse = sc.nextLine();
 		System.out.println(" Type : ");
         sc = new Scanner(System.in);
         String type = sc.nextLine();
-		if(!c.getElement().getSystemeGestionUtilisateur().ajouterUtilisateur(nom,prenom,adresse,noTelephone,type))
-			System.out.println(" Ajout effectué");
-		else
+		System.out.println(" Role : ");
+        sc = new Scanner(System.in);
+        String role = sc.nextLine();
+		if(!systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(nom,prenom,adresse,noTelephone,role,motDePasse, type))
 			System.out.println("erreur lors de l'ajout");
+		else
+			System.out.println("Ajout effectué");
 	}
 
 }

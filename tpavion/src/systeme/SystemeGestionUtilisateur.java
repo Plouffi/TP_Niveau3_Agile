@@ -1,22 +1,21 @@
 package systeme;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.security.*;
 
-import data_access_object.DAOFactory;
-import data_access_object.PassagerDAO;
+import data_access_object.DAO;
 import data_access_object.PersonnelDAO;
-import data_access_object.RoleNavigantDAO;
-import data_access_object.RoleNonNavigantDAO;
-import data_model.Passager;
+import data_access_object.DAOFactory;
 import data_model.Personnel;
-import data_model.RoleNavigant;
-import data_model.RoleNonNavigant;
+import data_model.Role;
+import data_model.TypeRole;
 
 public class SystemeGestionUtilisateur {
 
@@ -34,15 +33,21 @@ public class SystemeGestionUtilisateur {
 	
 	public boolean connexion(int id, String mdp) {
 
-		return true;
+		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
+		try {
+			utilisateurConnecte =((PersonnelDAO) personnelDAO).findConnection(id,mdp);
+			return (utilisateurConnecte!= null);
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return false;
+		
 	}
 
-	public boolean deconnexion() {
-		if(utilisateurConnecte==null)
-			return false;
+	public void deconnexion() {
 		utilisateurConnecte = null;
 		typeUtilisateur.clear();
-		return true;
 	}
 	
 	public Personnel getUtilisateurConnecte() {
@@ -54,16 +59,89 @@ public class SystemeGestionUtilisateur {
 	}
 
 	
-	public boolean ajouterUtilisateur(String nom, String prenom, String adresse, BigInteger noTelephone, String type) {
-		
-		return true;
-	}
-	
-	public boolean isEmailAdress(String email) {
-		Pattern pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
-		Matcher matcher= pattern.matcher(email);
-		return matcher.matches();
+	public boolean ajouterUtilisateur(String nom, String prenom, String adresse, BigInteger noTelephone, String role,String motDePasse, String type) {
+		TypeRole typeRole = TypeRole.getTypePossible(type);
+		System.out.println(type);
+		if(typeRole==null)
+			return false;
+		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
+		try {
+			return personnelDAO.create(new Personnel(nom,prenom,adresse,noTelephone,motDePasse,typeRole,role));
+		}
+		catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return false;
 	}
 
+
+	private String encoderMessage(String message) {
+		byte[] byteChaine = null;
+		MessageDigest md=null;
+		try {
+			byteChaine = message.getBytes("UTF-8");
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		byte[] hash = md.digest(byteChaine);
+		return hash.toString();
+	}
+
+	public boolean ajouterRole(String role, String type) {
+		TypeRole typeRole = TypeRole.getTypePossible(type);
+		System.out.println(type);
+		if(typeRole==null)
+			return false;
+		DAO<Role> roleDAO = factory.createRoleDAO();
+		try {
+			return roleDAO.create(new Role(role,typeRole));
+		}
+		catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return false;	
+		
+	}
+
+	public boolean supprimerUtilisateur(int id) {
+		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
+		try {
+			Personnel personnel = personnelDAO.find(new Personnel(id));
+			if(personnel == null)
+				throw new SQLException(" Personnel non trouvé ...");
+			return personnelDAO.delete(personnel);
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return false;
+		
+	}
+
+	public Personnel rechercherUtilisateur(Personnel personnel) {
+		try {
+			return factory.createPersonnelDAO().find(personnel);
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return null;
+	}
+
+	public boolean majUtilisateur(Personnel personnel) {
+		try {
+			return factory.createPersonnelDAO().update(personnel);
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return false;
+		
+	}
 
 }

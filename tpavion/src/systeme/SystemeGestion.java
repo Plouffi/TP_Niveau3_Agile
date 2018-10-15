@@ -1,39 +1,86 @@
 package systeme;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Stack;
 
-import state.Contexte;
+import data_model.Personnel;
+import state.Etat;
 import state.EtatInitial;
 
 public class SystemeGestion {
 
 	SystemeGestionUtilisateur sgu;
-	private final String user = "root";
-	private final String pass = "";
-	private final String dbClass = "com.mysql.cj.jdbc.Driver";
-	private final String dbDriver = "jdbc:mysql://127.0.0.1:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private Connection conn;
+	SystemeGestionAvion sga;
+	private static final String user = "root";
+	private static final String pass = "";
+	private static final String dbClass = "com.mysql.cj.jdbc.Driver";
+	private static final String dbDriver = "jdbc:mysql://127.0.0.1:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private Connection conn = null;
+	private Stack<Etat> etats;
 	
 	public SystemeGestion(){   
 		try {
 			Class.forName(dbClass).newInstance();
-			Connection conn = DriverManager.getConnection(dbDriver, user, pass);
+			conn = DriverManager.getConnection(dbDriver, user, pass);
 			sgu = new SystemeGestionUtilisateur(conn); 
+			sga = new SystemeGestionAvion(conn);
 		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		/* pile contenant tous nos états */
+		etats = new Stack<>();
+		/* on place le premier etat et on lance la méthode afficherInterface */ 
+		etats.push(new EtatInitial());
+		afficherInterface();
 	}
 	
 	public void afficherInterface() {
-		Contexte contexte = new Contexte();
-		contexte.setElement(this);
-		contexte.setState(new EtatInitial());
+		etats.peek().goNext(this);
 	}
-	
+
 	public SystemeGestionUtilisateur getSystemeGestionUtilisateur() {
 		return sgu;
+	}
+	
+	public SystemeGestionAvion getSystemeGestionAvion() {
+		return sga;
+	}
+
+	public void setState(Etat etat) {
+		etats.push(etat);
+		afficherInterface();
+	}
+	
+	public void retourMenuPrecedent() {
+		etats.pop();
+		afficherInterface();
+	}
+
+	public void deconnexion() {
+		sgu.deconnexion();
+		etats.clear();
+		etats.push(new EtatInitial());
+		afficherInterface();
+	}
+
+	public boolean connexion(int id, String password) {
+		return sgu.connexion(id, password);
+	}
+
+	public boolean ajouterUtilisateur(String nom, String prenom, String adresse, BigInteger noTelephone, String role,
+			String motDePasse, String type) {
+		return sgu.ajouterUtilisateur(nom, prenom, adresse, noTelephone, role, motDePasse, type);
+	}
+
+	public boolean ajouterRole(String role, String type) {
+		return sgu.ajouterRole(role,type);
+	}
+
+	public boolean supprimerUtilisateur(int id) {
+		return sgu.supprimerUtilisateur(id);
 	}
 
 }

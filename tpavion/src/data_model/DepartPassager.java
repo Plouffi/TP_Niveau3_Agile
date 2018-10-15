@@ -4,23 +4,23 @@ import java.sql.Date;
 
 public class DepartPassager {
 	
-	private int numPasseport;
+	private String numPasseport;
 	private int id;
 	private Date dateDepart;
 	private int numPlace;
 
-	public DepartPassager(int numPasseport, int id, Date dateDepart, int numPlace) {
+	public DepartPassager(String numPasseport, int id, Date dateDepart, int numPlace) {
 		this.numPasseport = numPasseport;
 		this.id = id;
 		this.dateDepart = dateDepart;
 		this.numPlace = numPlace;
 	}
 	
-	public int getNumPasseport() {
+	public String getNumPasseport() {
 		return numPasseport;
 	}
 
-	public void setNumPasseport(int numPasseport) {
+	public void setNumPasseport(String numPasseport) {
 		this.numPasseport = numPasseport;
 	}
 

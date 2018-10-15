@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import data_model.TypeAvion;
 
-public class TypeAvionDAO extends DAO<TypeAvion, String, TypeAvion> {
+public class TypeAvionDAO extends DAO<TypeAvion> {
 
 	TypeAvionDAO(Connection connexion) {
 		super(connexion);
@@ -17,7 +17,8 @@ public class TypeAvionDAO extends DAO<TypeAvion, String, TypeAvion> {
 		String requete = "insert into TypeAvion values (?);";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getType());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -26,7 +27,8 @@ public class TypeAvionDAO extends DAO<TypeAvion, String, TypeAvion> {
 		String requete = "delete from TypeAvion where type=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getType());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -36,10 +38,10 @@ public class TypeAvionDAO extends DAO<TypeAvion, String, TypeAvion> {
 	}
 
 	@Override
-	public TypeAvion find(String id) throws SQLException {
+	public TypeAvion find(TypeAvion obj) throws SQLException {
 		String requete = "select * from typeAvion where type=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setString(1, id);
+			statement.setString(1, obj.getType());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
 		        	return new TypeAvion(result.getString("type"));

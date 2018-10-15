@@ -4,13 +4,13 @@ import java.math.BigInteger;
 
 public class Passager {
 
-	private int numPasseport;
+	private String numPasseport;
 	private String prenom;
 	private String nom;
 	private String adresse;
 	private BigInteger noTelephone;
 	
-	public Passager(int numPasseport, String prenom, String nom, String adresse, BigInteger noTelephone) {
+	public Passager(String numPasseport, String prenom, String nom, String adresse, BigInteger noTelephone) {
 		this.numPasseport = numPasseport;
 		this.prenom = prenom;
 		this.nom = nom;
@@ -18,11 +18,11 @@ public class Passager {
 		this.noTelephone = noTelephone;
 	}
 	
-	public int getNumPasseport() {
+	public String getNumPasseport() {
 		return numPasseport;
 	}
 
-	public void setNumPasseport(int numPasseport) {
+	public void setNumPasseport(String numPasseport) {
 		this.numPasseport = numPasseport;
 	}
 

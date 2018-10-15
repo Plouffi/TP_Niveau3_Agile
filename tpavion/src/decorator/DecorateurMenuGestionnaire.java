@@ -9,7 +9,6 @@ public class DecorateurMenuGestionnaire extends Decorateur{
 	@Override
 	public void affichage() {
 		a.affichage();
-	    System.out.println(" --> Ajouter un passager à un départ");
 		System.out.println(" --> Ajouter un nouveau vol");
 		System.out.println(" --> Ajouter un nouveau départ");
 		System.out.println(" --> Associer un vol à un troncon");

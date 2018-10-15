@@ -5,9 +5,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import data_model.RapportPilote;
 
-public class RapportPiloteDAO extends DAO<RapportPilote, Object[], RapportPilote> {
+public class RapportPiloteDAO extends DAO<RapportPilote> {
 
 	RapportPiloteDAO(Connection connexion) {
 		super(connexion);
@@ -21,7 +22,8 @@ public class RapportPiloteDAO extends DAO<RapportPilote, Object[], RapportPilote
 			statement.setInt(2, obj.getIdDepart());
 			statement.setDate(3, obj.getDateDepart());
 			statement.setString(4, obj.getRapport());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -32,7 +34,8 @@ public class RapportPiloteDAO extends DAO<RapportPilote, Object[], RapportPilote
 			statement.setInt(1, obj.getIdPilote());
 			statement.setInt(2, obj.getIdDepart());
 			statement.setDate(3, obj.getDateDepart());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
@@ -44,17 +47,18 @@ public class RapportPiloteDAO extends DAO<RapportPilote, Object[], RapportPilote
 			statement.setInt(2, obj.getIdPilote());
 			statement.setInt(3, obj.getIdDepart());
 			statement.setDate(4, obj.getDateDepart());
-			return statement.execute();
+			/* retourne true si la requete s'est bien effectué */
+			return statement.executeUpdate() > 0;
 		}
 	}
 
 	@Override
-	public RapportPilote find(Object[] id) throws SQLException {
+	public RapportPilote find(RapportPilote obj) throws SQLException {
 		String requete = "select * from RapportPilote where idPilote=? and idDepart=? and dateDepart=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, (int)id[0]);
-			statement.setInt(2, (int)id[1]);
-			statement.setDate(3, (Date)id[2]);
+			statement.setInt(1, (int)obj.getIdPilote());
+			statement.setInt(2, (int)obj.getIdDepart());
+			statement.setDate(3, (Date)obj.getDateDepart());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
 		        	return new RapportPilote(result.getInt("idPilote"),result.getInt("idDepart"),result.getDate("dateDepart"),result.getString("rapport"));
