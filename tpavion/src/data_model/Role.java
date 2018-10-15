@@ -5,7 +5,7 @@ public class Role {
 	private String role; 
 	private TypeRole type;
 	
-	public Role(String role,TypeRole type)
+	public Role(TypeRole type,String role)
 	{
 		this.role = role;
 		this.type = type;

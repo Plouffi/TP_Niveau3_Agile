@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.Scanner;
 
 import data_model.Personnel;
+import data_model.Role;
 import data_model.TypeRole;
 import decorator.DecorateurMenuPersonnel;
 import decorator.DecorateurModificationPersonnel;
@@ -73,8 +74,7 @@ public class EtatModificationPersonnel extends Etat {
                     sc = new Scanner(System.in);
                     String type = sc.nextLine();
                     TypeRole typeRole = TypeRole.getTypePossible(type);
-                    personnel.setRole(role);
-                    personnel.setType(typeRole);
+                    personnel.setRole(new Role(typeRole,role));
                     modification = systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel);
             		break;
             	default:

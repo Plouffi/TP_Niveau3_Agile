@@ -19,7 +19,6 @@ import data_model.TypeRole;
 
 public class SystemeGestionUtilisateur {
 
-	private static final String EMAIL_REGEX = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
 	private Connection conn;
 	private Personnel utilisateurConnecte = null;
 	private List<String> typeUtilisateur;
@@ -59,14 +58,10 @@ public class SystemeGestionUtilisateur {
 	}
 
 	
-	public boolean ajouterUtilisateur(String nom, String prenom, String adresse, BigInteger noTelephone, String role,String motDePasse, String type) {
-		TypeRole typeRole = TypeRole.getTypePossible(type);
-		System.out.println(type);
-		if(typeRole==null)
-			return false;
+	public boolean ajouterUtilisateur(Personnel personnel) {
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
-			return personnelDAO.create(new Personnel(nom,prenom,adresse,noTelephone,motDePasse,typeRole,role));
+			return personnelDAO.create(personnel);
 		}
 		catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
@@ -91,14 +86,10 @@ public class SystemeGestionUtilisateur {
 		return hash.toString();
 	}
 
-	public boolean ajouterRole(String role, String type) {
-		TypeRole typeRole = TypeRole.getTypePossible(type);
-		System.out.println(type);
-		if(typeRole==null)
-			return false;
+	public boolean ajouterRole(Role role) {
 		DAO<Role> roleDAO = factory.createRoleDAO();
 		try {
-			return roleDAO.create(new Role(role,typeRole));
+			return roleDAO.create(role);
 		}
 		catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
@@ -108,12 +99,9 @@ public class SystemeGestionUtilisateur {
 		
 	}
 
-	public boolean supprimerUtilisateur(int id) {
+	public boolean supprimerUtilisateur(Personnel personnel) {
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
-			Personnel personnel = personnelDAO.find(new Personnel(id));
-			if(personnel == null)
-				throw new SQLException(" Personnel non trouvé ...");
 			return personnelDAO.delete(personnel);
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());

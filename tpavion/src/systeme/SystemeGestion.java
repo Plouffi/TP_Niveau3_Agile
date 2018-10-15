@@ -70,17 +70,4 @@ public class SystemeGestion {
 		return sgu.connexion(id, password);
 	}
 
-	public boolean ajouterUtilisateur(String nom, String prenom, String adresse, BigInteger noTelephone, String role,
-			String motDePasse, String type) {
-		return sgu.ajouterUtilisateur(nom, prenom, adresse, noTelephone, role, motDePasse, type);
-	}
-
-	public boolean ajouterRole(String role, String type) {
-		return sgu.ajouterRole(role,type);
-	}
-
-	public boolean supprimerUtilisateur(int id) {
-		return sgu.supprimerUtilisateur(id);
-	}
-
 }

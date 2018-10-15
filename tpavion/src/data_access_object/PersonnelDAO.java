@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import data_model.Personnel;
+import data_model.Role;
 import data_model.TypeRole;
 
 public class PersonnelDAO extends DAO<Personnel> {
@@ -14,16 +15,18 @@ public class PersonnelDAO extends DAO<Personnel> {
 	}
 
 	@Override
-	public boolean create(Personnel obj) throws SQLException {		
+	public boolean create(Personnel obj) throws SQLException {
+		if(new RoleDAO(connexion).find(obj.getRole()) == null)
+			throw new SQLException(" -- Erreur -- Le rôle n'existe pas.");
 		String requete ="insert into personnel (prenom,nom,adresse,noTelephone,role,motDePasse,type) values (?,?,?,?,?,?,?);";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getPrenom());
 			statement.setString(2, obj.getNom());
 			statement.setString(3, obj.getAdresse());
 			statement.setLong(4, obj.getNoTelephone().longValue());
-			statement.setString(5, obj.getRole());
+			statement.setString(5, obj.getRole().getRole());
 			statement.setString(6, obj.getMotDePasse());
-			statement.setString(7, obj.getType().getType());
+			statement.setString(7, obj.getRole().getType().getType());
 			/* retourne true si la requete s'est bien effectué */
 			return statement.executeUpdate() > 0;
 		}
@@ -41,15 +44,17 @@ public class PersonnelDAO extends DAO<Personnel> {
 
 	@Override
 	public boolean update(Personnel obj) throws SQLException {	
+		if(new RoleDAO(connexion).find(obj.getRole()) == null)
+			throw new SQLException(" -- Erreur -- Le rôle n'existe pas.");
 		String requete ="update personnel set prenom=?,nom=?,adresse=?,noTelephone=?,role=?,motDePasse=?,type=? where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getPrenom());
 			statement.setString(2, obj.getNom());
 			statement.setString(3, obj.getAdresse());
 			statement.setLong(4, obj.getNoTelephone().longValue());
-			statement.setString(5, obj.getRole());
+			statement.setString(5, obj.getRole().getRole());
 			statement.setString(6, obj.getMotDePasse());
-			statement.setString(7, obj.getType().getType());
+			statement.setString(7, obj.getRole().getType().getType());
 			statement.setInt(8, obj.getId());
 			/* retourne true si la requete s'est bien effectué */
 			return statement.executeUpdate() > 0;
@@ -65,7 +70,7 @@ public class PersonnelDAO extends DAO<Personnel> {
 				if(result.first()) {
 					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
 							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
-							result.getString("type"),result.getString("role"));
+							new Role(TypeRole.getTypePossible(result.getString("type")),result.getString("role")));
 				}
 				return null;
 			}
@@ -81,7 +86,7 @@ public class PersonnelDAO extends DAO<Personnel> {
 				if(result.first()) {
 					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
 							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
-							result.getString("type"),result.getString("role"));
+							new Role(TypeRole.getTypePossible(result.getString("type")),result.getString("role")));
 				}
 				return null;
 			}

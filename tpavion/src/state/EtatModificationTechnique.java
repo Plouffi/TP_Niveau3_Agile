@@ -1,13 +1,9 @@
 package state;
 
-import java.math.BigInteger;
 import java.util.Scanner;
-
 import data_model.Avion;
-import data_model.Personnel;
-import data_model.TypeRole;
+import data_model.TypeAvion;
 import decorator.DecorateurModificationAvion;
-import decorator.DecorateurModificationPersonnel;
 import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
 import systeme.SystemeGestion;
@@ -49,7 +45,7 @@ public class EtatModificationTechnique extends Etat {
             		System.out.println("Saisir un type : ");
                     sc = new Scanner(System.in);
                     String type = sc.nextLine();
-                    avion.setType(type);;
+                    avion.setType(new TypeAvion(type));
                     modification = systemeGestion.getSystemeGestionAvion().majAvion(avion);
             		break;
             	default:

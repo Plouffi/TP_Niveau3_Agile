@@ -39,9 +39,7 @@ public class EtatMenuTechnique extends Etat {
         		break;
         	case 6:
         		System.out.println("Supprimer un avion");
-        		System.out.println("Immatriculation :");
-                sc = new Scanner(System.in);
-                String immatriculation = sc.nextLine();
+        		String immatriculation = saisirString(" Immatriculation :");
                 if(systemeGestion.getSystemeGestionAvion().supprimerAvion(new Avion(immatriculation)))
                 		System.out.println("Avion supprimé .");
                 else
@@ -49,9 +47,7 @@ public class EtatMenuTechnique extends Etat {
         		break;
         	case 7:
         		System.out.println("Supprimer un type d'avion");
-        		System.out.println("Type :");
-                sc = new Scanner(System.in);
-                String type = sc.nextLine();
+        		String type = saisirString(" Type :");
                 if(systemeGestion.getSystemeGestionAvion().supprimerTypeAvion(new TypeAvion(type)))
                 		System.out.println("Type d'avion supprimé.");
                 else
@@ -68,10 +64,7 @@ public class EtatMenuTechnique extends Etat {
 	}
 
 	private void ajoutTypeAvion(SystemeGestion systemeGestion) {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Type d'avion :");
-        sc = new Scanner(System.in);
-        String type = sc.nextLine();
+		String type = saisirString(" Type d'avion :");
         if(systemeGestion.getSystemeGestionAvion().ajouterTypeAvion(new TypeAvion(type)))
         	System.out.println("Ajout de l'avion effectué.");
         else
@@ -79,17 +72,10 @@ public class EtatMenuTechnique extends Etat {
 	}
 
 	private void ajoutAvion(SystemeGestion systemeGestion) {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Immatriculation :");
-        sc = new Scanner(System.in);
-        String immatriculation = sc.nextLine();
-		System.out.println(" Capacite : ");
-        sc = new Scanner(System.in);
-        int capacite = sc.nextInt();
-		System.out.println("Type :");
-        sc = new Scanner(System.in);
-        String type = sc.nextLine();
-        if(systemeGestion.getSystemeGestionAvion().ajouterAvion(new Avion(immatriculation,capacite,type)))
+		String immatriculation = saisirString(" Immatriculation:");
+		int capacite = saisirInt(" Capacite :");
+		String type = saisirString("type");
+        if(systemeGestion.getSystemeGestionAvion().ajouterAvion(new Avion(immatriculation,capacite,new TypeAvion(type))))
         	System.out.println("Ajout de l'avion effectué.");
         else
         	System.out.println("Erreur lors de l'ajout ...");

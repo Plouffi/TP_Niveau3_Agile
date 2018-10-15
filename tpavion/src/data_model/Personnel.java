@@ -11,29 +11,26 @@ public class Personnel {
 	private String adresse;
 	private BigInteger noTelephone;
 	private String motDePasse; 
-	private TypeRole type;
-	private String role;
+	private Role role;
 	
 	public Personnel(String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
-			TypeRole type, String role) {
+			Role role) {
 		this.prenom = prenom;
 		this.nom = nom;
 		this.adresse = adresse;
 		this.noTelephone = noTelephone;
 		this.motDePasse = motDePasse;
-		this.type = type;
 		this.role = role;
 	}
 	
 	public Personnel(int id, String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
-			String type, String role) {
+			Role role) {
 		this.id = id;
 		this.prenom = prenom;
 		this.nom = nom;
 		this.adresse = adresse;
 		this.noTelephone = noTelephone;
 		this.motDePasse = motDePasse;
-		this.type = TypeRole.getTypePossible(type);
 		this.role = role;
 	}
 
@@ -89,19 +86,11 @@ public class Personnel {
 		this.motDePasse = motDePasse;
 	}
 
-	public TypeRole getType() {
-		return type;
-	}
-
-	public void setType(TypeRole type) {
-		this.type = type;
-	}
-
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

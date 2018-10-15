@@ -49,7 +49,7 @@ public class RoleDAO extends DAO<Role> {
 			statement.setString(2, obj.getType().getType());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
-			        return new Role(result.getString("Role"),TypeRole.getTypePossible(result.getString("type")));
+			        return new Role(TypeRole.getTypePossible(result.getString("type")),result.getString("Role"));
 				return null;
 			}
 		}

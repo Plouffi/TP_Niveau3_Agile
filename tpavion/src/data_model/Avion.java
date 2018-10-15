@@ -3,9 +3,9 @@ package data_model;
 public class Avion {
 	private String immatriculation;
 	private int capacite;
-	private String type;
+	private TypeAvion type;
 	
-	public Avion(String immatriculation, int capacite,String type) {
+	public Avion(String immatriculation, int capacite,TypeAvion type) {
 		this.immatriculation = immatriculation;
 		this.capacite = capacite;
 		this.type = type;
@@ -31,11 +31,11 @@ public class Avion {
 		this.capacite = capacite;
 	}
 	
-	public String getType() {
+	public TypeAvion getType() {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setType(TypeAvion type) {
 		this.type = type;
 	}
 	

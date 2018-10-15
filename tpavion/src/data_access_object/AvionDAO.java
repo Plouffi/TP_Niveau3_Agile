@@ -16,13 +16,16 @@ public class AvionDAO extends DAO<Avion> {
 
 	@Override
 	public boolean create(Avion obj) throws SQLException {
+		/* si le type n'existe pas on ne tente pas de créer l'avion */
+		if( new TypeAvionDAO(connexion).find(obj.getType()) == null) 
+			throw new SQLException(" --Erreur-- Le type n'existe pas.");
 	    String requete =
 	        "insert into avion (immatriculation,capacite,type)" +
 	        "values (?,?,?);";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getImmatriculation());
 			statement.setInt(2, obj.getCapacite());
-			statement.setString(3, obj.getType());
+			statement.setString(3, obj.getType().getType());
 			/* retourne true si l'insert s'est bien effectué */
 			return statement.executeUpdate() > 0;
 		}
@@ -41,10 +44,13 @@ public class AvionDAO extends DAO<Avion> {
 
 	@Override
 	public boolean update(Avion obj) throws SQLException {
+		/* si le type n'existe pas on ne tente pas de modifier l'avion */
+		if( new TypeAvionDAO(connexion).find(obj.getType()) == null) 
+			throw new SQLException(" --Erreur-- Le type n'existe pas.");
 	    String requete =
 	    		"update avion set type=?, capacite=? where immatriculation=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setString(1, obj.getType());
+			statement.setString(1, obj.getType().getType());
 			statement.setInt(2, obj.getCapacite());
 			statement.setString(3, obj.getImmatriculation());
 			/* retourne true si la requete s'est bien effectué */
@@ -60,7 +66,7 @@ public class AvionDAO extends DAO<Avion> {
 			statement.setString(1,obj.getImmatriculation());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
-						return new Avion(result.getString("immatriculation"),result.getInt("capacite"),result.getString("type"));
+						return new Avion(result.getString("immatriculation"),result.getInt("capacite"),new TypeAvion(result.getString("type")));
 				return null;
 			}
 		}

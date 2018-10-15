@@ -3,6 +3,9 @@ package state;
 import java.math.BigInteger;
 import java.util.Scanner;
 
+import data_model.Personnel;
+import data_model.Role;
+import data_model.TypeRole;
 import decorator.DecorateurMenuPersonnel;
 import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
@@ -37,11 +40,8 @@ public class EtatMenuPersonnel extends Etat {
         		break;
         	case 6:
         		System.out.println("Supprimer un utilisateur");
-                sc = new Scanner(System.in);
-        		System.out.println("id du membre :");
-                sc = new Scanner(System.in);
-                int id = sc.nextInt();
-                if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(id))
+        		int id = saisirInt("id du membre :");
+                if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(new Personnel(id)))
                 	System.out.println("L'utilisateur a bien été supprimé.");
                 else
                 	System.out.println("Erreur lors de la suppression");
@@ -57,47 +57,38 @@ public class EtatMenuPersonnel extends Etat {
 	}
 
 	private void ajoutRole(SystemeGestion systemeGestion) {
-        Scanner sc = new Scanner(System.in);
-		System.out.println("Nouveau rôle :");
-        sc = new Scanner(System.in);
-        String role = sc.nextLine();
-		System.out.println(" Type : ");
-        sc = new Scanner(System.in);
-        String type = sc.nextLine();
-        if(systemeGestion.getSystemeGestionUtilisateur().ajouterRole(role,type))
-        	System.out.println("Rôle ajouté");
+		String role = saisirString("Role :");
+		String type = saisirString("Type :");
+        TypeRole typeRole = TypeRole.getTypePossible(type);
+        if(typeRole != null) {
+	        if(systemeGestion.getSystemeGestionUtilisateur().ajouterRole(new Role(typeRole,role)))
+	        	System.out.println("Rôle ajouté");
+	        else
+	        	System.out.println("Erreur lors de l'ajout");
+        }
         else
-        	System.out.println("Erreur lors de l'ajout");
+        	System.out.println(" -- Erreur -- Le type de rôle n'existe pas.");
 	}
 
 	private void ajoutUilisateur(SystemeGestion systemeGestion) {
         Scanner sc = new Scanner(System.in);
-		System.out.println("Nouvel Utilisateur :");
-		System.out.println(" Nom : ");
-        sc = new Scanner(System.in);
-        String nom = sc.nextLine();
-		System.out.println(" Prenom : ");
-        sc = new Scanner(System.in);
-        String prenom = sc.nextLine();
-		System.out.println(" Adresse : ");
-        sc = new Scanner(System.in);
-        String adresse = sc.nextLine();
-		System.out.println(" numéro de téléphone : ");
-        sc = new Scanner(System.in);
-        BigInteger noTelephone = BigInteger.valueOf(sc.nextLong());
-		System.out.println(" motDePasse : ");
-        sc = new Scanner(System.in);
-        String motDePasse = sc.nextLine();
-		System.out.println(" Type : ");
-        sc = new Scanner(System.in);
-        String type = sc.nextLine();
-		System.out.println(" Role : ");
-        sc = new Scanner(System.in);
-        String role = sc.nextLine();
-		if(!systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(nom,prenom,adresse,noTelephone,role,motDePasse, type))
-			System.out.println("erreur lors de l'ajout");
-		else
-			System.out.println("Ajout effectué");
+		String nom = saisirString("Nom :");
+		String prenom = saisirString("Prenom :");
+        String adresse = saisirString("Adresse :");
+        BigInteger noTelephone = saisirBigInteger("numéro de téléphone :");
+        String motDePasse = saisirString("Mot de passe :");
+        String type = saisirString("Type :");
+        String role = saisirString("Role :");
+        TypeRole typeRole = TypeRole.getTypePossible(type);
+        if(typeRole != null) {
+	        Personnel personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,new Role(typeRole,role));
+			if(!systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
+				System.out.println("erreur lors de l'ajout");
+			else
+				System.out.println("Ajout effectué");
+        }
+        else
+        	System.out.println(" -- Erreur -- Type incorrect.");
 	}
 
 }
