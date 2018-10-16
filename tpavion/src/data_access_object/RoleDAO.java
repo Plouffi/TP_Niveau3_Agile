@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import data_model.Role;
 import data_model.TypeRole;
 
@@ -49,8 +52,20 @@ public class RoleDAO extends DAO<Role> {
 			statement.setString(2, obj.getType().getType());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
-			        return new Role(TypeRole.getTypePossible(result.getString("type")),result.getString("Role"));
+			        return new Role(result.getString("type"),result.getString("Role"));
 				return null;
+			}
+		}
+	}
+	
+	public List<Role> findRoles() throws SQLException {
+		String requete = "select * from Role;";
+		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+			try(ResultSet result = statement.executeQuery();){
+				ArrayList<Role> roles = new ArrayList<>();
+				while(result.next())
+			        roles.add(new Role(result.getString("type"),result.getString("Role")));
+				return roles;
 			}
 		}
 	}

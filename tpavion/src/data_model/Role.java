@@ -5,18 +5,18 @@ public class Role {
 	private String role; 
 	private TypeRole type;
 	
-	public Role(TypeRole type,String role)
+	public Role(String type,String role)
 	{
 		this.role = role;
-		this.type = type;
+		this.type = TypeRole.getTypePossible(type);
 	}
 
 	public TypeRole getType() {
 		return type;
 	}
 
-	public void setType(TypeRole type) {
-		this.type = type;
+	public void setType(String type) {
+		this.type = TypeRole.getTypePossible(type);
 	}
 
 	public String getRole() {

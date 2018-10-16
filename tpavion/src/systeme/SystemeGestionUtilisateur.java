@@ -12,6 +12,7 @@ import java.security.*;
 
 import data_access_object.DAO;
 import data_access_object.PersonnelDAO;
+import data_access_object.RoleDAO;
 import data_access_object.DAOFactory;
 import data_model.Personnel;
 import data_model.Role;
@@ -130,6 +131,16 @@ public class SystemeGestionUtilisateur {
 		}
 		return false;
 		
+	}
+	
+	public List<Role> getRoles(){
+		try {
+			return ((RoleDAO) factory.createRoleDAO()).findRoles();
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return new ArrayList<>();
 	}
 
 }

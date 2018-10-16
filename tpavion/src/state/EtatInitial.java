@@ -1,7 +1,5 @@
 package state;
 
-import java.util.Scanner;
-
 import systeme.SystemeGestion;
 
 public class EtatInitial extends Etat {

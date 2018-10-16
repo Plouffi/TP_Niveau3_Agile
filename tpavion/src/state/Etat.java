@@ -28,13 +28,13 @@ public abstract class Etat
     }
     
     public String saisirString(String intitule) {
-		System.out.println("Nouveau rôle :");
+		System.out.println(intitule);
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
     
     public BigInteger saisirBigInteger(String intitule) {
-		System.out.println("Nouveau rôle :");
+		System.out.println(intitule);
         Scanner sc = new Scanner(System.in);
         return sc.nextBigInteger();
     }

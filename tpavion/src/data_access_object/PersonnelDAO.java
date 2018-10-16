@@ -70,7 +70,7 @@ public class PersonnelDAO extends DAO<Personnel> {
 				if(result.first()) {
 					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
 							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
-							new Role(TypeRole.getTypePossible(result.getString("type")),result.getString("role")));
+							new Role(result.getString("type"),result.getString("role")));
 				}
 				return null;
 			}
@@ -86,7 +86,7 @@ public class PersonnelDAO extends DAO<Personnel> {
 				if(result.first()) {
 					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
 							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
-							new Role(TypeRole.getTypePossible(result.getString("type")),result.getString("role")));
+							new Role(result.getString("type"),result.getString("role")));
 				}
 				return null;
 			}

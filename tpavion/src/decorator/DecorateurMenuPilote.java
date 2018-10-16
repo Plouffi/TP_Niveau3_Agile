@@ -4,7 +4,6 @@ public class DecorateurMenuPilote extends Decorateur {
 
 	public DecorateurMenuPilote(Abstraction a) {
 		super(a);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

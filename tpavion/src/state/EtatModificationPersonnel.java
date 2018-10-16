@@ -26,7 +26,7 @@ public class EtatModificationPersonnel extends Etat {
         }
         else {
         	Implementation i = new Implementation();
-            DecorateurModificationPersonnel d = new DecorateurModificationPersonnel(new DecorateurNonNavigant(i),personnel);
+            DecorateurModificationPersonnel d = new DecorateurModificationPersonnel(new DecorateurNonNavigant(i),personnel,systemeGestion.getSystemeGestionUtilisateur().getRoles());
             d.affichage();
             sc = new Scanner(System.in);
             id = sc.nextInt();
@@ -39,42 +39,43 @@ public class EtatModificationPersonnel extends Etat {
             		ajoutPassager(systemeGestion);
             		break;
             	case 3:
-            		System.out.println("Saisir un nom");
-                    sc = new Scanner(System.in);
-                    String nom = sc.nextLine();
+            		String nom = saisirString(" Nom :");
                     personnel.setNom(nom);
                     modification = systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel);
             		break;
             	case 4:
-            		System.out.println("Saisir un prenom");
-                    sc = new Scanner(System.in);
-                    String prenom = sc.nextLine();
+                    String prenom = saisirString(" Prénom :");
                     personnel.setPrenom(prenom);
                     modification = systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel);
             		break;
             	case 5:
-            		System.out.println("Saisir une adresse");
-                    sc = new Scanner(System.in);
-                    String adresse = sc.nextLine();
+                    String adresse = saisirString(" Adresse :");
                     personnel.setAdresse(adresse);
                     modification = systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel);
             		break;
             	case 6:
-            		System.out.println("Saisir un numéro de téléphone");
-                    sc = new Scanner(System.in);
-                    BigInteger numeroTelephone = sc.nextBigInteger();
+                    BigInteger numeroTelephone = saisirBigInteger(" Numéro de téléphone :");
                     personnel.setNoTelephone(numeroTelephone);
                     modification = systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel);
             		break;
             	case 7:
-            		System.out.println("Nouveau rôle :");
-                    sc = new Scanner(System.in);
-                    String role = sc.nextLine();
-            		System.out.println(" Type : ");
-                    sc = new Scanner(System.in);
-                    String type = sc.nextLine();
-                    TypeRole typeRole = TypeRole.getTypePossible(type);
-                    personnel.setRole(new Role(typeRole,role));
+                    d.affichageTypeRole();
+                    String type = "";
+                    int t = saisirInt("Type :");
+                    switch(t) {
+                    	case 1:
+                    		type = "navigant";
+                    		break;
+                    	case 2: 
+                    		type = "nonnavigant";
+                    		break;
+                    	default : 
+                    		System.out.println("Erreur de saisie");
+                    		break;	
+                    }
+                    d.affichageListeRoles();
+            		String role = saisirString(" Rôle :");
+                    personnel.setRole(new Role(type,role));
                     modification = systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel);
             		break;
             	default:

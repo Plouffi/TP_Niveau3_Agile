@@ -16,7 +16,7 @@ public class EtatMenuPersonnel extends Etat {
 	@Override
 	public void goNext(SystemeGestion systemeGestion) {
     	Implementation i = new Implementation();
-        DecorateurMenuPersonnel d = new DecorateurMenuPersonnel(new DecorateurNonNavigant(i));
+        DecorateurMenuPersonnel d = new DecorateurMenuPersonnel(new DecorateurNonNavigant(i),systemeGestion.getSystemeGestionUtilisateur().getRoles());
         d.affichage();
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
@@ -29,7 +29,7 @@ public class EtatMenuPersonnel extends Etat {
         		break;
         	case 3:
         		System.out.println("Ajout d'un nouvel utilisateur");
-        		ajoutUilisateur(systemeGestion);
+        		ajoutUilisateur(systemeGestion, d);
         		break;
         	case 4:
         		System.out.println("Ajout d'un nouveau rôle");
@@ -57,38 +57,42 @@ public class EtatMenuPersonnel extends Etat {
 	}
 
 	private void ajoutRole(SystemeGestion systemeGestion) {
-		String role = saisirString("Role :");
-		String type = saisirString("Type :");
-        TypeRole typeRole = TypeRole.getTypePossible(type);
-        if(typeRole != null) {
-	        if(systemeGestion.getSystemeGestionUtilisateur().ajouterRole(new Role(typeRole,role)))
+			String role = saisirString("Role :");
+			String type = saisirString("Type :");
+	        if(systemeGestion.getSystemeGestionUtilisateur().ajouterRole(new Role(type,role)))
 	        	System.out.println("Rôle ajouté");
 	        else
 	        	System.out.println("Erreur lors de l'ajout");
         }
-        else
-        	System.out.println(" -- Erreur -- Le type de rôle n'existe pas.");
-	}
 
-	private void ajoutUilisateur(SystemeGestion systemeGestion) {
-        Scanner sc = new Scanner(System.in);
+	private void ajoutUilisateur(SystemeGestion systemeGestion, DecorateurMenuPersonnel d) {
 		String nom = saisirString("Nom :");
 		String prenom = saisirString("Prenom :");
         String adresse = saisirString("Adresse :");
         BigInteger noTelephone = saisirBigInteger("numéro de téléphone :");
         String motDePasse = saisirString("Mot de passe :");
-        String type = saisirString("Type :");
-        String role = saisirString("Role :");
-        TypeRole typeRole = TypeRole.getTypePossible(type);
-        if(typeRole != null) {
-	        Personnel personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,new Role(typeRole,role));
-			if(!systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
-				System.out.println("erreur lors de l'ajout");
-			else
-				System.out.println("Ajout effectué");
+        d.affichageTypeRole();
+        String type = "";
+        int t = saisirInt("Type :");
+        switch(t) {
+        	case 1:
+        		type = "navigant";
+        		break;
+        	case 2: 
+        		type = "nonnavigant";
+        		break;
+        	default : 
+        		System.out.println("Erreur de saisie");
+        		break;	
         }
-        else
-        	System.out.println(" -- Erreur -- Type incorrect.");
+        d.affichageListeRoles();
+        String role = saisirString("Role :");
+	    Personnel personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,new Role(type,role));
+		if(!systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
+			System.out.println("erreur lors de l'ajout");
+		else
+			System.out.println("Ajout effectué");
+        
 	}
 
 }
