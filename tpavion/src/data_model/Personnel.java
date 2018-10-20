@@ -1,6 +1,5 @@
 package data_model;
 
-import java.math.BigInteger;
 
 public class Personnel extends Personne {
 
@@ -17,7 +16,7 @@ public class Personnel extends Personne {
      * @param motDePasse
      * @param role
      */
-    public Personnel(String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
+    public Personnel(String prenom, String nom, String adresse, String noTelephone, String motDePasse,
                      Role role) {
         super(prenom, nom, adresse, noTelephone);
         this.motDePasse = motDePasse;
@@ -25,7 +24,7 @@ public class Personnel extends Personne {
     }
 
     /**
-     * Constructeur pour un personnel, utilisé lors de la selection
+     * Constructeur pour un personnel, utilisÃ© lors de la selection
      * @param id
      * @param prenom
      * @param nom
@@ -34,7 +33,7 @@ public class Personnel extends Personne {
      * @param motDePasse
      * @param role
      */
-    public Personnel(int id, String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
+    public Personnel(int id, String prenom, String nom, String adresse, String noTelephone, String motDePasse,
                      Role role) {
         super(prenom, nom, adresse, noTelephone);
         this.id = id;
@@ -91,7 +90,7 @@ public class Personnel extends Personne {
     }
 
     /**
-     * Setter du rôle
+     * Setter du rÃ´le
      * @param role
      */
     public void setRole(Role role) {
@@ -100,7 +99,7 @@ public class Personnel extends Personne {
 
     @Override
     public String toString() {
-        return "id : "+id+", prenom : "+getPrenom()+", nom : "+getNom()+", adresse : "+getAdresse()+", noTelephone : "+getNoTelephone()+", type de rôle : "+getRole().getType()+", rôle : "+getRole().getRole();
+        return "id : "+id+", prenom : "+getPrenom()+", nom : "+getNom()+", adresse : "+getAdresse()+", noTelephone : "+getNoTelephone()+", type de rÃ´le : "+getRole().getType()+", rÃ´le : "+getRole().getRole();
     }
 }
 

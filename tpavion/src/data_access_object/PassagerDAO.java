@@ -17,7 +17,7 @@ public class PassagerDAO extends DAO<Passager> {
 	}
 
 	/**
-	 * Fonction permettant l'insertion d'un Passager dans la base de données
+	 * Fonction permettant l'insertion d'un Passager dans la base de donnï¿½es
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -30,14 +30,14 @@ public class PassagerDAO extends DAO<Passager> {
 			statement.setString(2, obj.getPrenom());
 			statement.setString(3, obj.getNom());
 			statement.setString(4, obj.getAdresse());
-			statement.setLong(5, obj.getNoTelephone().longValue());
-			/* retourne true si la requete s'est bien effectué */
+			statement.setString(5, obj.getNoTelephone());
+			/* retourne true si la requete s'est bien effectuï¿½ */
 			return statement.executeUpdate() > 0;
 		}
 	}
 
 	/**
-	 * Fonction permettant la suppression d'un Passager existant dans la base de données
+	 * Fonction permettant la suppression d'un Passager existant dans la base de donnï¿½es
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -47,13 +47,13 @@ public class PassagerDAO extends DAO<Passager> {
 		String requete ="delete from passager where numPasseport=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getNumPasseport());
-			/* retourne true si la requete s'est bien effectué */
+			/* retourne true si la requete s'est bien effectuï¿½ */
 			return statement.executeUpdate() > 0;
 		}
 	}
 
 	/**
-	 * Fonction permettant la mise à jour d'un Passager existant dans la base de données
+	 * Fonction permettant la mise ï¿½ jour d'un Passager existant dans la base de donnï¿½es
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -65,15 +65,15 @@ public class PassagerDAO extends DAO<Passager> {
 			statement.setString(1, obj.getPrenom());
 			statement.setString(2, obj.getNom());
 			statement.setString(3, obj.getAdresse());
-			statement.setLong(4, obj.getNoTelephone().longValue());
+			statement.setString(4, obj.getNoTelephone());
 			statement.setString(5,obj.getNumPasseport());
-			/* retourne true si la requete s'est bien effectué */
+			/* retourne true si la requete s'est bien effectuï¿½ */
 			return statement.executeUpdate() > 0;
 		}
 	}
 
 	/**
-	 * Fonction permettant la récupération d'un Passager existant dans la base de données en utilisant son numéro de passeport
+	 * Fonction permettant la rï¿½cupï¿½ration d'un Passager existant dans la base de donnï¿½es en utilisant son numï¿½ro de passeport
 	 * @param obj
 	 * @return passager
 	 * @throws SQLException
@@ -85,7 +85,7 @@ public class PassagerDAO extends DAO<Passager> {
 			statement.setString(1, obj.getNumPasseport());
 			try(ResultSet result = statement.executeQuery();){
 				if(result.first())
-					return new Passager(result.getString("numPasseport"),result.getString("prenom"),result.getString("nom"),result.getString("adresse"),result.getBigDecimal("noTelephone").toBigInteger());
+					return new Passager(result.getString("numPasseport"),result.getString("prenom"),result.getString("nom"),result.getString("adresse"),result.getString("noTelephone"));
 				return null;
 			}
 		}

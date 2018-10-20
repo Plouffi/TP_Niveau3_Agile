@@ -1,8 +1,8 @@
 package data_model;
 
 public enum TypeRole {
-	NAVIGANT ("navigant"),
-	NONNAVIGANT ("nonnavigant");
+	NAVIGANT ("Navigant"),
+	NONNAVIGANT ("NonNavigant");
 	
 	private String type="";
 	private TypeRole(String type){
@@ -18,15 +18,15 @@ public enum TypeRole {
 	}
 
 	/**
-	 * Méthode statique permettant de créer un type de rôle
+	 * Mï¿½thode statique permettant de crï¿½er un type de rï¿½le
 	 * @param typePersonnel
 	 * @return
 	 */
 	public static TypeRole getTypePossible(String typePersonnel) {
 		switch(typePersonnel) {
-			case "navigant":
+			case "Navigant":
 				return TypeRole.NAVIGANT;
-			case "nonnavigant":
+			case "NonNavigant":
 				return TypeRole.NONNAVIGANT;
 			default:
 				return null;

@@ -30,14 +30,14 @@ public class SystemeGestion {
 		} catch (SQLException  e) {
 			e.printStackTrace();
 		}
-		/* pile contenant tous nos états */
+		/* pile contenant tous nos Ã©tats */
 		etats = new Stack<>();
-		/* on place le premier etat et on lance la méthode afficherInterface */
+		/* on place le premier etat et on lance la mÃ©thode afficherInterface */
 		setState(new EtatInitial());
 	}
 
 	/**
-	 * méthode permettant l'affichage de l'interface
+	 * mÃ©thode permettant l'affichage de l'interface
 	 */
 	public void afficherInterface() {
 		etats.peek().goNext(this);
@@ -60,7 +60,7 @@ public class SystemeGestion {
 	}
 
 	/**
-	 * Setter pour un état
+	 * Setter pour un Ã©tat
 	 * @param etat
 	 */
 	public void setState(Etat etat) {
@@ -69,7 +69,7 @@ public class SystemeGestion {
 	}
 
 	/**
-	 * Méthode permettant le retour à un menu précédent (à un état précédent)
+	 * MÃ©thode permettant le retour Ã© un menu prÃ©cÃ©dent (Ã© un Ã©tat prÃ©cÃ©dent)
 	 */
 	public void retourMenuPrecedent() {
 		etats.pop();
@@ -77,7 +77,7 @@ public class SystemeGestion {
 	}
 
 	/**
-	 * Méthode permettant la deconnexion
+	 * MÃ©thode permettant la deconnexion
 	 */
 	public void deconnexion() {
 		sgu.deconnexion();

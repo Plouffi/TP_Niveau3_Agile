@@ -4,7 +4,7 @@ import systeme.SystemeGestion;
 
 public class EtatInitial extends Etat {
 	/**
-	 * Méthode qui contient la connexion
+	 * MÃ©thode qui contient la connexion
 	 * @param systemeGestion
 	 */
 	@Override
@@ -13,13 +13,13 @@ public class EtatInitial extends Etat {
 		System.out.println(" Connexion : ");
 		int id = saisirInt(" identifiant :");
 		String motDePasse = saisirString(" mot de passe :");
-		/* on vérifie si l'utilisateur s'est bien connecté */
+		/* on vÃ©rifie si l'utilisateur s'est bien connectÃ© */
 		if(systemeGestion.getSystemeGestionUtilisateur().connexion(id, motDePasse)) {
-			System.out.println("La connexion est un succès.");
-			/* si la connexion est un succès */
+			System.out.println("La connexion est un succÃ©s.");
+			/* si la connexion est un succÃ©s */
 			systemeGestion.setState(new EtatMenuConnecte());
 		}else {
-			System.out.println("La connexion a échouée, veuillez réessayer.");
+			System.out.println("La connexion a Ã©chouÃ©e, veuillez rÃ©essayer.");
 			systemeGestion.afficherInterface();
 		}
 

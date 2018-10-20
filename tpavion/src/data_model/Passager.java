@@ -1,7 +1,5 @@
 package data_model;
 
-import java.math.BigInteger;
-
 public class Passager extends Personne{
 
 	private String numPasseport;
@@ -14,13 +12,13 @@ public class Passager extends Personne{
 	 * @param adresse
 	 * @param noTelephone
 	 */
-	public Passager(String numPasseport, String prenom, String nom, String adresse, BigInteger noTelephone) {
+	public Passager(String numPasseport, String prenom, String nom, String adresse, String noTelephone) {
 		super(prenom,nom,adresse,noTelephone);
 		this.numPasseport = numPasseport;
 	}
 
 	/**
-	 * Getter du numéro de passeport
+	 * Getter du numÃ©ro de passeport
 	 * @return String
 	 */
 	public String getNumPasseport() {

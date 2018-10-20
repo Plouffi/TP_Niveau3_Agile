@@ -21,7 +21,7 @@ public class RoleDAO extends DAO<Role> {
 	}
 
 	/**
-	 * Fonction permettant l'insertion d'un Role dans la base de données
+	 * Fonction permettant l'insertion d'un Role dans la base de donnï¿½es
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -32,30 +32,29 @@ public class RoleDAO extends DAO<Role> {
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getRole());
 			statement.setString(2, obj.getType().getType());
-			/* retourne true si la requete s'est bien effectué */
+			/* retourne true si la requete s'est bien effectuï¿½ */
 			return statement.executeUpdate() > 0;
 		}
 	}
 
 	/**
-	 * Fonction permettant la suppression d'un Role existant dans la base de données
+	 * Fonction permettant la suppression d'un Role existant dans la base de donnï¿½es
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
 	 */
 	@Override
 	public boolean delete(Role obj) throws SQLException {
-		String requete = "delete from Role where role=? and type=?;";
+		String requete = "delete from Role where role=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getRole());
-			statement.setString(2, obj.getType().getType());
-			/* retourne true si la requete s'est bien effectué */
+			/* retourne true si la requete s'est bien effectuï¿½ */
 			return statement.executeUpdate() > 0;
 		}
 	}
 
 	/**
-	 * Fonction permettant la mise à jour d'un Role existant dans la base de données
+	 * Fonction permettant la mise Ã  jour d'un Role existant dans la base de donnÃ©es
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -67,34 +66,46 @@ public class RoleDAO extends DAO<Role> {
 	}
 
 	/**
-	 * Fonction permettant la récupération d'un Role existant dans la base de données en utilisant le rôle et son type
+	 * Fonction permettant la rÃ©cupÃ©ration d'un Role existant dans la base de donnÃ©es en utilisant le rÃ´le
 	 * @param obj
 	 * @return role
 	 * @throws SQLException
 	 */
 	@Override
 	public Role find(Role obj) throws SQLException {
-		String requete = "select * from Role where role=? and type=?;";
-		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setString(1, obj.getRole());
-			statement.setString(2, obj.getType().getType());
-			try(ResultSet result = statement.executeQuery();){
-				if(result.first())
-			        return new Role(result.getString("type"),result.getString("Role"));
-				return null;
-			}
-		}
+            String requete = "select * from Role where role=?;";
+            try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+                statement.setString(1, obj.getRole());
+                try(ResultSet result = statement.executeQuery();){
+                    if(result.first())
+                        return new Role(result.getString("type"),result.getString("Role"));
+                    return null;
+                }
+            }
 	}
+        
+        public Role find(String role) throws SQLException {
+            String requete = "select * from Role where role=?;";
+            try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+                statement.setString(1, role);
+                try(ResultSet result = statement.executeQuery();){
+                    if(result.first())
+                        return new Role(result.getString("type"),result.getString("Role"));
+                    return null;
+                }
+            }
+	}
+        
 	
 	public List<Role> findRoles() throws SQLException {
-		String requete = "select * from Role;";
-		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			try(ResultSet result = statement.executeQuery();){
-				ArrayList<Role> roles = new ArrayList<>();
-				while(result.next())
-			        roles.add(new Role(result.getString("type"),result.getString("Role")));
-				return roles;
-			}
-		}
+            String requete = "select * from Role;";
+            try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+                try(ResultSet result = statement.executeQuery();){
+                    ArrayList<Role> roles = new ArrayList<>();
+                    while(result.next())
+                        roles.add(new Role(result.getString("type"),result.getString("Role")));
+                    return roles;
+                }
+            }
 	}
 }

@@ -1,6 +1,7 @@
 package state;
 
 import java.math.BigInteger;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import systeme.SystemeGestion;
@@ -8,61 +9,73 @@ import systeme.SystemeGestion;
 public abstract class Etat 
 {
     /**
-     * MÈthode qui contient toutes les actions ‡ effectuer
+     * M√©thode qui contient toutes les actions √© effectuer
      * @param systemeGestion
      */
     public abstract void goNext(SystemeGestion systemeGestion);
-    // mÈthode qui sera utilisÈe pour effectuer des actions et si il y a des Ètats
-    // qui suivent l'etat courant alors on dÈterminera l'etat suivant dans cette mÈthode
+    // m√©thode qui sera utilis√©e pour effectuer des actions et si il y a des √©tats
+    // qui suivent l'etat courant alors on d√©terminera l'etat suivant dans cette m√©thode
 
     /**
-     * MÈthode permettant la dÈconnexion
+     * M√©thode permettant la d√©connexion
      * @param systemeGestion
      */
     void deconnexion(SystemeGestion systemeGestion) {
-		System.out.println("DÈconnexion ...");
+		System.out.println("D√©connexion ...");
 		systemeGestion.deconnexion();
     }
 
     /**
-     * MÈthode permettant la connexion
+     * M√©thode permettant la connexion
      * @param systemeGestion
      */
     void ajoutPassager(SystemeGestion systemeGestion) {
-		System.out.println("Ajout d'un passager ‡ un dÈpart");
+		System.out.println("Ajout d'un passager √† un d√©part");
 		systemeGestion.setState(new EtatMenuPersonnel());
     }
 
     /**
-     * MÈthode permettant de saisir une valeur numÈrique
+     * M√©thode permettant de saisir une valeur num√©rique
      * @param intitule
      * @return int
      */
     public int saisirInt(String intitule) {
-		System.out.println(intitule);
-        Scanner sc = new Scanner(System.in);
-        return sc.nextInt();
+        System.out.println(intitule);
+        try{
+            Scanner sc = new Scanner(System.in);
+            int i = sc.nextInt();
+            return i;
+        } catch (InputMismatchException e){
+            System.out.println("Erreur de saisie (type de donn√©e non conforme");
+            return saisirInt(intitule);
+        }
     }
 
     /**
-     * MÈthode permettant de saisir une chaine de caractËres
+     * M√©thode permettant de saisir une chaine de caract√©res
      * @param intitule
      * @return String
      */
     public String saisirString(String intitule) {
-		System.out.println(intitule);
+        System.out.println(intitule);
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
 
     /**
-     * MÈthode permettant de saisir un BigInteger
+     * M√©thode permettant de saisir un BigInteger
      * @param intitule
      * @return BigInteger
      */
     public BigInteger saisirBigInteger(String intitule) {
-		System.out.println(intitule);
-        Scanner sc = new Scanner(System.in);
-        return sc.nextBigInteger();
+        System.out.println(intitule);
+        try{
+            Scanner sc = new Scanner(System.in);
+            BigInteger bi = sc.nextBigInteger();
+            return bi;
+        } catch (InputMismatchException e){
+            System.out.println("Erreur de saisie (type de donn√©e non conforme");
+            return saisirBigInteger(intitule);
+        }
     }
 }

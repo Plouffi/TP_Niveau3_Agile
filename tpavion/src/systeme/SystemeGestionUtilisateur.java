@@ -31,7 +31,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant la connexion
+	 * MÃ©thode permettant la connexion
 	 * @param id
 	 * @param mdp
 	 * @return
@@ -41,7 +41,7 @@ public class SystemeGestionUtilisateur {
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
 			utilisateurConnecte =((PersonnelDAO) personnelDAO).find(new Personnel(id));
-			return (utilisateurConnecte.getMotDePasse().equals(mdp));
+			return (utilisateurConnecte != null && utilisateurConnecte.getMotDePasse().equals(mdp));
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
 			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -51,7 +51,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant la deconnexion
+	 * Mï¿½thode permettant la deconnexion
 	 */
 	public void deconnexion() {
 		utilisateurConnecte = null;
@@ -59,7 +59,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Getter de l'utilisateur actuellement connecté
+	 * Getter de l'utilisateur actuellement connectï¿½
 	 * @return
 	 */
 	public Personnel getUtilisateurConnecte() {
@@ -67,7 +67,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant l'ajout d'un membre du personnel
+	 * Mï¿½thode permettant l'ajout d'un membre du personnel
 	 * @param personnel
 	 * @return
 	 */
@@ -84,7 +84,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant l'encodage d'une chaine de caractères
+	 * Mï¿½thode permettant l'encodage d'une chaine de caractï¿½res
 	 * @param message
 	 * @return
 	 */
@@ -104,7 +104,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant l'ajout d'un rôle
+	 * Mï¿½thode permettant l'ajout d'un rï¿½le
 	 * @param role
 	 * @return
 	 */
@@ -122,7 +122,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant la suppression d'un utilisateur
+	 * Mï¿½thode permettant la suppression d'un utilisateur
 	 * @param personnel
 	 * @return
 	 */
@@ -130,7 +130,7 @@ public class SystemeGestionUtilisateur {
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
 			if(personnel.getId()==utilisateurConnecte.getId())
-				throw new SQLException(" Vous ne pouvez pas vous supprimer vous-mêmes de la base de données.");
+				throw new SQLException(" Vous ne pouvez pas vous supprimer vous-mï¿½mes de la base de donnï¿½es.");
 			return personnelDAO.delete(personnel);
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
@@ -141,7 +141,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant de voir si un utilisateur existe dans la base de données
+	 * Mï¿½thode permettant de voir si un utilisateur existe dans la base de donnï¿½es
 	 * @param personnel
 	 * @return
 	 */
@@ -156,7 +156,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode permettant la mise à jour d'un utilisateur
+	 * Mï¿½thode permettant la mise ï¿½ jour d'un utilisateur
 	 * @param personnel
 	 * @return
 	 */
@@ -172,7 +172,7 @@ public class SystemeGestionUtilisateur {
 	}
 
 	/**
-	 * Méthode retournant tous les rôles
+	 * Mï¿½thode retournant tous les rï¿½les
 	 * @return
 	 */
 	public List<Role> getRoles(){
@@ -187,7 +187,7 @@ public class SystemeGestionUtilisateur {
 
 
 	/**
-	 * Méthode retournant tous les membres du personnel
+	 * Mï¿½thode retournant tous les membres du personnel
 	 * @return
 	 */
 	public List<Personnel> getPersonnels(){

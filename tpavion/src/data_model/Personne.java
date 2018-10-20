@@ -8,9 +8,9 @@ public class Personne {
     private String prenom;
     private String nom;
     private String adresse;
-    private BigInteger noTelephone;
+    private String noTelephone;
 
-    public Personne(String prenom, String nom, String adresse, BigInteger noTelephone) {
+    public Personne(String prenom, String nom, String adresse, String noTelephone) {
         this.prenom = prenom;
         this.nom = nom;
         this.adresse = adresse;
@@ -20,7 +20,7 @@ public class Personne {
     public Personne(){}
 
     /**
-     * Getter du prénom
+     * Getter du prï¿½nom
      * @return String
      */
     public String getPrenom() {
@@ -28,7 +28,7 @@ public class Personne {
     }
 
     /**
-     * Setter du prénom
+     * Setter du prï¿½nom
      * @param prenom
      */
     public void setPrenom(String prenom) {
@@ -71,15 +71,15 @@ public class Personne {
      * Getter du numero de telephone
      * @return BigInteger
      */
-    public BigInteger getNoTelephone() {
+    public String getNoTelephone() {
         return noTelephone;
     }
 
     /**
-     * Setter du numéro de telephone
+     * Setter du numï¿½ro de telephone
      * @param noTelephone
      */
-    public void setNoTelephone(BigInteger noTelephone) {
+    public void setNoTelephone(String noTelephone) {
         this.noTelephone = noTelephone;
     }
 
