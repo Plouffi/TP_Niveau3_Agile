@@ -8,10 +8,20 @@ import data_model.Passager;
 
 public class PassagerDAO extends DAO<Passager> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	PassagerDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un Passager dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Passager obj) throws SQLException {
 		String requete ="insert into passager values (?,?,?,?,?);";
@@ -26,9 +36,15 @@ public class PassagerDAO extends DAO<Passager> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un Passager existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(Passager obj) throws SQLException {		
-		String requete ="delete from passager where numPasseport='?';";
+		String requete ="delete from passager where numPasseport=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getNumPasseport());
 			/* retourne true si la requete s'est bien effectué */
@@ -36,6 +52,12 @@ public class PassagerDAO extends DAO<Passager> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un Passager existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(Passager obj) throws SQLException {
 		String requete ="update passager set prenom=?, nom=?, adresse=?, noTelephone=? where numPasseport=?;";
@@ -50,6 +72,12 @@ public class PassagerDAO extends DAO<Passager> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un Passager existant dans la base de données en utilisant son numéro de passeport
+	 * @param obj
+	 * @return passager
+	 * @throws SQLException
+	 */
 	@Override
 	public Passager find(Passager obj) throws SQLException {
 		String requete ="select * from passager where numPasseport=?;";

@@ -7,11 +7,13 @@ import decorator.Implementation;
 import systeme.SystemeGestion;
 
 public class EtatMenuConnecte extends Etat {
-
+	/**
+	 * Méthode qui contient le choix des menus
+	 * @param systemeGestion
+	 */
 	@Override
 	public void goNext(SystemeGestion systemeGestion) {
-    	Implementation i = new Implementation();
-        DecorateurMenuConnecte d = new DecorateurMenuConnecte(i);
+        DecorateurMenuConnecte d = new DecorateurMenuConnecte(new Implementation());
         d.affichage(); // affiche le menu de l'administrateur
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();

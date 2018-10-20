@@ -1,5 +1,6 @@
 package state;
 
+import java.util.List;
 import java.util.Scanner;
 import data_model.Avion;
 import data_model.TypeAvion;
@@ -8,25 +9,31 @@ import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
 import systeme.SystemeGestion;
 
-public class EtatModificationTechnique extends Etat {
-
+public class EtatModificationTechnique extends EtatTechnique {
+    /**
+     * Méthode qui contient les modifications réalisables pour un avion
+     * @param systemeGestion
+     */
 	@Override
 	public void goNext(SystemeGestion systemeGestion) {
+
+        List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
+        afficherAvions(avions);
 		System.out.println("Immatriculation de l'avion : ");
         Scanner sc = new Scanner(System.in);
         String immatriculation = sc.nextLine();
         Avion avion = systemeGestion.getSystemeGestionAvion().rechercherAvion(new Avion(immatriculation));
+
         if(avion==null) {
         	System.out.println(" ID incorrect : retour au menu précédent");
         	systemeGestion.retourMenuPrecedent();
         }
         else {
-        	Implementation i = new Implementation();
-            DecorateurModificationAvion d = new DecorateurModificationAvion(new DecorateurNonNavigant(i),avion);
+            DecorateurModificationAvion d = new DecorateurModificationAvion(new DecorateurNonNavigant(new Implementation()),avion);
             d.affichage();
             sc = new Scanner(System.in);
             int value = sc.nextInt();
-            boolean modification = false;
+            boolean erreur = false;
             switch(value) {
             	case 1:
             		deconnexion(systemeGestion);
@@ -35,25 +42,24 @@ public class EtatModificationTechnique extends Etat {
             		ajoutPassager(systemeGestion);
             		break;
             	case 3:
-            		System.out.println("Saisir une capacité :");
-                    sc = new Scanner(System.in);
-                    int capacite = sc.nextInt();
+            		int capacite = saisirInt(" Capacité : ");
                     avion.setCapacite(capacite);
-                    modification = systemeGestion.getSystemeGestionAvion().majAvion(avion);
             		break;
             	case 4:
-            		System.out.println("Saisir un type : ");
-                    sc = new Scanner(System.in);
-                    String type = sc.nextLine();
-                    avion.setType(new TypeAvion(type));
-                    modification = systemeGestion.getSystemeGestionAvion().majAvion(avion);
+                    List<TypeAvion> types = systemeGestion.getSystemeGestionAvion().rechercherTypes();
+                    d.affichageListeType(types);
+                    int type = saisirInt(" Type :");
+                    if(type <= types.size())
+                        avion.setType(types.get(type-1));
+                    else
+                        erreur = true;
             		break;
             	default:
             		System.out.println("Erreur lors de la saisie ... ");
             		systemeGestion.afficherInterface();
             		break;
             }
-            if(modification)
+            if(!erreur && systemeGestion.getSystemeGestionAvion().majAvion(avion))
             	System.out.println("Modification effectuée.");
             else 
             	System.out.println("Erreur lors de la modification");

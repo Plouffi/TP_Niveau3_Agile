@@ -2,6 +2,9 @@ package decorator;
 
 public class Implementation implements Abstraction {
 
+    /**
+     * Méthode permettant l'affichage du menu
+     */
 	@Override
 	public void affichage()
     {

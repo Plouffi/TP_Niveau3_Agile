@@ -1,11 +1,17 @@
 package decorator;
 
 public class DecorateurMenuGestionnaire extends Decorateur{
-
+	/**
+	 * Constructeur d'un DecorateurMenuGestionnaire
+	 * @param a
+	 */
 	public DecorateurMenuGestionnaire(Abstraction a) {
 		super(a);
 	}
 
+	/**
+	 * Méthode permettant l'affichage du menu
+	 */
 	@Override
 	public void affichage() {
 		a.affichage();

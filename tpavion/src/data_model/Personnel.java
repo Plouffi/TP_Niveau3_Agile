@@ -1,97 +1,106 @@
 package data_model;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class Personnel {
-	
-	private int id;
-	private String prenom;
-	private String nom;
-	private String adresse;
-	private BigInteger noTelephone;
-	private String motDePasse; 
-	private Role role;
-	
-	public Personnel(String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
-			Role role) {
-		this.prenom = prenom;
-		this.nom = nom;
-		this.adresse = adresse;
-		this.noTelephone = noTelephone;
-		this.motDePasse = motDePasse;
-		this.role = role;
-	}
-	
-	public Personnel(int id, String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
-			Role role) {
-		this.id = id;
-		this.prenom = prenom;
-		this.nom = nom;
-		this.adresse = adresse;
-		this.noTelephone = noTelephone;
-		this.motDePasse = motDePasse;
-		this.role = role;
-	}
+public class Personnel extends Personne {
 
-	public Personnel(int id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return id;
-	}
+    private int id;
+    private String motDePasse;
+    private Role role;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    /**
+     * Construteur pour un personnel
+     * @param prenom
+     * @param nom
+     * @param adresse
+     * @param noTelephone
+     * @param motDePasse
+     * @param role
+     */
+    public Personnel(String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
+                     Role role) {
+        super(prenom, nom, adresse, noTelephone);
+        this.motDePasse = motDePasse;
+        this.role = role;
+    }
 
-	public String getPrenom() {
-		return prenom;
-	}
+    /**
+     * Constructeur pour un personnel, utilisé lors de la selection
+     * @param id
+     * @param prenom
+     * @param nom
+     * @param adresse
+     * @param noTelephone
+     * @param motDePasse
+     * @param role
+     */
+    public Personnel(int id, String prenom, String nom, String adresse, BigInteger noTelephone, String motDePasse,
+                     Role role) {
+        super(prenom, nom, adresse, noTelephone);
+        this.id = id;
+        this.motDePasse = motDePasse;
+        this.role = role;
+    }
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
+    /**
+     * Constructeur pour un personnel
+     * @param id
+     */
+    public Personnel(int id) {
+        this.id = id;
+    }
 
-	public String getNom() {
-		return nom;
-	}
+    /**
+     * Getter de l'id
+     * @return int
+     */
+    public int getId() {
+        return id;
+    }
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+    /**
+     * Setter de l'id
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getAdresse() {
-		return adresse;
-	}
+    /**
+     * Setter du mot de passe
+     * @param motDePasse
+     */
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
+    }
 
-	public void setAdresse(String adresse) {
-		this.adresse = adresse;
-	}
+    /**
+     * Getter du mot de passe
+     * @return String
+     */
+    public String getMotDePasse() {
+        return motDePasse;
+    }
 
-	public BigInteger getNoTelephone() {
-		return noTelephone;
-	}
+    /**
+     * Getter du role
+     * @return Role
+     */
+    public Role getRole() {
+        return role;
+    }
 
-	public void setNoTelephone(BigInteger noTelephone) {
-		this.noTelephone = noTelephone;
-	}
+    /**
+     * Setter du rôle
+     * @param role
+     */
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
-	public String getMotDePasse() {
-		return motDePasse;
-	}
-
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
+    @Override
+    public String toString() {
+        return "id : "+id+", prenom : "+getPrenom()+", nom : "+getNom()+", adresse : "+getAdresse()+", noTelephone : "+getNoTelephone()+", type de rôle : "+getRole().getType()+", rôle : "+getRole().getRole();
+    }
 }
+

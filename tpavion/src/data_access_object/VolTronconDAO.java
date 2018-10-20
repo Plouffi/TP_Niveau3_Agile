@@ -8,10 +8,20 @@ import data_model.VolTroncon;
 
 public class VolTronconDAO extends DAO<VolTroncon> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	VolTronconDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un VolTroncon dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(VolTroncon obj) throws SQLException {
 		String requete = "insert into VolTroncon values (?,?,?,?);";
@@ -25,6 +35,12 @@ public class VolTronconDAO extends DAO<VolTroncon> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un VolTroncon existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(VolTroncon obj) throws SQLException {
 		String requete = "delete from VolTroncon where troncon=? and vol=?;";
@@ -36,6 +52,12 @@ public class VolTronconDAO extends DAO<VolTroncon> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un VolTroncon existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(VolTroncon obj) throws SQLException {
 		String requete = "update VolTroncon set heureDepart=?,heureSortie=? where troncon=? and vol=?;";
@@ -49,6 +71,12 @@ public class VolTronconDAO extends DAO<VolTroncon> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un VolTroncon existant dans la base de données en utilisant l'identifiant du vol et l'identifiant du vol
+	 * @param obj
+	 * @return vol
+	 * @throws SQLException
+	 */
 	@Override
 	public VolTroncon find(VolTroncon obj) throws SQLException {
 		String requete = "select * from VolTroncon where troncon=? and vol=?;";

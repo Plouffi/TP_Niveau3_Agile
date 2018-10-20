@@ -9,10 +9,13 @@ import systeme.SystemeGestion;
 
 public class EtatMenuGestionnaire extends Etat{
 
+	/**
+	 * Méthode qui contient toutes les actions qu'un membre du service gestionnaire peut faire
+	 * @param systemeGestion
+	 */
 	@Override
 	public void goNext(SystemeGestion systemeGestion) {
-    	Implementation i = new Implementation();
-        DecorateurMenuGestionnaire d = new DecorateurMenuGestionnaire(new DecorateurNonNavigant(i));
+        DecorateurMenuGestionnaire d = new DecorateurMenuGestionnaire(new DecorateurNonNavigant(new Implementation()));
         d.affichage();
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();

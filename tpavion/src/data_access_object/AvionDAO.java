@@ -4,16 +4,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import data_model.Avion;
 import data_model.TypeAvion;
 
 public class AvionDAO extends DAO<Avion> {
-
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	AvionDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un avion dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Avion obj) throws SQLException {
 		/* si le type n'existe pas on ne tente pas de créer l'avion */
@@ -31,6 +42,12 @@ public class AvionDAO extends DAO<Avion> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un avion existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(Avion obj) throws SQLException {
 	    String requete =
@@ -42,6 +59,12 @@ public class AvionDAO extends DAO<Avion> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un avion existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(Avion obj) throws SQLException {
 		/* si le type n'existe pas on ne tente pas de modifier l'avion */
@@ -59,6 +82,12 @@ public class AvionDAO extends DAO<Avion> {
 	
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un avion existant dans la base de données en utilisant son immatriculation
+	 * @param obj
+	 * @return avion
+	 * @throws SQLException
+	 */
 	@Override
 	public Avion find(Avion obj) throws SQLException {
 		String requete = "select * from avion where immatriculation=?;";
@@ -71,13 +100,31 @@ public class AvionDAO extends DAO<Avion> {
 			}
 		}
 	}
-	
+
+	/**
+	 * Fonction permettant de savoir si un type d'avion est encore utilisé
+	 * @param typeAvion
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	public boolean findType(TypeAvion typeAvion) throws SQLException {
 		String requete = "select * from avion where type=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1,typeAvion.getType());
 			try(ResultSet result = statement.executeQuery();){
 				return result.first();
+			}
+		}
+	}
+
+	public List<Avion> findAll() throws SQLException {
+		String requete = "select * from avion";
+		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+			try(ResultSet result = statement.executeQuery();){
+				ArrayList<Avion> retour = new ArrayList<>();
+				while (result.next())
+					retour.add(new Avion(result.getString("immatriculation"),result.getInt("capacite"),new TypeAvion(result.getString("type"))));
+				return retour;
 			}
 		}
 	}

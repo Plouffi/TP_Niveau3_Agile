@@ -12,10 +12,20 @@ import data_model.TypeRole;
 
 public class RoleDAO extends DAO<Role> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	RoleDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un Role dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Role obj) throws SQLException {
 		String requete = "insert into Role values (?,?);";
@@ -27,6 +37,12 @@ public class RoleDAO extends DAO<Role> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un Role existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(Role obj) throws SQLException {
 		String requete = "delete from Role where role=? and type=?;";
@@ -38,12 +54,24 @@ public class RoleDAO extends DAO<Role> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un Role existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(Role obj) throws SQLException {
 		/* modification impossible */
 		return false;
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un Role existant dans la base de données en utilisant le rôle et son type
+	 * @param obj
+	 * @return role
+	 * @throws SQLException
+	 */
 	@Override
 	public Role find(Role obj) throws SQLException {
 		String requete = "select * from Role where role=? and type=?;";

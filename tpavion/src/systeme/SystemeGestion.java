@@ -1,12 +1,10 @@
 package systeme;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Stack;
 
-import data_model.Personnel;
 import state.Etat;
 import state.EtatInitial;
 
@@ -20,45 +18,67 @@ public class SystemeGestion {
 	private static final String dbDriver = "jdbc:mysql://127.0.0.1:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private Connection conn = null;
 	private Stack<Etat> etats;
-	
+
+	/**
+	 * Constructeur pour un systemeGestion
+	 */
 	public SystemeGestion(){   
 		try {
-			Class.forName(dbClass).newInstance();
 			conn = DriverManager.getConnection(dbDriver, user, pass);
 			sgu = new SystemeGestionUtilisateur(conn); 
 			sga = new SystemeGestionAvion(conn);
-		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+		} catch (SQLException  e) {
 			e.printStackTrace();
 		}
 		/* pile contenant tous nos états */
 		etats = new Stack<>();
-		/* on place le premier etat et on lance la méthode afficherInterface */ 
-		etats.push(new EtatInitial());
-		afficherInterface();
+		/* on place le premier etat et on lance la méthode afficherInterface */
+		setState(new EtatInitial());
 	}
-	
+
+	/**
+	 * méthode permettant l'affichage de l'interface
+	 */
 	public void afficherInterface() {
 		etats.peek().goNext(this);
 	}
 
+	/**
+	 * Getter d'un systemeGestionUtilisateur
+	 * @return SystemeGestionUtilisateur
+	 */
 	public SystemeGestionUtilisateur getSystemeGestionUtilisateur() {
 		return sgu;
 	}
-	
+
+	/**
+	 * Getter d'un systemeGestionAvion
+	 * @return SystemeGestionAvion
+	 */
 	public SystemeGestionAvion getSystemeGestionAvion() {
 		return sga;
 	}
 
+	/**
+	 * Setter pour un état
+	 * @param etat
+	 */
 	public void setState(Etat etat) {
 		etats.push(etat);
 		afficherInterface();
 	}
-	
+
+	/**
+	 * Méthode permettant le retour à un menu précédent (à un état précédent)
+	 */
 	public void retourMenuPrecedent() {
 		etats.pop();
 		afficherInterface();
 	}
 
+	/**
+	 * Méthode permettant la deconnexion
+	 */
 	public void deconnexion() {
 		sgu.deconnexion();
 		etats.clear();
@@ -66,8 +86,5 @@ public class SystemeGestion {
 		afficherInterface();
 	}
 
-	public boolean connexion(int id, String password) {
-		return sgu.connexion(id, password);
-	}
 
 }

@@ -1,22 +1,25 @@
 package state;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Scanner;
 
+import data_access_object.DepartPassagerDAO;
 import data_model.Personnel;
 import data_model.Role;
-import data_model.TypeRole;
 import decorator.DecorateurMenuPersonnel;
 import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
 import systeme.SystemeGestion;
 
-public class EtatMenuPersonnel extends Etat {
-
+public class EtatMenuPersonnel extends EtatPersonnel {
+	/**
+	 * Méthode qui contient toutes les actions qu'un membre du service personnel peut effectuer
+	 * @param systemeGestion
+	 */
 	@Override
 	public void goNext(SystemeGestion systemeGestion) {
-    	Implementation i = new Implementation();
-        DecorateurMenuPersonnel d = new DecorateurMenuPersonnel(new DecorateurNonNavigant(i),systemeGestion.getSystemeGestionUtilisateur().getRoles());
+        DecorateurMenuPersonnel d = new DecorateurMenuPersonnel(new DecorateurNonNavigant(new Implementation()),systemeGestion.getSystemeGestionUtilisateur().getRoles());
         d.affichage();
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
@@ -39,7 +42,8 @@ public class EtatMenuPersonnel extends Etat {
         		systemeGestion.setState(new EtatModificationPersonnel());
         		break;
         	case 6:
-        		System.out.println("Supprimer un utilisateur");
+				System.out.println("Supprimer un utilisateur");
+				afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
         		int id = saisirInt("id du membre :");
                 if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(new Personnel(id)))
                 	System.out.println("L'utilisateur a bien été supprimé.");
@@ -56,6 +60,10 @@ public class EtatMenuPersonnel extends Etat {
         systemeGestion.setState(this);
 	}
 
+	/**
+	 * Méthode permettant l'ajout d'un rôle
+	 * @param systemeGestion
+	 */
 	private void ajoutRole(SystemeGestion systemeGestion) {
 			String role = saisirString("Role :");
 			String type = saisirString("Type :");
@@ -65,6 +73,10 @@ public class EtatMenuPersonnel extends Etat {
 	        	System.out.println("Erreur lors de l'ajout");
         }
 
+	/**
+	 * Méthode permettant l'ajout d'un utilisateur
+	 * @param systemeGestion
+	 */
 	private void ajoutUilisateur(SystemeGestion systemeGestion, DecorateurMenuPersonnel d) {
 		String nom = saisirString("Nom :");
 		String prenom = saisirString("Prenom :");
@@ -72,23 +84,17 @@ public class EtatMenuPersonnel extends Etat {
         BigInteger noTelephone = saisirBigInteger("numéro de téléphone :");
         String motDePasse = saisirString("Mot de passe :");
         d.affichageTypeRole();
-        String type = "";
         int t = saisirInt("Type :");
-        switch(t) {
-        	case 1:
-        		type = "navigant";
-        		break;
-        	case 2: 
-        		type = "nonnavigant";
-        		break;
-        	default : 
-        		System.out.println("Erreur de saisie");
-        		break;	
-        }
-        d.affichageListeRoles();
-        String role = saisirString("Role :");
-	    Personnel personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,new Role(type,role));
-		if(!systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
+		String type = creerType(t);
+		List<Role> roles = systemeGestion.getSystemeGestionUtilisateur().getRoles();
+		d.affichageListeRoles(roles);
+		int role = saisirInt(" Rôle :");
+		Personnel personnel = null;
+		if(role<=roles.size()) {
+			Role r = new Role(type, roles.get(role - 1).getRole());
+	    	personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,r);
+		}
+		if(personnel==null || !systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
 			System.out.println("erreur lors de l'ajout");
 		else
 			System.out.println("Ajout effectué");

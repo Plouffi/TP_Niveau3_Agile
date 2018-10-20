@@ -5,15 +5,23 @@ import java.util.List;
 
 import data_model.Role;
 
-public class DecorateurMenuPersonnel extends Decorateur {
+public class DecorateurMenuPersonnel extends DecorateurPersonnel {
 
 	private ArrayList<Role> roles;
 
+	/**
+	 * Constructeur d'un DecorateurMenuPersonnel
+	 * @param a
+	 * @param roles
+	 */
 	public DecorateurMenuPersonnel(Abstraction a, List<Role> roles) {
 		super(a);
 		this.roles = new ArrayList<>(roles);
 	}
 
+	/**
+	 * Méthode permettant l'affichage du menu
+	 */
 	@Override
 	public void affichage() {
 		a.affichage();
@@ -24,12 +32,18 @@ public class DecorateurMenuPersonnel extends Decorateur {
 		System.out.println(" 7 --> Retour au menu précédent...");
 	}
 
+	/**
+	 * méthode permettant d'afficher la liste de rôle
+	 */
 	public void affichageListeRoles() {
 		for(int i = 0; i<roles.size();i++) {
 			System.out.println((i+1)+" --> "+roles.get(i).getType()+" - "+roles.get(i).getRole());
 		}
 	}
-	
+
+	/**
+	 * méthode permettant l'affichage du menu de type de rôle
+	 */
 	public void affichageTypeRole() {
 		System.out.println(" Type de rôle ");
 		System.out.println(" 1 --> Navigant");

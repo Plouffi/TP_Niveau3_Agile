@@ -8,10 +8,20 @@ import data_model.Pilote;
 
 public class PiloteDAO extends DAO<Pilote> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	PiloteDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un Pilote dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Pilote obj) throws SQLException {
 		String requete ="insert into pilote values (?,?);";
@@ -23,6 +33,12 @@ public class PiloteDAO extends DAO<Pilote> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un Pilote existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(Pilote obj) throws SQLException {
 		String requete = "delete from pilote where id=?;";
@@ -33,6 +49,12 @@ public class PiloteDAO extends DAO<Pilote> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un Pilote existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(Pilote obj) throws SQLException {
 		String requete ="update pilote set nombreHeureTotale=? where id=?;";
@@ -44,6 +66,12 @@ public class PiloteDAO extends DAO<Pilote> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un Pilote existant dans la base de données en utilisant son identifiant
+	 * @param obj
+	 * @return pilote
+	 * @throws SQLException
+	 */
 	@Override
 	public Pilote find(Pilote obj) throws SQLException {
 		String requete = "select * from pilote where id=?;";

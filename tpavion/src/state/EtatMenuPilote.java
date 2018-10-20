@@ -7,11 +7,13 @@ import decorator.Implementation;
 import systeme.SystemeGestion;
 
 public class EtatMenuPilote extends Etat {
-
+	/**
+	 * Méthode qui contient toutes les actions qu'un pilote peut effectuer
+	 * @param systemeGestion
+	 */
 	@Override
 	public void goNext(SystemeGestion systemeGestion) {
-    	Implementation i = new Implementation();
-        DecorateurMenuPilote d = new DecorateurMenuPilote(i);
+        DecorateurMenuPilote d = new DecorateurMenuPilote(new Implementation());
         d.affichage();
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();

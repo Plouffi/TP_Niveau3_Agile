@@ -4,16 +4,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import data_model.Personnel;
+import java.util.ArrayList;
+import java.util.List;
+
 import data_model.Role;
-import data_model.TypeRole;
+import data_model.Personnel;
 
 public class PersonnelDAO extends DAO<Personnel> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	PersonnelDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un Personnel dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Personnel obj) throws SQLException {
 		if(new RoleDAO(connexion).find(obj.getRole()) == null)
@@ -32,8 +44,14 @@ public class PersonnelDAO extends DAO<Personnel> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un Personnel existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
-	public boolean delete(Personnel obj) throws SQLException {		
+	public boolean delete(Personnel obj) throws SQLException {
 		String requete ="delete from personnel where id=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setInt(1, obj.getId());
@@ -42,8 +60,14 @@ public class PersonnelDAO extends DAO<Personnel> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un Personnel existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
-	public boolean update(Personnel obj) throws SQLException {	
+	public boolean update(Personnel obj) throws SQLException {
 		if(new RoleDAO(connexion).find(obj.getRole()) == null)
 			throw new SQLException(" -- Erreur -- Le rôle n'existe pas.");
 		String requete ="update personnel set prenom=?,nom=?,adresse=?,noTelephone=?,role=?,motDePasse=?,type=? where id=?;";
@@ -61,6 +85,12 @@ public class PersonnelDAO extends DAO<Personnel> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un Personnel existant dans la base de données en utilisant son identifiant
+	 * @param obj
+	 * @return depart
+	 * @throws SQLException
+	 */
 	@Override
 	public Personnel find(Personnel obj) throws SQLException {
 		String requete = "select * from personnel where id=?;";
@@ -76,23 +106,19 @@ public class PersonnelDAO extends DAO<Personnel> {
 			}
 		}
 	}
-	
-	public Personnel findConnection(int id, String mdp) throws SQLException {
-		String requete = "select * from personnel where id=? and motDePasse=?;";
+
+	public List<Personnel> findAll() throws SQLException {
+		String requete = "select * from personnel";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, id);
-			statement.setString(2, mdp);
 			try(ResultSet result = statement.executeQuery();){
-				if(result.first()) {
-					return new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
+				ArrayList<Personnel> retour = new ArrayList<>();
+				while (result.next()){
+					retour.add(new Personnel(result.getInt("id"),result.getString("Prenom"),result.getString("nom"),result.getString("adresse")
 							,result.getBigDecimal("noTelephone").toBigInteger(),result.getString("motDePasse"),
-							new Role(result.getString("type"),result.getString("role")));
+							new Role(result.getString("type"),result.getString("role"))));
 				}
-				return null;
+				return retour;
 			}
 		}
 	}
-
-
-	
 }

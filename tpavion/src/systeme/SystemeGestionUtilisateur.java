@@ -1,7 +1,6 @@
 package systeme;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,13 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.security.*;
 
-import data_access_object.DAO;
-import data_access_object.PersonnelDAO;
-import data_access_object.RoleDAO;
-import data_access_object.DAOFactory;
-import data_model.Personnel;
+import data_access_object.*;
 import data_model.Role;
-import data_model.TypeRole;
+import data_model.Personnel;
 
 public class SystemeGestionUtilisateur {
 
@@ -24,19 +19,29 @@ public class SystemeGestionUtilisateur {
 	private Personnel utilisateurConnecte = null;
 	private List<String> typeUtilisateur;
 	private DAOFactory factory;
-	
+
+	/**
+	 * Constructeur d'un Systeme de gestion utilisateur
+	 * @param
+	 */
 	public SystemeGestionUtilisateur(Connection conn) {
 		this.conn = conn;
 		this.typeUtilisateur = new ArrayList<>();
 		this.factory = new DAOFactory(conn);
 	}
-	
+
+	/**
+	 * Méthode permettant la connexion
+	 * @param id
+	 * @param mdp
+	 * @return
+	 */
 	public boolean connexion(int id, String mdp) {
 
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
-			utilisateurConnecte =((PersonnelDAO) personnelDAO).findConnection(id,mdp);
-			return (utilisateurConnecte!= null);
+			utilisateurConnecte =((PersonnelDAO) personnelDAO).find(new Personnel(id));
+			return (utilisateurConnecte.getMotDePasse().equals(mdp));
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
 			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -45,20 +50,27 @@ public class SystemeGestionUtilisateur {
 		
 	}
 
+	/**
+	 * Méthode permettant la deconnexion
+	 */
 	public void deconnexion() {
 		utilisateurConnecte = null;
 		typeUtilisateur.clear();
 	}
-	
+
+	/**
+	 * Getter de l'utilisateur actuellement connecté
+	 * @return
+	 */
 	public Personnel getUtilisateurConnecte() {
 		return utilisateurConnecte;
 	}
-	
-	public List<String> getTypeUtilisateur(){
-		return typeUtilisateur;
-	}
 
-	
+	/**
+	 * Méthode permettant l'ajout d'un membre du personnel
+	 * @param personnel
+	 * @return
+	 */
 	public boolean ajouterUtilisateur(Personnel personnel) {
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
@@ -71,7 +83,11 @@ public class SystemeGestionUtilisateur {
 		return false;
 	}
 
-
+	/**
+	 * Méthode permettant l'encodage d'une chaine de caractères
+	 * @param message
+	 * @return
+	 */
 	private String encoderMessage(String message) {
 		byte[] byteChaine = null;
 		MessageDigest md=null;
@@ -87,6 +103,11 @@ public class SystemeGestionUtilisateur {
 		return hash.toString();
 	}
 
+	/**
+	 * Méthode permettant l'ajout d'un rôle
+	 * @param role
+	 * @return
+	 */
 	public boolean ajouterRole(Role role) {
 		DAO<Role> roleDAO = factory.createRoleDAO();
 		try {
@@ -100,9 +121,16 @@ public class SystemeGestionUtilisateur {
 		
 	}
 
+	/**
+	 * Méthode permettant la suppression d'un utilisateur
+	 * @param personnel
+	 * @return
+	 */
 	public boolean supprimerUtilisateur(Personnel personnel) {
 		DAO<Personnel> personnelDAO = factory.createPersonnelDAO();
 		try {
+			if(personnel.getId()==utilisateurConnecte.getId())
+				throw new SQLException(" Vous ne pouvez pas vous supprimer vous-mêmes de la base de données.");
 			return personnelDAO.delete(personnel);
 		} catch (SQLException e) {
 			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
@@ -112,6 +140,11 @@ public class SystemeGestionUtilisateur {
 		
 	}
 
+	/**
+	 * Méthode permettant de voir si un utilisateur existe dans la base de données
+	 * @param personnel
+	 * @return
+	 */
 	public Personnel rechercherUtilisateur(Personnel personnel) {
 		try {
 			return factory.createPersonnelDAO().find(personnel);
@@ -122,6 +155,11 @@ public class SystemeGestionUtilisateur {
 		return null;
 	}
 
+	/**
+	 * Méthode permettant la mise à jour d'un utilisateur
+	 * @param personnel
+	 * @return
+	 */
 	public boolean majUtilisateur(Personnel personnel) {
 		try {
 			return factory.createPersonnelDAO().update(personnel);
@@ -132,7 +170,11 @@ public class SystemeGestionUtilisateur {
 		return false;
 		
 	}
-	
+
+	/**
+	 * Méthode retournant tous les rôles
+	 * @return
+	 */
 	public List<Role> getRoles(){
 		try {
 			return ((RoleDAO) factory.createRoleDAO()).findRoles();
@@ -143,4 +185,18 @@ public class SystemeGestionUtilisateur {
 		return new ArrayList<>();
 	}
 
+
+	/**
+	 * Méthode retournant tous les membres du personnel
+	 * @return
+	 */
+	public List<Personnel> getPersonnels(){
+		try {
+			return ((PersonnelDAO) factory.createPersonnelDAO()).findAll();
+		} catch (SQLException e) {
+			Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+			logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+		}
+		return new ArrayList<>();
+	}
 }

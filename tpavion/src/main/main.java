@@ -12,7 +12,6 @@ public class main {
 
 	public static void main(String[] args) {
 		SystemeGestion sgv = new SystemeGestion();
-		sgv.afficherInterface();
 	}
 
 }

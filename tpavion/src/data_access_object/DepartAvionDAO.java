@@ -9,10 +9,20 @@ import data_model.DepartAvion;
 
 public class DepartAvionDAO extends DAO<DepartAvion> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	DepartAvionDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un DepartAvion dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(DepartAvion obj) throws SQLException {
 	    String requete =
@@ -27,6 +37,12 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un DepartAvion existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(DepartAvion obj) throws SQLException {	    
 		String requete = "delete from DepartAvion where id=?, dateDepart=?, immatriculation=?;";
@@ -39,6 +55,12 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un DepartAvion existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(DepartAvion obj) throws SQLException {	    
 		String requete = "update DepartAvion set qteCarburant=? where id=?, dateDepart=?, immatriculation=?;";
@@ -52,6 +74,13 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un DepartAvion existant dans la base de données en utilisant l'immatriculation
+	 * de l'avion concerné, l'identifiant et la date du départ concerné
+	 * @param obj
+	 * @return departavion
+	 * @throws SQLException
+	 */
 	@Override
 	public DepartAvion find(DepartAvion obj) throws SQLException {
 		String requete = "select * from DepartAvion where id=?, dateDepart=?, immatriculation=?;";

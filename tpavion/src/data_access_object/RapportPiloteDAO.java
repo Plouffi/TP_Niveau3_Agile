@@ -10,10 +10,20 @@ import data_model.RapportPilote;
 
 public class RapportPiloteDAO extends DAO<RapportPilote> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	RapportPiloteDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un RapportPilote dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(RapportPilote obj) throws SQLException {
 		String requete ="insert into RapportPilote values (?,?,?,?);";
@@ -27,6 +37,12 @@ public class RapportPiloteDAO extends DAO<RapportPilote> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un RapportPilote existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(RapportPilote obj) throws SQLException {
 		String requete ="delete from RapportPilote values where idPilote=? and idDepart=? and dateDepart=?;";
@@ -39,6 +55,12 @@ public class RapportPiloteDAO extends DAO<RapportPilote> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un RapportPilote existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(RapportPilote obj) throws SQLException {
 		String requete = "update RapportPilote set rapport=? where idPilote=? and idDepart=? and dateDepart=?;";
@@ -52,6 +74,13 @@ public class RapportPiloteDAO extends DAO<RapportPilote> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un RapportPilote existant dans la base de données en utilisant l'identifiant
+	 * du pilote, l'identifiant et la date du départ
+	 * @param obj
+	 * @return rapportpilote
+	 * @throws SQLException
+	 */
 	@Override
 	public RapportPilote find(RapportPilote obj) throws SQLException {
 		String requete = "select * from RapportPilote where idPilote=? and idDepart=? and dateDepart=?;";

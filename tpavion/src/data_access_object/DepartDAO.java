@@ -9,10 +9,20 @@ import data_model.Depart;
 
 public class DepartDAO extends DAO<Depart> {
 
+	/**
+	 * Constructeur appelant le constructeur de la super classe
+	 * @param connexion
+	 */
 	DepartDAO(Connection connexion) {
 		super(connexion);
 	}
 
+	/**
+	 * Fonction permettant l'insertion d'un Depart dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean create(Depart obj) throws SQLException {
 	    String requete ="insert into depart values (?,?);";
@@ -24,6 +34,12 @@ public class DepartDAO extends DAO<Depart> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la suppression d'un Depart existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean delete(Depart obj) throws SQLException {
 	    String requete = "delete from depart where id=?;";
@@ -34,12 +50,24 @@ public class DepartDAO extends DAO<Depart> {
 		}
 	}
 
+	/**
+	 * Fonction permettant la mise à jour d'un Depart existant dans la base de données
+	 * @param obj
+	 * @return boolean
+	 * @throws SQLException
+	 */
 	@Override
 	public boolean update(Depart obj) throws SQLException {
 		/* on ne doit pas modifier les rows de cette table */
 	    return false;
 	}
 
+	/**
+	 * Fonction permettant la récupération d'un Depart existant dans la base de données en utilisant son identifiant
+	 * @param obj
+	 * @return depart
+	 * @throws SQLException
+	 */
 	@Override
 	public Depart find(Depart obj) throws SQLException {
 		String requete = "select * from depart where id=?;";
