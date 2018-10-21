@@ -65,8 +65,12 @@ public class SystemeGestion {
      */
     public void setState(Etat etat) {
         //On vérifie si on empile pas 2 fois le même état
-        if(etat.getClass().equals(etats.peek().getClass()))
+        if(!etats.empty()){
+            if(!etat.getClass().equals(etats.peek().getClass()))
+                etats.push(etat);
+        } else {
             etats.push(etat);
+        }
         afficherInterface();
     }
 
