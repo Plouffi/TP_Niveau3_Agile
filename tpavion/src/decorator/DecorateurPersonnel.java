@@ -13,7 +13,7 @@ public abstract class DecorateurPersonnel implements Abstraction{
 
 
     /**
-     * Méthode permettant l'affichage de la liste des rôles
+     * MÃ©thode permettant l'affichage de la liste des rÃ´les
      * @param roles
      */
     public void affichageListeRoles(List<Role> roles) {
@@ -23,10 +23,10 @@ public abstract class DecorateurPersonnel implements Abstraction{
     }
 
     /**
-     * Méthode permettant l'affichage des types de rôles
+     * MÃ©thode permettant l'affichage des types de rÃ´les
      */
     public void affichageTypeRole() {
-        System.out.println(" Type de rôle ");
+        System.out.println(" Type de rÃ´le ");
         System.out.println(" 1 --> Navigant");
         System.out.println(" 2 --> Non navigant");
     }

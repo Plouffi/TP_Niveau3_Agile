@@ -9,7 +9,7 @@ public abstract class Decorateur implements Abstraction{
   	Abstraction a;
 
 	/**
-	 * Constructeur de la méthode abstraite "Decorateur".
+	 * Constructeur de la mÃ©thode abstraite "Decorateur".
 	 *
 	 * @param a the a
 	 */
