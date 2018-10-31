@@ -14,8 +14,7 @@ public class DecorateurNonNavigant extends Decorateur {
      */
     @Override
     public void affichage() {
-            a.affichage();
+        a.affichage();
         System.out.println(" 2 --> Ajouter un passager à un départ");
-
     }
 }

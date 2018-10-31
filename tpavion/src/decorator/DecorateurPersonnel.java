@@ -11,7 +11,6 @@ public abstract class DecorateurPersonnel implements Abstraction{
          this.a = a;
      }
 
-
     /**
      * Méthode permettant l'affichage de la liste des rôles
      * @param roles

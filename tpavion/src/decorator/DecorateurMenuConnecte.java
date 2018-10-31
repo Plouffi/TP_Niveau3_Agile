@@ -13,8 +13,7 @@ public class DecorateurMenuConnecte extends Decorateur{
      * Méthode permettant l'affichage du menu
      */
     @Override
-    public void affichage() 
-    {
+    public void affichage(){
         a.affichage(); // affichage de l'abstraction.
         /* a voir plus tard en fonction des droits de l'utilisateur (menuGestion)*/
         System.out.println(" 2 --> Menu Personnel");

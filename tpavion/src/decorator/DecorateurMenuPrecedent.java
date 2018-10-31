@@ -10,13 +10,11 @@ public class DecorateurMenuPrecedent extends Decorateur{
     }
 
     /**
-     * Méthode permettant l'affichage du menu
+     * MÃ©thode permettant l'affichage du menu
      */
     @Override
     public void affichage() {
         a.affichage();
-        System.out.println(" 3 --> Retour au menu précédent");
-
+        System.out.println(" 3 --> Retour au menu prÃ©cÃ¨dent");
     }
-
 }

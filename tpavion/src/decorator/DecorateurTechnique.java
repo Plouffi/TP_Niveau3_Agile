@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class DecorateurTechnique extends Decorateur {
     /**
-     * Constructeur de la méthode abstraite "Decorateur".
+     * Constructeur de la mï¿½thode abstraite "Decorateur".
      *
      * @param a the a
      */
@@ -16,7 +16,7 @@ public abstract class DecorateurTechnique extends Decorateur {
     }
 
     /**
-     * Méthode permettant l'affichage de la liste des rôles
+     * MÃ©thode permettant l'affichage de la liste des rÃ´les
      */
     public void affichageListeType(List<TypeAvion> types) {
         for(int i = 0; i<types.size();i++) {
