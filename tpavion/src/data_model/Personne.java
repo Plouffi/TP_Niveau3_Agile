@@ -4,7 +4,6 @@ import java.math.BigInteger;
 
 public class Personne {
 
-
     private String prenom;
     private String nom;
     private String adresse;
