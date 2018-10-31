@@ -9,46 +9,46 @@ import data_model.TypeAvion;
 
 public abstract class DAO<T> {
 
-	protected Connection connexion;
+    protected Connection connexion;
 
-	/**
-	 * Constructeur de la classe générique, Toutes les méthodes utilise connexion
-	 * @param connexion
-	 */
-	DAO(Connection connexion) {
-		this.connexion = connexion;
-	}
+    /**
+     * Constructeur de la classe gÃ©nÃ©rique, Toutes les mÃ©thodes utilise connexion
+     * @param connexion
+     */
+    DAO(Connection connexion) {
+            this.connexion = connexion;
+    }
 
-	/**
-	 * Fonction abstraite qui permettra l'insertion d'un objet dans la base de données
-	 * @param obj
-	 * @return boolean
-	 * @throws SQLException
-	 */
-	public abstract boolean create(T obj) throws SQLException;
+    /**
+     * Fonction abstraite qui permettra l'insertion d'un objet dans la base de donnÃ©es
+     * @param obj
+     * @return boolean
+     * @throws SQLException
+     */
+    public abstract boolean create(T obj) throws SQLException;
 
-	/**
-	 * Fonction abstraite qui permettra la suppression d'un objet dans la base de données
-	 * @param obj
-	 * @return boolean
-	 * @throws SQLException
-	 */
-	public abstract boolean delete(T obj) throws SQLException;
+    /**
+     * Fonction abstraite qui permettra la suppression d'un objet dans la base de donnÃ©es
+     * @param obj
+     * @return boolean
+     * @throws SQLException
+     */
+    public abstract boolean delete(T obj) throws SQLException;
 
-	/**
-	 * Fonction abstraite qui permettra la mise à jour d'un objet dans la base de données
-	 * @param obj
-	 * @return boolean
-	 * @throws SQLException
-	 */
-	public abstract boolean update(T obj) throws SQLException;
+    /**
+     * Fonction abstraite qui permettra la mise Ã  jour d'un objet dans la base de donnÃ©es
+     * @param obj
+     * @return boolean
+     * @throws SQLException
+     */
+    public abstract boolean update(T obj) throws SQLException;
 
-	/**
-	 * Fonction abstraite qui permettra la récupération d'un objet dans la base de données
-	 * @param obj
-	 * @return T
-	 * @throws SQLException
-	 */
-	public abstract T find(T obj) throws SQLException;
+    /**
+     * Fonction abstraite qui permettra la rÃ©cupÃ©ration d'un objet dans la base de donnÃ©es
+     * @param obj
+     * @return T
+     * @throws SQLException
+     */
+    public abstract T find(T obj) throws SQLException;
 	
 }

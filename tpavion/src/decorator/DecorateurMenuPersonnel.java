@@ -33,7 +33,7 @@ public class DecorateurMenuPersonnel extends DecorateurPersonnel {
     }
 
     /**
-     * méthode permettant d'afficher la liste de r�le
+     * méthode permettant d'afficher la liste de réle
      */
     public void affichageListeRoles() {
         for(int i = 0; i<roles.size();i++) {
@@ -42,7 +42,7 @@ public class DecorateurMenuPersonnel extends DecorateurPersonnel {
     }
 
     /**
-     * méthode permettant l'affichage du menu de type de r�le
+     * méthode permettant l'affichage du menu de type de réle
      */
     public void affichageTypeRole() {
         System.out.println(" Type de rôle ");

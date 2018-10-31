@@ -18,7 +18,7 @@ public enum TypeRole {
 	}
 
 	/**
-	 * M�thode statique permettant de cr�er un type de r�le
+	 * Méthode statique permettant de créer un type de réle
 	 * @param typePersonnel
 	 * @return
 	 */

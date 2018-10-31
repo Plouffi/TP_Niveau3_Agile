@@ -57,7 +57,7 @@ public class SystemeGestionUtilisateur {
     }
 
     /**
-     * Getter de l'utilisateur actuellement connect�
+     * Getter de l'utilisateur actuellement connecté
      * @return
      */
     public Personnel getUtilisateurConnecte() {
@@ -182,7 +182,7 @@ public class SystemeGestionUtilisateur {
 
 
     /**
-     * M�thode retournant tous les membres du personnel
+     * Méthode retournant tous les membres du personnel
      * @return
      */
     public List<Personnel> getPersonnels(){

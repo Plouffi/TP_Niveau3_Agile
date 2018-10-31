@@ -10,90 +10,89 @@ import data_model.RapportPilote;
 
 public class RapportPiloteDAO extends DAO<RapportPilote> {
 
-	/**
-	 * Constructeur appelant le constructeur de la super classe
-	 * @param connexion
-	 */
-	RapportPiloteDAO(Connection connexion) {
-		super(connexion);
-	}
+    /**
+     * Constructeur appelant le constructeur de la super classe
+     * @param connexion
+     */
+    RapportPiloteDAO(Connection connexion) {
+            super(connexion);
+    }
 
-	/**
-	 * Fonction permettant l'insertion d'un RapportPilote dans la base de données
-	 * @param obj
-	 * @return boolean
-	 * @throws SQLException
-	 */
-	@Override
-	public boolean create(RapportPilote obj) throws SQLException {
-		String requete ="insert into RapportPilote values (?,?,?,?);";
-		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, obj.getIdPilote());
-			statement.setInt(2, obj.getIdDepart());
-			statement.setDate(3, obj.getDateDepart());
-			statement.setString(4, obj.getRapport());
-			/* retourne true si la requete s'est bien effectué */
-			return statement.executeUpdate() > 0;
-		}
-	}
+    /**
+     * Fonction permettant l'insertion d'un RapportPilote dans la base de donnÃ©es
+     * @param obj
+     * @return boolean
+     * @throws SQLException
+     */
+    @Override
+    public boolean create(RapportPilote obj) throws SQLException {
+        String requete ="insert into RapportPilote values (?,?,?,?);";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setInt(1, obj.getIdPilote());
+            statement.setInt(2, obj.getIdDepart());
+            statement.setDate(3, obj.getDateDepart());
+            statement.setString(4, obj.getRapport());
+            /* retourne true si la requete s'est bien effectuÃ©e */
+            return statement.executeUpdate() > 0;
+        }
+    }
 
-	/**
-	 * Fonction permettant la suppression d'un RapportPilote existant dans la base de données
-	 * @param obj
-	 * @return boolean
-	 * @throws SQLException
-	 */
-	@Override
-	public boolean delete(RapportPilote obj) throws SQLException {
-		String requete ="delete from RapportPilote values where idPilote=? and idDepart=? and dateDepart=?;";
-		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, obj.getIdPilote());
-			statement.setInt(2, obj.getIdDepart());
-			statement.setDate(3, obj.getDateDepart());
-			/* retourne true si la requete s'est bien effectué */
-			return statement.executeUpdate() > 0;
-		}
-	}
+    /**
+     * Fonction permettant la suppression d'un RapportPilote existant dans la base de donnÃ©es
+     * @param obj
+     * @return boolean
+     * @throws SQLException
+     */
+    @Override
+    public boolean delete(RapportPilote obj) throws SQLException {
+        String requete ="delete from RapportPilote values where idPilote=? and idDepart=? and dateDepart=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setInt(1, obj.getIdPilote());
+            statement.setInt(2, obj.getIdDepart());
+            statement.setDate(3, obj.getDateDepart());
+            /* retourne true si la requete s'est bien effectuÃ©e */
+            return statement.executeUpdate() > 0;
+        }
+    }
 
-	/**
-	 * Fonction permettant la mise à jour d'un RapportPilote existant dans la base de données
-	 * @param obj
-	 * @return boolean
-	 * @throws SQLException
-	 */
-	@Override
-	public boolean update(RapportPilote obj) throws SQLException {
-		String requete = "update RapportPilote set rapport=? where idPilote=? and idDepart=? and dateDepart=?;";
-		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setString(1, obj.getRapport());
-			statement.setInt(2, obj.getIdPilote());
-			statement.setInt(3, obj.getIdDepart());
-			statement.setDate(4, obj.getDateDepart());
-			/* retourne true si la requete s'est bien effectué */
-			return statement.executeUpdate() > 0;
-		}
-	}
+    /**
+     * Fonction permettant la mise Ã  jour d'un RapportPilote existant dans la base de donnÃ©es
+     * @param obj
+     * @return boolean
+     * @throws SQLException
+     */
+    @Override
+    public boolean update(RapportPilote obj) throws SQLException {
+        String requete = "update RapportPilote set rapport=? where idPilote=? and idDepart=? and dateDepart=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setString(1, obj.getRapport());
+            statement.setInt(2, obj.getIdPilote());
+            statement.setInt(3, obj.getIdDepart());
+            statement.setDate(4, obj.getDateDepart());
+            /* retourne true si la requete s'est bien effectuÃ©e */
+            return statement.executeUpdate() > 0;
+        }
+    }
 
-	/**
-	 * Fonction permettant la récupération d'un RapportPilote existant dans la base de données en utilisant l'identifiant
-	 * du pilote, l'identifiant et la date du départ
-	 * @param obj
-	 * @return rapportpilote
-	 * @throws SQLException
-	 */
-	@Override
-	public RapportPilote find(RapportPilote obj) throws SQLException {
-		String requete = "select * from RapportPilote where idPilote=? and idDepart=? and dateDepart=?;";
-		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-			statement.setInt(1, (int)obj.getIdPilote());
-			statement.setInt(2, (int)obj.getIdDepart());
-			statement.setDate(3, (Date)obj.getDateDepart());
-			try(ResultSet result = statement.executeQuery();){
-				if(result.first())
-		        	return new RapportPilote(result.getInt("idPilote"),result.getInt("idDepart"),result.getDate("dateDepart"),result.getString("rapport"));
-				return null;
-			}
-		}
-	}
-
+    /**
+     * Fonction permettant la rÃ©cupÃ©ration d'un RapportPilote existant dans la base de donnÃ©es en utilisant l'identifiant
+     * du pilote, l'identifiant et la date du dÃ©part
+     * @param obj
+     * @return rapportpilote
+     * @throws SQLException
+     */
+    @Override
+    public RapportPilote find(RapportPilote obj) throws SQLException {
+        String requete = "select * from RapportPilote where idPilote=? and idDepart=? and dateDepart=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setInt(1, (int)obj.getIdPilote());
+            statement.setInt(2, (int)obj.getIdDepart());
+            statement.setDate(3, (Date)obj.getDateDepart());
+            try(ResultSet result = statement.executeQuery();){
+                if(result.first())
+                    return new RapportPilote(result.getInt("idPilote"),result.getInt("idDepart"),result.getDate("dateDepart"),result.getString("rapport"));
+                return null;
+            }
+        }
+    }
 }

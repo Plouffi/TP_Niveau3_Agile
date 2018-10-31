@@ -2,7 +2,7 @@ package decorator;
 
 public class DecorateurMenuConnecte extends Decorateur{
     /**
-     * Constructeur du d�corateur Menu Connecte
+     * Constructeur du décorateur Menu Connecte
      * @param a
      */
     public DecorateurMenuConnecte (Abstraction a) {

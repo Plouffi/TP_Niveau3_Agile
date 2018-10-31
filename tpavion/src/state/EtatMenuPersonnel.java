@@ -100,6 +100,6 @@ public class EtatMenuPersonnel extends EtatPersonnel {
         if(personnel==null || !systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
             System.out.println("erreur lors de l'ajout");
         else
-            System.out.println("Ajout effectu�");
+            System.out.println("Ajout effectué");
         }
 }

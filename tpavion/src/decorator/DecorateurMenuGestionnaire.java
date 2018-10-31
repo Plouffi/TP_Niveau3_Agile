@@ -10,7 +10,7 @@ public class DecorateurMenuGestionnaire extends Decorateur{
     }
 
     /**
-     * M�thode permettant l'affichage du menu
+     * Méthode permettant l'affichage du menu
      */
     @Override
     public void affichage() {

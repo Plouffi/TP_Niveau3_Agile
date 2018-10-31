@@ -20,7 +20,7 @@ public class Personne {
     public Personne(){}
 
     /**
-     * Getter du pr�nom
+     * Getter du prénom
      * @return String
      */
     public String getPrenom() {
@@ -28,7 +28,7 @@ public class Personne {
     }
 
     /**
-     * Setter du pr�nom
+     * Setter du prénom
      * @param prenom
      */
     public void setPrenom(String prenom) {
@@ -76,7 +76,7 @@ public class Personne {
     }
 
     /**
-     * Setter du num�ro de telephone
+     * Setter du numéro de telephone
      * @param noTelephone
      */
     public void setNoTelephone(String noTelephone) {

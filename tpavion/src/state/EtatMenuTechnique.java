@@ -55,7 +55,7 @@ public class EtatMenuTechnique extends EtatTechnique {
                 d.affichageListeType(types);
                 int type = saisirInt(" Type :");
                 if(type <= types.size() && systemeGestion.getSystemeGestionAvion().supprimerTypeAvion(types.get(type-1)))
-                    System.out.println("Type d'avion supprim�.");
+                    System.out.println("Type d'avion supprimé.");
             else
                 System.out.println("Erreur lors de la suppression");
                 break;

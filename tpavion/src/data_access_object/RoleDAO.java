@@ -21,7 +21,7 @@ public class RoleDAO extends DAO<Role> {
 	}
 
 	/**
-	 * Fonction permettant l'insertion d'un Role dans la base de donn�es
+	 * Fonction permettant l'insertion d'un Role dans la base de données
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -32,13 +32,13 @@ public class RoleDAO extends DAO<Role> {
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getRole());
 			statement.setString(2, obj.getType().getType());
-			/* retourne true si la requete s'est bien effectu� */
+			/* retourne true si la requete s'est bien effectué */
 			return statement.executeUpdate() > 0;
 		}
 	}
 
 	/**
-	 * Fonction permettant la suppression d'un Role existant dans la base de donn�es
+	 * Fonction permettant la suppression d'un Role existant dans la base de données
 	 * @param obj
 	 * @return boolean
 	 * @throws SQLException
@@ -48,7 +48,7 @@ public class RoleDAO extends DAO<Role> {
 		String requete = "delete from Role where role=?;";
 		try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
 			statement.setString(1, obj.getRole());
-			/* retourne true si la requete s'est bien effectu� */
+			/* retourne true si la requete s'est bien effectué */
 			return statement.executeUpdate() > 0;
 		}
 	}
