@@ -50,7 +50,7 @@ public class PiloteDAO extends DAO<Pilote> {
     }
 
     /**
-     * Fonction permettant la mise � jour d'un Pilote existant dans la base de données
+     * Fonction permettant la mise à jour d'un Pilote existant dans la base de données
      * @param obj
      * @return boolean
      * @throws SQLException

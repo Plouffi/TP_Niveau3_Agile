@@ -12,6 +12,8 @@ public class SystemeGestion {
 
     SystemeGestionUtilisateur sgu;
     SystemeGestionAvion sga;
+    SystemeGestionVol sgv;
+    SystemeGestionDepart sgd;
     private static final String user = "root";
     private static final String pass = "";
     private static final String dbClass = "com.mysql.cj.jdbc.Driver";
@@ -27,6 +29,8 @@ public class SystemeGestion {
             conn = DriverManager.getConnection(dbDriver, user, pass);
             sgu = new SystemeGestionUtilisateur(conn); 
             sga = new SystemeGestionAvion(conn);
+            sgv = new SystemeGestionVol(conn);
+            sgd = new SystemeGestionDepart(conn);
         } catch (SQLException  e) {
             e.printStackTrace();
         }
@@ -57,6 +61,22 @@ public class SystemeGestion {
      */
     public SystemeGestionAvion getSystemeGestionAvion() {
         return sga;
+    }
+    
+    /**
+     * Getter d'un systemeGestionVol
+     * @return SystemeGestionVol
+     */
+    public SystemeGestionVol getSystemeGestionVol() {
+            return sgv;
+    }
+    
+    /**
+     * Getter d'un systemeGestionDepart
+     * @return SystemeGestionVol
+     */
+    public SystemeGestionDepart getSystemeGestionDepart() {
+            return sgd;
     }
 
     /**

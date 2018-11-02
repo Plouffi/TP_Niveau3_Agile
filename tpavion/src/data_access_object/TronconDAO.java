@@ -51,7 +51,7 @@ public class TronconDAO extends DAO<Troncon> {
     }
 
     /**
-     * Fonction permettant la mise � jour d'un Troncon existant dans la base de données
+     * Fonction permettant la mise à jour d'un Troncon existant dans la base de données
      * @param obj
      * @return boolean
      * @throws SQLException
