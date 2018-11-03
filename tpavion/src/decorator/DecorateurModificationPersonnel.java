@@ -5,17 +5,21 @@ import data_model.Personnel;
 public class DecorateurModificationPersonnel extends DecorateurPersonnel {
 
     private final Abstraction a;
-    private Personnel personnel;
+    private Personnel personnel = null;
 
     /**
      * Constructeur d'un DecorateurModificationPersonnel
      * @param a
      * @param personnel
      */
-    public DecorateurModificationPersonnel(Abstraction a, Personnel personnel) {
+    public DecorateurModificationPersonnel(Abstraction a) {
         super(a);
         this.a = a;
-        this.personnel = personnel;
+       
+    }
+    
+    public void setPersonnel(Personnel personnel){
+         this.personnel = personnel;
     }
 
     /**

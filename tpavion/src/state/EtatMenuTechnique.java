@@ -42,7 +42,7 @@ public class EtatMenuTechnique extends EtatTechnique {
             case 6:
                 System.out.println("Supprimer un avion");
                 List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
-                afficherAvions(avions);
+                d.afficherAvions(avions);
                 String immatriculation = saisirString(" Immatriculation :");
                 if(systemeGestion.getSystemeGestionAvion().supprimerAvion(new Avion(immatriculation)))
                     System.out.println("Avion supprimé .");

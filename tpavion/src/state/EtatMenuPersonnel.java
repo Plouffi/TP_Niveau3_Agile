@@ -43,7 +43,7 @@ public class EtatMenuPersonnel extends EtatPersonnel {
                 break;
             case 6:
                 System.out.println("Supprimer un utilisateur");
-                afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
+                d.afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
                 int id = saisirInt("id du membre :");
                 if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(new Personnel(id)))
                     System.out.println("L'utilisateur a bien été supprimé.");

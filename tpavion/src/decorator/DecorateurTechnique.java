@@ -1,5 +1,6 @@
 package decorator;
 
+import data_model.Avion;
 import data_model.Role;
 import data_model.TypeAvion;
 
@@ -22,5 +23,13 @@ public abstract class DecorateurTechnique extends Decorateur {
         for(int i = 0; i<types.size();i++) {
             System.out.println((i+1)+" --> "+types.get(i).getType());
         }
+    }
+    
+    /**
+     * Méthode permettant l'affichage de la liste des avions
+     */
+    public void afficherAvions(List<Avion> avions){
+        for(Avion a : avions)
+            System.out.println(a);
     }
 }

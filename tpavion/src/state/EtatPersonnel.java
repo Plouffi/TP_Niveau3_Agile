@@ -22,9 +22,4 @@ public abstract class EtatPersonnel extends Etat{
         }
         return type;
     }
-
-    public void afficherPersonnels(List<Personnel> personnel) {
-        for (Personnel p : personnel)
-            System.out.println(p);
-    }
 }

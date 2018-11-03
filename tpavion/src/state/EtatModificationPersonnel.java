@@ -20,7 +20,8 @@ public class EtatModificationPersonnel extends EtatPersonnel {
      */
     @Override
     public void goNext(SystemeGestion systemeGestion) {
-        afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
+        DecorateurModificationPersonnel d = new DecorateurModificationPersonnel(new DecorateurMenuPrecedent(new DecorateurNonNavigant(new Implementation())));
+        d.afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
         System.out.println("Numero du membre : ");
         Scanner sc = new Scanner(System.in);
         int id = sc.nextInt();
@@ -29,7 +30,7 @@ public class EtatModificationPersonnel extends EtatPersonnel {
             System.out.println(" ID incorrect : retour au menu précèdent");
             systemeGestion.retourMenuPrecedent();
         } else {
-            DecorateurModificationPersonnel d = new DecorateurModificationPersonnel(new DecorateurMenuPrecedent(new DecorateurNonNavigant(new Implementation())),personnel);
+            d.setPersonnel(personnel);
             d.affichage();
             boolean erreur = false;
             sc = new Scanner(System.in);

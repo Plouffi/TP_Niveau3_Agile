@@ -1,5 +1,6 @@
 package decorator;
 
+import data_model.Personnel;
 import data_model.Role;
 
 import java.util.List;
@@ -32,5 +33,13 @@ public abstract class DecorateurPersonnel extends Decorateur{
         System.out.println(" Type de rôle ");
         System.out.println(" 1 --> Navigant");
         System.out.println(" 2 --> Non navigant");
+    }
+    
+    /**
+     * Méthode permettant l'affichage le personnel
+     */
+    public void afficherPersonnels(List<Personnel> personnel) {
+        for (Personnel p : personnel)
+            System.out.println(p);
     }
 }

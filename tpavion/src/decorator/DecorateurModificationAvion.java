@@ -4,15 +4,18 @@ import data_model.Avion;
 
 public class DecorateurModificationAvion extends DecorateurTechnique{
 
-    private Avion avion;
+    private Avion avion = null;
 
     /**
      * Constructeur d'un DecorateurModificationAvion
      * @param a
      * @param avion
      */
-    public DecorateurModificationAvion(Abstraction a,Avion avion) {
+    public DecorateurModificationAvion(Abstraction a) {
         super(a);
+    }
+    
+    public void setAvion(Avion avion){
         this.avion = avion;
     }
 

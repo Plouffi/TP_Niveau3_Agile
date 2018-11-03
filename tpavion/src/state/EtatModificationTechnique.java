@@ -16,18 +16,18 @@ public class EtatModificationTechnique extends EtatTechnique {
      */
     @Override
     public void goNext(SystemeGestion systemeGestion) {
+        DecorateurModificationAvion d = new DecorateurModificationAvion(new DecorateurNonNavigant(new Implementation()));
         List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
-        afficherAvions(avions);
+        d.afficherAvions(avions);
         System.out.println("Immatriculation de l'avion : ");
         Scanner sc = new Scanner(System.in);
         String immatriculation = sc.nextLine();
         Avion avion = systemeGestion.getSystemeGestionAvion().rechercherAvion(new Avion(immatriculation));
 
         if(avion==null) {
-            System.out.println(" ID incorrect : retour au menu pr�c�dent");
+            System.out.println(" ID incorrect : retour au menu précèdent");
             systemeGestion.retourMenuPrecedent();
         } else {
-            DecorateurModificationAvion d = new DecorateurModificationAvion(new DecorateurNonNavigant(new Implementation()),avion);
             d.affichage();
             sc = new Scanner(System.in);
             int value = sc.nextInt();
