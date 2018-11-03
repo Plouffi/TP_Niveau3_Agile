@@ -4,12 +4,16 @@ import data_model.Role;
 
 import java.util.List;
 
-public abstract class DecorateurPersonnel implements Abstraction{
-    Abstraction a;
-
-     public DecorateurPersonnel(Abstraction a){
-         this.a = a;
-     }
+public abstract class DecorateurPersonnel extends Decorateur{
+    
+    /**
+     * Constructeur de la méthode abstraite "Decorateur".
+     *
+     * @param a the a
+     */
+    public DecorateurPersonnel(Abstraction a){
+        super(a);
+    }
 
     /**
      * Méthode permettant l'affichage de la liste des rôles

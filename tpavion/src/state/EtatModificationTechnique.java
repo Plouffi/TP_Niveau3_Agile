@@ -11,7 +11,7 @@ import systeme.SystemeGestion;
 
 public class EtatModificationTechnique extends EtatTechnique {
     /**
-     * Méthode qui contient les modifications r�alisables pour un avion
+     * Méthode qui contient les modifications réalisables pour un avion
      * @param systemeGestion
      */
     @Override

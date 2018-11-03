@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class DecorateurTechnique extends Decorateur {
     /**
-     * Constructeur de la m�thode abstraite "Decorateur".
+     * Constructeur de la méthode abstraite "Decorateur".
      *
      * @param a the a
      */
