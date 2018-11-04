@@ -1,6 +1,6 @@
 package decorator;
 
-public class DecorateurMenuPilote extends Decorateur {
+public class DecorateurMenuPilote extends DecorateurTechnique {
     /**
      * Constructeur d'un DecorateurMenuPilote
      * @param a
@@ -15,7 +15,7 @@ public class DecorateurMenuPilote extends Decorateur {
     @Override
     public void affichage() {
         a.affichage();
-        System.out.println(" --> Saisir un rapport de vol");
-        System.out.println(" --> Retour au menu précèdent...");
+        System.out.println("2 --> Saisir un rapport de vol");
+        System.out.println("3 --> Retour au menu précèdent...");
     }
 }

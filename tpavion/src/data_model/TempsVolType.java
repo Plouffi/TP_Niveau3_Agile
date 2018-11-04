@@ -5,7 +5,7 @@ import java.sql.Time;
 public class TempsVolType {
 
     private int id;
-    private int type;
+    private String type;
     private Time nombreHeure;
 
     /**
@@ -14,7 +14,7 @@ public class TempsVolType {
      * @param type
      * @param nombreHeure
      */
-    public TempsVolType(int id, int type, Time nombreHeure) {
+    public TempsVolType(int id, String type, Time nombreHeure) {
         this.id = id;
         this.type = type;
         this.nombreHeure = nombreHeure;
@@ -40,7 +40,7 @@ public class TempsVolType {
      * Getter du type
      * @return int
      */
-    public int getType() {
+    public String getType() {
         return type;
     }
 
@@ -48,7 +48,7 @@ public class TempsVolType {
      * Setter du type
      * @param type
      */
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

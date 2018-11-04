@@ -24,9 +24,10 @@ public class VolDAO extends DAO<Vol> {
      */
     @Override
     public boolean create(Vol obj) throws SQLException {
-        String requete = "insert into Vol (frequence) values (?);";
+        String requete = "insert into Vol (frequence, uniteFrequence) values (?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getFrequence());
+            statement.setString(2, obj.getUniteFrequence());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
         }
@@ -60,10 +61,11 @@ public class VolDAO extends DAO<Vol> {
     public boolean update(Vol obj) throws SQLException {
     	if(this.find(obj)==null)
     	      throw new SQLException(" --Erreur-- Le vol n'existe pas.");
-        String requete = "update Vol set frequence=? where id=?;";
+        String requete = "update Vol set frequence=? and uniteFrequence=?  where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getFrequence());
-            statement.setInt(2, obj.getId());
+            statement.setString(2, obj.getUniteFrequence());
+            statement.setInt(3, obj.getId());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -82,7 +84,7 @@ public class VolDAO extends DAO<Vol> {
             statement.setInt(1, obj.getId());
             try(ResultSet result = statement.executeQuery();){
                 if(result.first())
-                    return new Vol(result.getInt("id"),result.getInt("frequence"));
+                    return new Vol(result.getInt("id"),result.getInt("frequence"), result.getString("uniteFrequence"));
                 return null;
             }
         }

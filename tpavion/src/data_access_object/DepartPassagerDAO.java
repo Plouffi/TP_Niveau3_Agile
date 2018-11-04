@@ -101,7 +101,7 @@ public class DepartPassagerDAO extends DAO<DepartPassager> {
             try (ResultSet result = statement.executeQuery();) {
                 if (result.first()) {
                 	Passager passager = new PassagerDAO(connexion).find(new Passager(result.getString("numPasseport")));
-                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0, ""));
                 	Depart depart = new DepartDAO(connexion).find(new Depart( vol, result.getDate("dateDepart")));
                 	return new DepartPassager(passager, depart, result.getInt("numPlace"));
                 }

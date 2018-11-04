@@ -30,7 +30,7 @@ public class DepartDAO extends DAO<Depart> {
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId().getId());
             statement.setDate(2, obj.getDateDepart());			
-            /* retourne true si la requete s'est bien effectué */
+            /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
     }
@@ -45,10 +45,10 @@ public class DepartDAO extends DAO<Depart> {
     public boolean delete(Depart obj) throws SQLException {
     String requete = "delete from depart where id=? and dateDepart=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-                statement.setInt(1, obj.getId().getId());
-                statement.setDate(2, obj.getDateDepart());		
-                /* retourne true si la requete s'est bien effectu� */
-                return statement.executeUpdate() > 0;
+            statement.setInt(1, obj.getId().getId());
+            statement.setDate(2, obj.getDateDepart());		
+            /* retourne true si la requete s'est bien effectuée */
+            return statement.executeUpdate() > 0;
         }
     }
 
@@ -78,8 +78,8 @@ public class DepartDAO extends DAO<Depart> {
             statement.setDate(2, obj.getDateDepart());		
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
-                		Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id")));
-                        return new Depart(vol,result.getDate("dateDepart"));
+                    Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"), 0, ""));
+                    return new Depart(vol,result.getDate("dateDepart"));
                 }
                 return null;
             }

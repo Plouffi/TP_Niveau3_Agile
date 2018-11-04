@@ -2,30 +2,28 @@ package data_model;
 
 public class Vol {
 
-    @Override
-	public String toString() {
-		return "Vol [id=" + id + ", frequence=" + frequence + "]";
-	}
-
-	private int id;
+    private int id;
     private int frequence;
+    private String uniteFrequence;
 
     /**
      * Constructeur pour un vol
      * @param id
      * @param frequence
      */
-    public Vol(int id,int frequence){
+    public Vol(int id,int frequence, String uniteFrequence){
         this.id = id;
         this.frequence = frequence;
+        this.uniteFrequence = uniteFrequence;
     }
 
     /**
      * Constructeur pour un vol
      * @param frequence
      */
-    public Vol(int frequence){
+    public Vol(int frequence, String uniteFrequence){
         this.frequence = frequence;
+        this.uniteFrequence = uniteFrequence;
     }
 
     /**
@@ -58,5 +56,26 @@ public class Vol {
      */
     public void setFrequence(int frequence) {
         this.frequence = frequence;
+    }
+    
+    /**
+    * Getter de la frequence
+    * @return String
+    */
+    public String getUniteFrequence(){
+        return uniteFrequence;
+    }
+
+/**
+ * Setter de la frequence
+ * @param uniteFrequence
+ */
+    public void setUniteFrequence(String uniteFrequence) {
+        this.uniteFrequence = uniteFrequence;
+    }
+    
+        @Override
+    public String toString() {
+        return "Vol [id=" + id + ", frequence=" + frequence + ", unite=" + uniteFrequence+" ]";
     }
 }

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import data_model.RapportPilote;
+import data_model.Vol;
 
 public class RapportPiloteDAO extends DAO<RapportPilote> {
 
@@ -26,11 +27,15 @@ public class RapportPiloteDAO extends DAO<RapportPilote> {
      */
     @Override
     public boolean create(RapportPilote obj) throws SQLException {
-        String requete ="insert into RapportPilote values (?,?,?,?);";
+        /* si le départ n'existe pas on ne n'ajoute pas le rapport */
+        if( new VolDAO(connexion).find(new Vol(obj.getIdDepart(), 0, "")) == null)
+            throw new SQLException("--Erreur-- Le départ n'existe pas");
+            
+        String requete ="insert into RapportPilote values (?,?,(select dateDepart from Depart where id=?),?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getIdPilote());
             statement.setInt(2, obj.getIdDepart());
-            statement.setDate(3, obj.getDateDepart());
+            statement.setInt(3, obj.getIdDepart());
             statement.setString(4, obj.getRapport());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;

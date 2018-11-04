@@ -147,7 +147,7 @@ DELIMITER $
 CREATE TRIGGER insertTempsVolChecking AFTER INSERT
 ON TempsVolType FOR EACH ROW
 BEGIN
-	UPDATE Pilote set nombreHeureTotal = (select nombreHeureTotal from Pilote where Pilote.id = NEW.id)+NEW.nombreHeure where Pilote.id = NEW.id;
+	UPDATE Pilote set nombreHeureTotal = (select nombreHeureTotal from (select * from Pilote) as p2 where p2.id = NEW.id)+NEW.nombreHeure where Pilote.id = NEW.id;
 END$
 DELIMITER ;
 
@@ -156,15 +156,17 @@ DELIMITER $
 CREATE TRIGGER updateTempsVolChecking AFTER UPDATE
 ON TempsVolType FOR EACH ROW
 BEGIN
-	UPDATE Pilote set nombreHeureTotal = (select nombreHeureTotal from Pilote where Pilote.id = NEW.id)+NEW.nombreHeure-OLD.nombreHeure where Pilote.id = NEW.id;
+	UPDATE Pilote set nombreHeureTotal = (select nombreHeureTotal from (select * from Pilote) as p2 where p2.id = NEW.id)+NEW.nombreHeure where Pilote.id = NEW.id;
 END$
 DELIMITER ;
 
 /* Ajoute le pilote */
 DELIMITER $
-CREATE TRIGGER insertPersonnelChecking BEFORE INSERT ON Personnel
+CREATE TRIGGER insertPersonnelChecking AFTER INSERT ON Personnel
 FOR EACH ROW
 BEGIN
-  INSERT INTO Pilote VALUES(New.id, "00:00:00")
-END;
+	IF new.role = "Pilote" THEN
+  	INSERT INTO Pilote VALUES(New.id, "00:00:00");
+	END IF;
+END$
 DELIMITER ;

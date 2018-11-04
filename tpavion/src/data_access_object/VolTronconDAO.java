@@ -113,7 +113,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
                 	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
-                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0, ""));
                     return new VolTroncon(t,vol,result.getTime("heureDepart"),result.getTime("heureArrivee"));
                 }
                 return null;
@@ -133,7 +133,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
                 	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
-                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0, ""));
                     return new VolTroncon(t,vol,result.getTime("heureDepart"),result.getTime("heureArrivee"));
                 }
                 return null;

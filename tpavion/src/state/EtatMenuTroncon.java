@@ -34,23 +34,25 @@ public class EtatMenuTroncon extends Etat{
             case 3:
                 System.out.println("Ajout d'un nouveau vol :");
                 systemeGestion.getSystemeGestionVol().ajouteVol(new Vol(
-                    saisirInt("Veuillez saisir la fréquence du vol (par semaine)")));
+                    saisirInt("Veuillez saisir la fréquence du vol:"),
+                    saisirString("Unité (heure, jour, semaine, mois, an):")));
                     break;
             case 4:
                 System.out.println("Modification d'un vol existant (par identifiant) :");
                 systemeGestion.getSystemeGestionVol().majVol(new Vol(
                     saisirInt("Veuillez saisir l'identifiant du vol cible"),
-                    saisirInt("Veuillez saisir la nouvelle fréquence du vol (par semaine)")));
+                    saisirInt("Veuillez saisir la nouvelle fréquence du vol:"),
+                    saisirString("Unité (heure, jour, semaine, mois, an):")));
                     break;
             case 5:
                 System.out.println("Suppression d'un vol existant (par identifiant) :");
                 systemeGestion.getSystemeGestionVol().supprimerVol(new Vol(
-                    saisirInt("Veuillez saisir l'identifiant du vol"),0));
+                    saisirInt("Veuillez saisir l'identifiant du vol"),0,""));
                 break;
             case 6:
                 System.out.println("Recherche d'un vol existant (par identifiant) :");
                 Vol v15 = systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(
-                    saisirInt("Veuillez saisir l'identifiant du vol"), 0));
+                    saisirInt("Veuillez saisir l'identifiant du vol"), 0,""));
                 if(v15!=null)
                 	System.out.println(v15.toString());
                 break;
@@ -86,7 +88,7 @@ public class EtatMenuTroncon extends Etat{
             case 11:
                 System.out.println("Association d'un vol à un tronçon :");
                 systemeGestion.getSystemeGestionVol().associerVolTroncon(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol"), 0),//SEUL L'IDENTIFIANT SERA UTILISE
+                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol"), 0, ""),//SEUL L'IDENTIFIANT SERA UTILISE
                     systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
                             saisirString("Veuillez saisir la nouvelle ville de départ du tronçon"), 
                             saisirString("Veuillez saisir la nouvelle ville d'arrivée du tronçon"),  0)),//SEUL L'IDENTIFIANT SERA UTILISE
@@ -96,7 +98,7 @@ public class EtatMenuTroncon extends Etat{
             case 12://MODIFIER LE TEXTE
                 System.out.println("Modification d'une association d'un vol à un tronçon :");
                 systemeGestion.getSystemeGestionVol().majVolTroncon(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol associé"), 0),//SEUL L'IDENTIFIANT SERA UTILIS�
+                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol associé"), 0, ""),//SEUL L'IDENTIFIANT SERA UTILIS�
                     systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
                             saisirString("Veuillez saisir la nouvelle ville de départ du tronçon"), 
                             saisirString("Veuillez saisir la nouvelle ville d'arrivée du tronçon"),  0)),//SEUL L'IDENTIFIANT SERA UTILIS�
@@ -106,7 +108,7 @@ public class EtatMenuTroncon extends Etat{
             case 13:
                 System.out.println("Supression d'une association d'un vol à un tronçon :");
                 systemeGestion.getSystemeGestionVol().supprimerVolTroncon(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol"), 0),//SEUL L'IDENTIFIANT SERA UTILIS�
+                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol"), 0, ""),//SEUL L'IDENTIFIANT SERA UTILIS�
                     systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
                             saisirString("Veuillez saisir la nouvelle ville de départ du tronçon"), 
                             saisirString("Veuillez saisir la nouvelle ville d'arrivée du tronçon"),  0)),null, null);
@@ -114,7 +116,7 @@ public class EtatMenuTroncon extends Etat{
             case 14:
                 System.out.println("Recherche d'une association d'un vol à un tronçon :");
                 VolTroncon v18 = systemeGestion.getSystemeGestionVol().rechercherVolTroncon(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol associé"), 0), 
+                    new Vol(saisirInt("Veuillez saisir l'identifiant du vol associé"), 0, ""), 
                     systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
                             saisirString("Veuillez saisir la nouvelle ville de départ du tronçon"), 
                             saisirString("Veuillez saisir la nouvelle ville d'arrivée du tronçon"),  0)), null, null);
