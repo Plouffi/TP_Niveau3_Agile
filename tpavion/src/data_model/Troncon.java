@@ -2,7 +2,6 @@ package data_model;
 
 public class Troncon {
 
-    private int id;
     private String villeDepart;
     private String villeArrivee;
     private int distance;
@@ -14,11 +13,9 @@ public class Troncon {
      * @param villeArrivee
      * @param distance
      */
-    public Troncon(int id, String villeDepart, String villeArrivee, int distance) {
-            this.id = id;
+    public Troncon(String villeDepart, String villeArrivee) {
             this.villeDepart = villeDepart;
             this.villeArrivee = villeArrivee;
-            this.distance = distance;
     }
 
     /**
@@ -33,23 +30,13 @@ public class Troncon {
         this.distance = distance;
     }
 
-    /**
-     * Getter de l'id
-     * @return int
-     */
-    public int getId() {
-        return id;
-    }
+    @Override
+	public String toString() {
+		return "Troncon [villeDepart=" + villeDepart + ", villeArrivee=" + villeArrivee + ", distance=" + distance
+				+ "]";
+	}
 
-    /**
-     * Setter de l'id
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
+	/**
      * Getter de la ville de depart
      * @return String
      */

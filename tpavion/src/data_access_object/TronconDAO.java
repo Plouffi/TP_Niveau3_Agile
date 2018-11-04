@@ -42,9 +42,12 @@ public class TronconDAO extends DAO<Troncon> {
      */
     @Override
     public boolean delete(Troncon obj) throws SQLException {
-        String requete = "delete from Troncon where id=?;";
+    	if(find(obj) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+        String requete = "delete from Troncon where villeDepart=? and villeArrivee=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getId());
+            statement.setString(1, obj.getVilleDepart());
+            statement.setString(2, obj.getVilleArrivee());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -58,12 +61,13 @@ public class TronconDAO extends DAO<Troncon> {
      */
     @Override
     public boolean update(Troncon obj) throws SQLException {
-        String requete = "update Troncon set villeDepart=?, villeArrivee=?, distance=? where id=?;";
+        String requete = "update Troncon set villeDepart=?, villeArrivee=?, distance=? where villeDepart=? and villeArrivee=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getVilleDepart());
             statement.setString(2, obj.getVilleArrivee());
             statement.setInt(3, obj.getDistance());
-            statement.setInt(4, obj.getId());
+            statement.setString(4, obj.getVilleDepart());
+            statement.setString(5, obj.getVilleArrivee());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -77,14 +81,16 @@ public class TronconDAO extends DAO<Troncon> {
      */
     @Override
     public Troncon find(Troncon obj) throws SQLException {
-        String requete = "select * from Troncon where id=?;";
+        String requete = "select * from Troncon where villeDepart=? and villeArrivee=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getId());
+            statement.setString(1, obj.getVilleDepart());
+            statement.setString(2, obj.getVilleArrivee());
             try(ResultSet result = statement.executeQuery();){
                 if(result.first())
-                    return new Troncon(result.getInt("id"),result.getString("villeDepart"),result.getString("villeArrivee"),result.getInt("distance"));
+                    return new Troncon(result.getString("villeDepart"),result.getString("villeArrivee"),result.getInt("distance"));
                 return null;
             }
         }
     }
+
 }

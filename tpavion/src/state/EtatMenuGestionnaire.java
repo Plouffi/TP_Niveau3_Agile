@@ -22,22 +22,18 @@ public class EtatMenuGestionnaire extends Etat{
         switch (choix){
             case 1 :
                 deconnexion(systemeGestion);
-                break;
+                break;                
             case 2:
                 ajoutPassager(systemeGestion);
                 break;
             case 3:
-                System.out.println("Ajout d'un nouvel utilisateur");
+                systemeGestion.setState(new EtatMenuTroncon());
                 break;
             case 4:
                 System.out.println("Modifier un utilisateur");
-                systemeGestion.setState(new EtatMenuTechnique());
+                systemeGestion.setState(new EtatMenuDepart());
                 break;
             case 5:
-                System.out.println("Supprimer un utilisateur");
-                systemeGestion.setState(new EtatMenuGestionnaire());
-                break;
-            case 6:
                 systemeGestion.retourMenuPrecedent();
                 break;
             default:

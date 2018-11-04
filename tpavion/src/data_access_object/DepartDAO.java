@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import data_model.Depart;
+import data_model.Vol;
 
 public class DepartDAO extends DAO<Depart> {
 
@@ -27,7 +28,7 @@ public class DepartDAO extends DAO<Depart> {
     public boolean create(Depart obj) throws SQLException {
         String requete ="insert into depart values (?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getId());
+            statement.setInt(1, obj.getId().getId());
             statement.setDate(2, obj.getDateDepart());			
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
@@ -42,9 +43,10 @@ public class DepartDAO extends DAO<Depart> {
      */
     @Override
     public boolean delete(Depart obj) throws SQLException {
-    String requete = "delete from depart where id=?;";
+    String requete = "delete from depart where id=? and dateDepart=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-                statement.setInt(1, obj.getId());
+                statement.setInt(1, obj.getId().getId());
+                statement.setDate(2, obj.getDateDepart());		
                 /* retourne true si la requete s'est bien effectu� */
                 return statement.executeUpdate() > 0;
         }
@@ -70,12 +72,14 @@ public class DepartDAO extends DAO<Depart> {
      */
     @Override
     public Depart find(Depart obj) throws SQLException {
-        String requete = "select * from depart where id=?;";
+        String requete = "select * from depart where id=? and dateDepart=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getId());
+            statement.setInt(1, obj.getId().getId());
+            statement.setDate(2, obj.getDateDepart());		
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
-                        return new Depart(result.getInt("id"),result.getDate("dateDepart"));
+                		Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id")));
+                        return new Depart(vol,result.getDate("dateDepart"));
                 }
                 return null;
             }

@@ -5,9 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import data_model.Depart;
 import data_model.DepartPassager;
+import data_model.Passager;
 import data_model.Personne;
 import data_model.Role;
+import data_model.Vol;
 
 public class DepartPassagerDAO extends DAO<DepartPassager> {
 
@@ -31,9 +35,9 @@ public class DepartPassagerDAO extends DAO<DepartPassager> {
     public boolean create(DepartPassager obj) throws SQLException {
         String requete = "insert into DepartPassager values (?,?,?,?);";
         try (PreparedStatement statement = super.connexion.prepareStatement(requete);) {
-            statement.setString(1, obj.getNumPasseport());
-            statement.setInt(2, obj.getId());
-            statement.setDate(3, obj.getDateDepart());
+            statement.setString(1, obj.getPassager().getNumPasseport());
+            statement.setInt(2, obj.getDepart().getId().getId());
+            statement.setDate(3, obj.getDepart().getDateDepart());
             statement.setInt(4, obj.getNumPlace());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
@@ -51,9 +55,9 @@ public class DepartPassagerDAO extends DAO<DepartPassager> {
     public boolean delete(DepartPassager obj) throws SQLException {
         String requete = "delete from DepartPassager where numPasseport=? and id=? and dateDepart=?;";
         try (PreparedStatement statement = super.connexion.prepareStatement(requete);) {
-            statement.setString(1, obj.getNumPasseport());
-            statement.setInt(2, obj.getId());
-            statement.setDate(3, obj.getDateDepart());
+            statement.setString(1, obj.getPassager().getNumPasseport());
+            statement.setInt(2, obj.getDepart().getId().getId());
+            statement.setDate(3, obj.getDepart().getDateDepart());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
         }
@@ -71,9 +75,9 @@ public class DepartPassagerDAO extends DAO<DepartPassager> {
         String requete = "update DepartPassager set numPlace=? where numPasseport=? and id=? and dateDepart=?;";
         try (PreparedStatement statement = super.connexion.prepareStatement(requete);) {
             statement.setInt(1, obj.getNumPlace());
-            statement.setString(2, obj.getNumPasseport());
-            statement.setInt(3, obj.getId());
-            statement.setDate(4, obj.getDateDepart());
+            statement.setString(2, obj.getPassager().getNumPasseport());
+            statement.setInt(3, obj.getDepart().getId().getId());
+            statement.setDate(4, obj.getDepart().getDateDepart());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
         }
@@ -91,14 +95,32 @@ public class DepartPassagerDAO extends DAO<DepartPassager> {
     public DepartPassager find(DepartPassager obj) throws SQLException {
         String requete = "select * from DepartPassager where numPasseport=? and id=? and dateDepart=?;";
         try (PreparedStatement statement = super.connexion.prepareStatement(requete);) {
-            statement.setString(1, obj.getNumPasseport());
-            statement.setInt(2, obj.getId());
-            statement.setDate(3, obj.getDateDepart());
+            statement.setString(1, obj.getPassager().getNumPasseport());
+            statement.setInt(2, obj.getDepart().getId().getId());
+            statement.setDate(3, obj.getDepart().getDateDepart());
             try (ResultSet result = statement.executeQuery();) {
-                if (result.first())
-                    return new DepartPassager(result.getString("numPasseport"), result.getInt("id"), result.getDate("dateDepart"), result.getInt("numPlace"));
+                if (result.first()) {
+                	Passager passager = new PassagerDAO(connexion).find(new Passager(result.getString("numPasseport")));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                	Depart depart = new DepartDAO(connexion).find(new Depart( vol, result.getDate("dateDepart")));
+                	return new DepartPassager(passager, depart, result.getInt("numPlace"));
+                }
                 return null;
             }
         }
     }
+
+	public int findNextPlace(Depart depart) throws SQLException {
+        String requete = "select noPlace from DepartPassager where id=? and dateDepart=? order by noPlace DESC;";
+        try (PreparedStatement statement = super.connexion.prepareStatement(requete);) {
+            statement.setInt(1, depart.getId().getId());
+            statement.setDate(2, depart.getDateDepart());
+            try (ResultSet result = statement.executeQuery();) {
+                if (result.first())
+                    return result.getInt("numPlace")+1;
+                return 1;
+            }
+        }
+		
+	}
 }

@@ -4,9 +4,8 @@ import java.sql.Date;
 
 public class DepartAvion {
     /* id -> id de depart */
-    private int id;
-    private Date dateDepart;
-    private String immatriculation;
+    private Depart id;
+    private Avion immatriculation;
     private int qteCarburant;
 
     /**
@@ -16,9 +15,8 @@ public class DepartAvion {
      * @param immatriculation
      * @param qteCarburant
      */
-    public DepartAvion(int id, Date dateDepart, String immatriculation, int qteCarburant){
+    public DepartAvion(Depart id, Avion immatriculation, int qteCarburant){
         this.id = id;
-        this.dateDepart = dateDepart;
         this.immatriculation = immatriculation;
         this.qteCarburant = qteCarburant;
     }
@@ -27,7 +25,7 @@ public class DepartAvion {
      * Getter de l'id
      * @return int
      */
-    public int getId() {
+    public Depart getId() {
         return id;
     }
 
@@ -35,31 +33,15 @@ public class DepartAvion {
      * Setter de l'id
      * @param id
      */
-    public void setId(int id) {
+    public void setId(Depart id) {
         this.id = id;
-    }
-
-    /**
-     * Getter de la date 
-     * @return Date
-     */
-    public Date getDateDepart() {
-        return dateDepart;
-    }
-
-    /**
-     * Setter de la date
-     * @param dateDepart
-     */
-    public void setDateDepart(Date dateDepart) {
-        this.dateDepart = dateDepart;
     }
 
     /**
      * Getter de l'immatriculation
      * @return String
      */
-    public String getImmatriculation() {
+    public Avion getImmatriculation() {
         return immatriculation;
     }
 
@@ -67,7 +49,7 @@ public class DepartAvion {
      * Setter de l'immatriculation
      * @param immatriculation
      */
-    public void setImmatriculation(String immatriculation) {
+    public void setImmatriculation(Avion immatriculation) {
         this.immatriculation = immatriculation;
     }
 

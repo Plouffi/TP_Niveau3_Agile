@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Depart {
     /* id -> id du vol */
-    private int id;
+    private Vol id;
     private Date dateDepart;
 
     /**
@@ -12,7 +12,7 @@ public class Depart {
      * @param id
      * @param dateDepart
      */
-    public Depart(int id,Date dateDepart){
+    public Depart(Vol id,Date dateDepart){
         this.id = id;
         this.dateDepart = dateDepart;
     }
@@ -21,7 +21,7 @@ public class Depart {
      * Getter de l'id
      * @return int
      */
-    public int getId() {
+    public Vol getId() {
         return id;
     }
 
@@ -29,7 +29,7 @@ public class Depart {
      * Setter de l'id
      * @param id
      */
-    public void setId(int id) {
+    public void setId(Vol id) {
         this.id = id;
     }
 

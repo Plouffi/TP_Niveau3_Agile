@@ -5,7 +5,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import data_model.Avion;
+import data_model.Depart;
 import data_model.DepartAvion;
+import data_model.Vol;
 
 public class DepartAvionDAO extends DAO<DepartAvion> {
 
@@ -28,9 +32,9 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
         String requete =
             "insert into DepartAvion values (?,?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getId());
-            statement.setDate(2, obj.getDateDepart());
-            statement.setString(3, obj.getImmatriculation());
+            statement.setInt(1, obj.getId().getId().getId());
+            statement.setDate(2, obj.getId().getDateDepart());
+            statement.setString(3, obj.getImmatriculation().getImmatriculation());
             statement.setInt(4, obj.getQteCarburant());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
@@ -47,9 +51,9 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
     public boolean delete(DepartAvion obj) throws SQLException {	    
         String requete = "delete from DepartAvion where id=?, dateDepart=?, immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getId());
-            statement.setDate(2, obj.getDateDepart());
-            statement.setString(3, obj.getImmatriculation());
+            statement.setInt(1, obj.getId().getId().getId());
+            statement.setDate(2, obj.getId().getDateDepart());
+            statement.setString(3, obj.getImmatriculation().getImmatriculation());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
         }
@@ -66,9 +70,9 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
         String requete = "update DepartAvion set qteCarburant=? where id=?, dateDepart=?, immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getQteCarburant());
-            statement.setInt(2, obj.getId());
-            statement.setDate(3, obj.getDateDepart());
-            statement.setString(4, obj.getImmatriculation());
+            statement.setInt(2, obj.getId().getId().getId());
+            statement.setDate(3, obj.getId().getDateDepart());
+            statement.setString(4, obj.getImmatriculation().getImmatriculation());
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
         }
@@ -85,12 +89,16 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
     public DepartAvion find(DepartAvion obj) throws SQLException {
         String requete = "select * from DepartAvion where id=?, dateDepart=?, immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, (int)obj.getId());
-            statement.setDate(2, (Date)obj.getDateDepart());
-            statement.setString(3, (String)obj.getImmatriculation());
+            statement.setInt(1, obj.getId().getId().getId());
+            statement.setDate(2, obj.getId().getDateDepart());
+            statement.setString(3, obj.getImmatriculation().getImmatriculation());
             try(ResultSet result = statement.executeQuery();){
-                if(result.first())
-                    return new DepartAvion(result.getInt("id"),result.getDate("dateDepart"),result.getString("immatriculation"),result.getInt("qteCarburant"));
+                if(result.first()) {
+                	Avion avion = new AvionDAO(connexion).find(new Avion(result.getString("immatriculation")));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                	Depart depart = new DepartDAO(connexion).find(new Depart( vol, result.getDate("dateDepart")));
+                	return new DepartAvion(depart,avion,result.getInt("qteCarburant"));
+                }
                 return null;
             }
         }

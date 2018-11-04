@@ -4,9 +4,8 @@ import java.sql.Date;
 
 public class DepartPassager {
 	
-    private String numPasseport;
-    private int id;
-    private Date dateDepart;
+    private Passager passager;
+    private Depart depart;
     private int numPlace;
 
     /**
@@ -16,10 +15,9 @@ public class DepartPassager {
      * @param dateDepart
      * @param numPlace
      */
-    public DepartPassager(String numPasseport, int id, Date dateDepart, int numPlace) {
-        this.numPasseport = numPasseport;
-        this.id = id;
-        this.dateDepart = dateDepart;
+    public DepartPassager(Passager passager, Depart depart, int numPlace) {
+        this.passager = passager;
+        this.depart=depart;
         this.numPlace = numPlace;
     }
 
@@ -27,48 +25,32 @@ public class DepartPassager {
      * Getter de le numéro de passeport
      * @return String
      */
-    public String getNumPasseport() {
-        return numPasseport;
+    public Passager getPassager() {
+        return passager;
     }
 
     /**
      * Setter de le numéro de passeport
      * @param numPasseport
      */
-    public void setNumPasseport(String numPasseport) {
-        this.numPasseport = numPasseport;
-    }
-
-    /**
-     * Getter de l'id
-     * @return int
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Setter de l'id
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
+    public void setNumPasseport(Passager passager) {
+        this.passager = passager;
     }
 
     /**
      * Getter de la date de depart
      * @return
      */
-    public Date getDateDepart() {
-        return dateDepart;
+    public Depart getDepart() {
+        return depart;
     }
 
     /**
      * Setter de la date de depart
      * @param dateDepart
      */
-    public void setDateDepart(Date dateDepart) {
-        this.dateDepart = dateDepart;
+    public void setDepart(Depart depart) {
+        this.depart = depart;
     }
 
     /**

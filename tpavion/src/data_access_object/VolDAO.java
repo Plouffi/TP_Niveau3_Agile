@@ -24,7 +24,7 @@ public class VolDAO extends DAO<Vol> {
      */
     @Override
     public boolean create(Vol obj) throws SQLException {
-        String requete = "insert into Vol values (?);";
+        String requete = "insert into Vol (frequence) values (?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getFrequence());
             /* retourne true si la requete s'est bien effectué */
@@ -40,6 +40,8 @@ public class VolDAO extends DAO<Vol> {
      */
     @Override
     public boolean delete(Vol obj) throws SQLException {
+    	if(this.find(obj)==null)
+  	      throw new SQLException(" --Erreur-- Le vol n'existe pas.");
         String requete = "delete from Vol where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId());
@@ -56,6 +58,8 @@ public class VolDAO extends DAO<Vol> {
      */
     @Override
     public boolean update(Vol obj) throws SQLException {
+    	if(this.find(obj)==null)
+    	      throw new SQLException(" --Erreur-- Le vol n'existe pas.");
         String requete = "update Vol set frequence=? where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getFrequence());

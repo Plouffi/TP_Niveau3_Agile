@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import data_model.Troncon;
+import data_model.Vol;
 import data_model.VolTroncon;
 
 public class VolTronconDAO extends DAO<VolTroncon> {
@@ -24,12 +27,17 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public boolean create(VolTroncon obj) throws SQLException {
-        String requete = "insert into VolTroncon values (?,?,?,?);";
+    	if(new VolDAO(connexion).find(obj.getVol()) == null)
+    		throw new SQLException("--Erreur-- Le vol n'existe pas");
+    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+        String requete = "insert into VolTroncon values (?,?,?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getTroncon());
-            statement.setInt(2, obj.getVol());
-            statement.setTime(3, obj.getHeureDepart());
-            statement.setTime(4, obj.getHeureSortie());
+            statement.setInt(1, obj.getVol().getId());
+            statement.setString(2, obj.getTroncon().getVilleDepart());
+            statement.setString(3, obj.getTroncon().getVilleArrivee());
+            statement.setTime(4, obj.getHeureDepart());
+            statement.setTime(5, obj.getHeureArrivee());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -43,10 +51,15 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public boolean delete(VolTroncon obj) throws SQLException {
-        String requete = "delete from VolTroncon where troncon=? and vol=?;";
+    	if(new VolDAO(connexion).find(obj.getVol()) == null)
+    		throw new SQLException("--Erreur-- Le vol n'existe pas");
+    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+        String requete = "delete from VolTroncon where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getTroncon());
-            statement.setInt(2, obj.getVol());
+            statement.setString(1, obj.getTroncon().getVilleDepart());
+            statement.setString(2, obj.getTroncon().getVilleArrivee());
+            statement.setInt(3, obj.getVol().getId());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -60,12 +73,21 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public boolean update(VolTroncon obj) throws SQLException {
-        String requete = "update VolTroncon set heureDepart=?,heureSortie=? where troncon=? and vol=?;";
+    	if(new VolDAO(connexion).find(obj.getVol()) == null)
+    		throw new SQLException("--Erreur-- Le vol n'existe pas");
+    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+        String requete = "update VolTroncon set id=?,villeDepart=?,villeArrivee=?,heureDepart=?,heureArrivee=? where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setTime(1, obj.getHeureDepart());
-            statement.setTime(2, obj.getHeureSortie());
-            statement.setInt(3, obj.getTroncon());
-            statement.setInt(4, obj.getVol());
+            statement.setInt(1, obj.getVol().getId());
+            statement.setString(2, obj.getTroncon().getVilleDepart());
+            statement.setString(3, obj.getTroncon().getVilleArrivee());
+            statement.setTime(4, obj.getHeureDepart());
+            statement.setTime(5, obj.getHeureArrivee());
+            statement.setString(6, obj.getTroncon().getVilleDepart());
+            statement.setString(7, obj.getTroncon().getVilleArrivee());
+            statement.setInt(8, obj.getVol().getId());
+            System.out.println(statement.toString());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -79,14 +101,62 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public VolTroncon find(VolTroncon obj) throws SQLException {
-        String requete = "select * from VolTroncon where troncon=? and vol=?;";
+    	if(new VolDAO(connexion).find(obj.getVol()) == null)
+    		throw new SQLException("--Erreur-- Le vol n'existe pas");
+    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getTroncon());
-            statement.setInt(2, obj.getVol());
+            statement.setString(1, obj.getTroncon().getVilleDepart());
+            statement.setString(2, obj.getTroncon().getVilleArrivee());
+            statement.setInt(3, obj.getVol().getId());
             try(ResultSet result = statement.executeQuery();){
-                if(result.first())
-                    return new VolTroncon(result.getInt("troncon"),result.getInt("vol"),result.getTime("heureDepart"),result.getTime("heureSortie"));
+                if(result.first()) {
+                	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                    return new VolTroncon(t,vol,result.getTime("heureDepart"),result.getTime("heureArrivee"));
+                }
                 return null;
+            }
+        }
+    }
+    public VolTroncon findWithCities(VolTroncon obj) throws SQLException {
+    	if(new VolDAO(connexion).find(obj.getVol()) == null)
+    		throw new SQLException("--Erreur-- Le vol n'existe pas");
+    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=? and heureDepart=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setString(1, obj.getTroncon().getVilleDepart());
+            statement.setString(2, obj.getTroncon().getVilleArrivee());
+            statement.setTime(1, obj.getHeureDepart());
+            try(ResultSet result = statement.executeQuery();){
+                if(result.first()) {
+                	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
+                	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0));
+                    return new VolTroncon(t,vol,result.getTime("heureDepart"),result.getTime("heureArrivee"));
+                }
+                return null;
+            }
+        }
+    }
+    public boolean volEstAttribue(Vol vol) throws SQLException {
+    	String requete = "select * from VolTroncon and id=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setInt(1, vol.getId());
+            try(ResultSet result = statement.executeQuery();){
+                return result.first();
+            }
+        }
+    }
+    
+    public boolean tronconEstAttribue(Troncon troncon) throws SQLException {
+    	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setString(1, troncon.getVilleDepart());
+            statement.setString(2, troncon.getVilleArrivee());
+            try(ResultSet result = statement.executeQuery();){
+                return result.first();
             }
         }
     }

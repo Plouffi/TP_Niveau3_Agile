@@ -17,7 +17,11 @@ public class Passager extends Personne{
         this.numPasseport = numPasseport;
     }
 
-    /**
+    public Passager(String passeport) {
+    	this.numPasseport = passeport;
+	}
+
+	/**
      * Getter du numéro de passeport
      * @return String
      */

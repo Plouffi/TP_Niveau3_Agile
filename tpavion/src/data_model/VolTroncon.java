@@ -4,30 +4,35 @@ import java.sql.Time;
 
 public class VolTroncon {
 
-    private int troncon;
-    private int vol;
+    private Troncon troncon;
+    private Vol vol;
     private Time heureDepart;
-    private Time heureSortie;
+    private Time heureArrivee;
 
     /**
      * Constructeur pour un VolTroncon
      * @param troncon
      * @param vol
      * @param heureDepart
-     * @param heureSortie
+     * @param heureArrivee
      */
-    public VolTroncon(int troncon,int vol,Time heureDepart,Time heureSortie){
+    public VolTroncon(Troncon troncon,Vol vol,Time heureDepart,Time heureArrivee){
         this.troncon = troncon;
         this.vol = vol;
         this.heureDepart = heureDepart;
-        this.heureSortie = heureSortie;
+        this.heureArrivee = heureArrivee;
     }
 
-    /**
+    public VolTroncon(Troncon troncon, Time heureDepart) {
+    	this.troncon=troncon;
+    	this.heureDepart=heureDepart;
+	}
+
+	/**
      * Getter d'un tronçon
      * @return int
      */
-    public int getTroncon() {
+    public Troncon getTroncon() {
         return troncon;
     }
 
@@ -35,7 +40,7 @@ public class VolTroncon {
      * Setter d'un tronçon
      * @param troncon
      */
-    public void setTroncon(int troncon) {
+    public void setTroncon(Troncon troncon) {
         this.troncon = troncon;
     }
 
@@ -43,7 +48,7 @@ public class VolTroncon {
      * Getter d'un vol
      * @return int
      */
-    public int getVol() {
+    public Vol getVol() {
         return vol;
     }
 
@@ -51,7 +56,7 @@ public class VolTroncon {
      * Setter d'un vol
      * @param vol
      */
-    public void setVol(int vol) {
+    public void setVol(Vol vol) {
         this.vol = vol;
     }
 
@@ -75,15 +80,21 @@ public class VolTroncon {
      * Getter de l'heure de sortie
      * @return Time
      */
-    public Time getHeureSortie() {
-        return heureSortie;
+    public Time getHeureArrivee() {
+        return heureArrivee;
     }
 
-    /**
+    @Override
+	public String toString() {
+		return "VolTroncon [troncon=" + troncon + ", vol=" + vol + ", heureDepart=" + heureDepart + ", heureArrivee="
+				+ heureArrivee + "]";
+	}
+
+	/**
      * Setter de l'heure de sortie
      * @param heureSortie
      */
-    public void setHeureSortie(Time heureSortie) {
-        this.heureSortie = heureSortie;
+    public void setHeureArrivee(Time heureArrivee) {
+        this.heureArrivee = heureArrivee;
     }
 }

@@ -2,7 +2,12 @@ package data_model;
 
 public class Vol {
 
-    private int id;
+    @Override
+	public String toString() {
+		return "Vol [id=" + id + ", frequence=" + frequence + "]";
+	}
+
+	private int id;
     private int frequence;
 
     /**

@@ -2,7 +2,9 @@ package systeme;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -11,6 +13,11 @@ import java.security.*;
 
 import data_access_object.*;
 import data_model.Role;
+import data_model.Troncon;
+import data_model.VolTroncon;
+import data_model.Depart;
+import data_model.DepartPassager;
+import data_model.Passager;
 import data_model.Personnel;
 
 public class SystemeGestionUtilisateur {
@@ -194,4 +201,46 @@ public class SystemeGestionUtilisateur {
     }
     return new ArrayList<>();
     }
+
+	public Passager rechercherPassager(Passager passager) {
+        try {
+            return factory.createPassagerDAO().find(passager);
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+            logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+        }
+        return null;
+	}
+
+	public boolean creerPassager(Passager passager) {
+		 try {
+	            return factory.createPassagerDAO().create(passager);
+	        } catch (SQLException e) {
+	            Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+	            logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+	        }
+	        return false;
+	}
+
+	public boolean associerPassagerDepart(Passager passager, Date date, String villeDepart, String villeArrivee, Time heureDepart) {
+		try {
+			Troncon troncon = factory.createTronconDAO().find(new Troncon(villeDepart,villeArrivee));
+			if(troncon==null)
+                throw new SQLException("--Erreur-- Le troncon est introuvable.");
+			VolTroncon voltroncon = ((VolTronconDAO) factory.createVolTronconDAO()).findWithCities(new VolTroncon(troncon,heureDepart));
+			if(voltroncon==null)
+                throw new SQLException("--Erreur-- Le vol est introuvable.");
+			Depart depart = factory.createDepartDAO().find(new Depart(voltroncon.getVol(),date));
+			if(depart==null)
+				  throw new SQLException("--Erreur-- Le vol est introuvable.");
+			DAO<DepartPassager> factoryDP = factory.createDepartPassagerDAO();
+			int nextPlace = ((DepartPassagerDAO)factoryDP).findNextPlace(depart);
+			return factoryDP.create(new DepartPassager(passager,depart,nextPlace));
+		} catch (SQLException e) {
+            Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+            logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
+        }
+        return false;
+		
+	}
 }

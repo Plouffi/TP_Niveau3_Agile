@@ -68,6 +68,8 @@ public class SystemeGestionVol {
      */
     public boolean supprimerVol(Vol v) {
         try {
+        	if(!((VolTronconDAO)factory.createVolTronconDAO()).volEstAttribue(v))
+        		throw new SQLException("--Erreur-- Le vol est encore attribué");
             return factory.createVolDAO().delete(v);
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
@@ -84,6 +86,8 @@ public class SystemeGestionVol {
      */
     public boolean supprimerTroncon(Troncon t) {
         try {
+        	if(!((VolTronconDAO)factory.createVolTronconDAO()).tronconEstAttribue(t))
+        		throw new SQLException("--Erreur-- Le tronçon est encore attribué");
             return factory.createTronconDAO().delete(t);
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
@@ -100,7 +104,10 @@ public class SystemeGestionVol {
      */
     public Vol rechercherVol(Vol v) {
         try {
-            return factory.createVolDAO().find(v);
+        	Vol vol = factory.createVolDAO().find(v);
+        	if(vol == null)
+            	throw new SQLException("--Erreur-- Le vol n'existe pas.");
+            return vol;
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionAvion.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -156,7 +163,7 @@ public class SystemeGestionVol {
 
     public boolean associerVolTroncon(Vol v, Troncon t, Time heureDepart, Time heureSortie){
         try {
-            return factory.createVolTronconDAO().create(new VolTroncon(t.getId(), v.getId(), heureDepart, heureSortie));
+            return factory.createVolTronconDAO().create(new VolTroncon(t, v, heureDepart, heureSortie));
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -165,8 +172,8 @@ public class SystemeGestionVol {
     }
 
     public boolean supprimerVolTroncon(Vol v, Troncon t, Time heureDepart, Time heureSortie){
-        try {
-            return factory.createVolTronconDAO().delete(new VolTroncon(t.getId(), v.getId(), heureDepart, heureSortie));
+      try {
+            return factory.createVolTronconDAO().delete(new VolTroncon(t, v, heureDepart, heureSortie));
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -176,7 +183,7 @@ public class SystemeGestionVol {
 
     public boolean majVolTroncon(Vol v, Troncon t, Time heureDepart, Time heureSortie){
         try {
-            return factory.createVolTronconDAO().update(new VolTroncon(t.getId(), v.getId(), heureDepart, heureSortie));
+            return factory.createVolTronconDAO().update(new VolTroncon(t, v, heureDepart, heureSortie));
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -186,11 +193,12 @@ public class SystemeGestionVol {
 
     public VolTroncon rechercherVolTroncon(Vol v, Troncon t, Time heureDepart, Time heureSortie){
         try {
-            return factory.createVolTronconDAO().find(new VolTroncon(t.getId(), v.getId(), heureDepart, heureSortie));
+            return factory.createVolTronconDAO().find(new VolTroncon(t, v, heureDepart, heureSortie));
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
         }
         return null;
     }
+   
 }
