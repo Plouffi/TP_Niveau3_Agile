@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import state.Etat;
 import state.EtatInitial;
@@ -14,11 +16,12 @@ public class SystemeGestion {
     SystemeGestionAvion sga;
     SystemeGestionVol sgv;
     SystemeGestionDepart sgd;
-    private static final String user = "root";
-    private static final String pass = "";
-    private static final String dbClass = "com.mysql.cj.jdbc.Driver";
-    private static final String dbDriver = "jdbc:mysql://127.0.0.1:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASS = "";
+    private static final String DBCLASS = "com.mysql.cj.jdbc.Driver";
+    private static final String DBDRIVER = "jdbc:mysql://127.0.0.1:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private Connection conn = null;
+    /* mauvais impact sur perf DEQUE */
     private Stack<Etat> etats;
 
     /**
@@ -26,13 +29,14 @@ public class SystemeGestion {
      */
     public SystemeGestion(){   
         try {
-            conn = DriverManager.getConnection(dbDriver, user, pass);
+            conn = DriverManager.getConnection(DBDRIVER, USER, PASS);
             sgu = new SystemeGestionUtilisateur(conn); 
             sga = new SystemeGestionAvion(conn);
             sgv = new SystemeGestionVol(conn);
             sgd = new SystemeGestionDepart(conn);
         } catch (SQLException  e) {
-            e.printStackTrace();
+            Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+            logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
         }
         /* pile contenant tous nos états */
         etats = new Stack<>();

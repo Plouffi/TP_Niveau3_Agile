@@ -1,5 +1,7 @@
 package decorator;
 
+import java.util.logging.Level;
+
 public class DecorateurMenuGestionnaire extends Decorateur{
     /**
      * Constructeur d'un DecorateurMenuGestionnaire
@@ -15,8 +17,8 @@ public class DecorateurMenuGestionnaire extends Decorateur{
     @Override
     public void affichage() {
         a.affichage();
-        System.out.println(" 3 --> Gestion des vols");
-        System.out.println(" 4 --> Gestion des départs");
-        System.out.println(" 5 --> Retour au menu précèdent...");
+        log.log(Level.INFO," 3 --> Gestion des vols");
+        log.log(Level.INFO," 4 --> Gestion des départs");
+        log.log(Level.INFO," 5 --> Retour au menu précèdent...");
     }
 }

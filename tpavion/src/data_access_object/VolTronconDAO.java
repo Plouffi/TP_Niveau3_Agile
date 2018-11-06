@@ -19,6 +19,12 @@ public class VolTronconDAO extends DAO<VolTroncon> {
         super(connexion);
     }
 
+    void checkVolTroncon(VolTroncon obj) throws SQLException {
+    	if(new VolDAO(connexion).find(obj.getVol()) == null)
+    		throw new SQLException("--Erreur-- Le vol n'existe pas");
+    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
+    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    }
     /**
      * Fonction permettant l'insertion d'un VolTroncon dans la base de données
      * @param obj
@@ -27,10 +33,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public boolean create(VolTroncon obj) throws SQLException {
-    	if(new VolDAO(connexion).find(obj.getVol()) == null)
-    		throw new SQLException("--Erreur-- Le vol n'existe pas");
-    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
-    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    	checkVolTroncon(obj);
         String requete = "insert into VolTroncon values (?,?,?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getVol().getId());
@@ -51,10 +54,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public boolean delete(VolTroncon obj) throws SQLException {
-    	if(new VolDAO(connexion).find(obj.getVol()) == null)
-    		throw new SQLException("--Erreur-- Le vol n'existe pas");
-    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
-    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    	checkVolTroncon(obj);
         String requete = "delete from VolTroncon where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getTroncon().getVilleDepart());
@@ -73,11 +73,8 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public boolean update(VolTroncon obj) throws SQLException {
-    	if(new VolDAO(connexion).find(obj.getVol()) == null)
-    		throw new SQLException("--Erreur-- Le vol n'existe pas");
-    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
-    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
-        String requete = "update VolTroncon set id=?,villeDepart=?,villeArrivee=?,heureDepart=?,heureArrivee=? where villeDepart=? and villeArrivee=? and id=?;";
+    	checkVolTroncon(obj);
+    	String requete = "update VolTroncon set id=?,villeDepart=?,villeArrivee=?,heureDepart=?,heureArrivee=? where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getVol().getId());
             statement.setString(2, obj.getTroncon().getVilleDepart());
@@ -87,7 +84,6 @@ public class VolTronconDAO extends DAO<VolTroncon> {
             statement.setString(6, obj.getTroncon().getVilleDepart());
             statement.setString(7, obj.getTroncon().getVilleArrivee());
             statement.setInt(8, obj.getVol().getId());
-            System.out.println(statement.toString());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -101,10 +97,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      */
     @Override
     public VolTroncon find(VolTroncon obj) throws SQLException {
-    	if(new VolDAO(connexion).find(obj.getVol()) == null)
-    		throw new SQLException("--Erreur-- Le vol n'existe pas");
-    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
-    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    	checkVolTroncon(obj);
     	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getTroncon().getVilleDepart());
@@ -121,10 +114,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
         }
     }
     public VolTroncon findWithCities(VolTroncon obj) throws SQLException {
-    	if(new VolDAO(connexion).find(obj.getVol()) == null)
-    		throw new SQLException("--Erreur-- Le vol n'existe pas");
-    	if(new TronconDAO(connexion).find(obj.getTroncon()) == null)
-    		throw new SQLException("--Erreur-- Le tronçon n'existe pas");
+    	checkVolTroncon(obj);
     	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=? and heureDepart=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getTroncon().getVilleDepart());

@@ -1,5 +1,7 @@
 package decorator;
 
+import java.util.logging.Level;
+
 public class DecorateurMenuConnecte extends Decorateur{
     /**
      * Constructeur du décorateur Menu Connecte
@@ -16,9 +18,9 @@ public class DecorateurMenuConnecte extends Decorateur{
     public void affichage(){
         a.affichage(); // affichage de l'abstraction.
         /* a voir plus tard en fonction des droits de l'utilisateur (menuGestion)*/
-        System.out.println(" 2 --> Menu Personnel");
-        System.out.println(" 3 --> Menu Gestionnaire");
-        System.out.println(" 4 --> Menu Technique");
-        System.out.println(" 5 --> Menu Pilote");
+        log.log(Level.INFO," 2 --> Menu Personnel");
+        log.log(Level.INFO," 3 --> Menu Gestionnaire");
+        log.log(Level.INFO," 4 --> Menu Technique");
+        log.log(Level.INFO," 5 --> Menu Pilote");
     }
 }

@@ -1,6 +1,5 @@
 package data_access_object;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,8 +8,6 @@ import java.sql.SQLException;
 import data_model.Depart;
 import data_model.DepartPassager;
 import data_model.Passager;
-import data_model.Personne;
-import data_model.Role;
 import data_model.Vol;
 
 public class DepartPassagerDAO extends DAO<DepartPassager> {

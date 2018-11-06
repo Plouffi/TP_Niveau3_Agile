@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data_model.Role;
-import data_model.TypeRole;
 
 public class RoleDAO extends DAO<Role> {
 

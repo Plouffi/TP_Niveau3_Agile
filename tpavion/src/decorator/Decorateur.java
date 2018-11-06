@@ -1,10 +1,12 @@
 package decorator;
 
+import java.util.logging.Logger;
+
 /**
  * The Class Decorateur.
  */
 public abstract class Decorateur implements Abstraction{
-
+	Logger log = Logger.getLogger(getClass().getName());
     /** The a. */
     Abstraction a;
 

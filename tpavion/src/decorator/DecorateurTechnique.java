@@ -1,10 +1,10 @@
 package decorator;
 
 import data_model.Avion;
-import data_model.Role;
 import data_model.TypeAvion;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public abstract class DecorateurTechnique extends Decorateur {
     /**
@@ -21,7 +21,8 @@ public abstract class DecorateurTechnique extends Decorateur {
      */
     public void affichageListeType(List<TypeAvion> types) {
         for(int i = 0; i<types.size();i++) {
-            System.out.println((i+1)+" --> "+types.get(i).getType());
+        	 String chaine = (i+1)+" --> "+types.get(i).getType();
+        	 log.log(Level.INFO,chaine);
         }
     }
     
@@ -30,6 +31,6 @@ public abstract class DecorateurTechnique extends Decorateur {
      */
     public void afficherAvions(List<Avion> avions){
         for(Avion a : avions)
-            System.out.println(a);
+        	 log.log(Level.INFO,a.toString());
     }
 }

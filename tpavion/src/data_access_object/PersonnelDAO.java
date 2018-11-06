@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import data_model.Role;
 import data_model.Personnel;
 
 public class PersonnelDAO extends DAO<Personnel> {
@@ -20,6 +18,15 @@ public class PersonnelDAO extends DAO<Personnel> {
         super(connexion);
     }
 
+    private PreparedStatement preparerStmt(PreparedStatement statement,Personnel obj) throws SQLException {
+    	statement.setString(1, obj.getPrenom());
+        statement.setString(2, obj.getNom());
+        statement.setString(3, obj.getAdresse());
+        statement.setString(4, obj.getNoTelephone());
+        statement.setString(5, obj.getMotDePasse());
+        statement.setString(6, obj.getRole().getRole());
+        return statement;
+    }
     /**
      * Fonction permettant l'insertion d'un Personnel dans la base de données
      * @param obj
@@ -32,12 +39,7 @@ public class PersonnelDAO extends DAO<Personnel> {
             throw new SQLException(" -- Erreur -- Le rôle n'existe pas.");
         String requete ="insert into personnel (prenom,nom,adresse,noTelephone,motDePasse,role) values (?,?,?,?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setString(1, obj.getPrenom());
-            statement.setString(2, obj.getNom());
-            statement.setString(3, obj.getAdresse());
-            statement.setString(4, obj.getNoTelephone());
-            statement.setString(5, obj.getMotDePasse());
-            statement.setString(6, obj.getRole().getRole());
+            preparerStmt(statement,obj);
             /* retourne true si la requete s'est bien effectué */
             return statement.executeUpdate() > 0;
         }

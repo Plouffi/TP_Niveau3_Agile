@@ -3,8 +3,8 @@ package main;
 
 import systeme.SystemeGestion;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
-        SystemeGestion sgv = new SystemeGestion();
+        new SystemeGestion();
     }
 }

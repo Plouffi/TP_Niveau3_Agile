@@ -2,6 +2,8 @@ package state;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+
 import data_model.Avion;
 import data_model.TypeAvion;
 import decorator.DecorateurModificationAvion;
@@ -19,18 +21,17 @@ public class EtatModificationTechnique extends EtatTechnique {
         DecorateurModificationAvion d = new DecorateurModificationAvion(new DecorateurNonNavigant(new Implementation()));
         List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
         d.afficherAvions(avions);
-        System.out.println("Immatriculation de l'avion : ");
+        log.log(Level.INFO,"Immatriculation de l'avion : ");
         Scanner sc = new Scanner(System.in);
         String immatriculation = sc.nextLine();
         Avion avion = systemeGestion.getSystemeGestionAvion().rechercherAvion(new Avion(immatriculation));
 
         if(avion==null) {
-            System.out.println(" ID incorrect : retour au menu précèdent");
+            log.log(Level.INFO," ID incorrect : retour au menu précèdent");
             systemeGestion.retourMenuPrecedent();
         } else {
             d.affichage();
-            sc = new Scanner(System.in);
-            int value = sc.nextInt();
+            int value = saisirInt("");
             boolean erreur = false;
             switch(value) {
                 case 1:
@@ -53,14 +54,15 @@ public class EtatModificationTechnique extends EtatTechnique {
                         erreur = true;
                         break;
                 default:
-                    System.out.println("Erreur lors de la saisie ... ");
+                    log.log(Level.INFO,"Erreur lors de la saisie ... ");
                     systemeGestion.afficherInterface();
                     break;
             }
             if(!erreur && systemeGestion.getSystemeGestionAvion().majAvion(avion))
-                System.out.println("Modification effectu�e.");
+                log.log(Level.INFO,"Modification effectu�e.");
             else 
-                System.out.println("Erreur lors de la modification");
+                log.log(Level.INFO,"Erreur lors de la modification");
+
             systemeGestion.afficherInterface();
         }
     }

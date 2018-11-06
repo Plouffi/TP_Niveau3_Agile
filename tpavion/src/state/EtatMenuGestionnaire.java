@@ -1,6 +1,7 @@
 package state;
 
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import decorator.DecorateurMenuGestionnaire;
 import decorator.DecorateurNonNavigant;
@@ -30,14 +31,14 @@ public class EtatMenuGestionnaire extends Etat{
                 systemeGestion.setState(new EtatMenuTroncon());
                 break;
             case 4:
-                System.out.println("Modifier un utilisateur");
+                log.log(Level.INFO,"Modifier un utilisateur");
                 systemeGestion.setState(new EtatMenuDepart());
                 break;
             case 5:
                 systemeGestion.retourMenuPrecedent();
                 break;
             default:
-                System.out.println("Erreur...");
+                log.log(Level.INFO,"Erreur...");
                 break;
         }
         systemeGestion.setState(this);

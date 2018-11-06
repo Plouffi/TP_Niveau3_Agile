@@ -1,5 +1,7 @@
 package state;
 
+import java.util.logging.Level;
+
 import systeme.SystemeGestion;
 
 public class EtatInitial extends Etat {
@@ -9,17 +11,17 @@ public class EtatInitial extends Etat {
      */
     @Override
     public void goNext(SystemeGestion systemeGestion) {
-        System.out.println("----------MENU----------");
-        System.out.println(" Connexion : ");
+        log.log(Level.INFO,"----------MENU----------");
+        log.log(Level.INFO," Connexion : ");
         int id = saisirInt(" Identifiants :");
         String motDePasse = saisirString(" Mot de passe :");
         /* on vérifie si l'utilisateur s'est bien connecté */
         if(systemeGestion.getSystemeGestionUtilisateur().connexion(id, motDePasse)) {
-            System.out.println("La connexion est un succès.");
+            log.log(Level.INFO,"La connexion est un succès.");
             /* si la connexion est un succés */
             systemeGestion.setState(new EtatMenuConnecte());
         }else {
-            System.out.println("La connexion a échouée, veuillez réessayer.");
+            log.log(Level.INFO,"La connexion a échouée, veuillez réessayer.");
             systemeGestion.afficherInterface();
         }
     }

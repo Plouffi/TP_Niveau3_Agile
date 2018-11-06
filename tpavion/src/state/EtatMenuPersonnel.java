@@ -1,10 +1,8 @@
 package state;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Scanner;
-
-import data_access_object.DepartPassagerDAO;
+import java.util.logging.Level;
 import data_model.Personnel;
 import data_model.Role;
 import decorator.DecorateurMenuPersonnel;
@@ -31,30 +29,30 @@ public class EtatMenuPersonnel extends EtatPersonnel {
                 ajoutPassager(systemeGestion);
                 break;
             case 3:
-                System.out.println("Ajout d'un nouvel utilisateur");
+                log.log(Level.INFO,"Ajout d'un nouvel utilisateur");
                 ajoutUilisateur(systemeGestion, d);
                 break;
             case 4:
-                System.out.println("Ajout d'un nouveau rôle");
+                log.log(Level.INFO,"Ajout d'un nouveau rôle");
                 ajoutRole(systemeGestion);
                 break;
             case 5:
                 systemeGestion.setState(new EtatModificationPersonnel());
                 break;
             case 6:
-                System.out.println("Supprimer un utilisateur");
+                log.log(Level.INFO,"Supprimer un utilisateur");
                 d.afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
                 int id = saisirInt("id du membre :");
                 if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(new Personnel(id)))
-                    System.out.println("L'utilisateur a bien été supprimé.");
+                    log.log(Level.INFO,"L'utilisateur a bien été supprimé.");
                 else
-                    System.out.println("Erreur lors de la suppression");
+                    log.log(Level.INFO,"Erreur lors de la suppression");
                     break;
             case 7:
                 systemeGestion.retourMenuPrecedent();
                 break;
             default:
-                System.out.println("Erreur...");
+                log.log(Level.INFO,"Erreur...");
                 break;
         }
         systemeGestion.setState(this);
@@ -68,9 +66,9 @@ public class EtatMenuPersonnel extends EtatPersonnel {
                     String role = saisirString("Role :");
                     String type = saisirString("Type :");
             if(systemeGestion.getSystemeGestionUtilisateur().ajouterRole(new Role(type,role)))
-                    System.out.println("Rôle ajouté");
+                    log.log(Level.INFO,"Rôle ajouté");
             else
-                    System.out.println("Erreur lors de l'ajout");
+                    log.log(Level.INFO,"Erreur lors de l'ajout");
     }
 
     /**
@@ -98,8 +96,8 @@ public class EtatMenuPersonnel extends EtatPersonnel {
             personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,r);
         }
         if(personnel==null || !systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
-            System.out.println("erreur lors de l'ajout");
+            log.log(Level.INFO,"erreur lors de l'ajout");
         else
-            System.out.println("Ajout effectué");
+            log.log(Level.INFO,"Ajout effectué");
         }
 }

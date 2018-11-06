@@ -3,17 +3,10 @@ package systeme;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import data_access_object.AvionDAO;
 import data_access_object.DAOFactory;
-import data_access_object.PersonnelDAO;
-import data_access_object.TypeAvionDAO;
 import data_access_object.VolTronconDAO;
-import data_model.Depart;
 import data_model.Troncon;
 import data_model.Vol;
 import data_model.VolTroncon;

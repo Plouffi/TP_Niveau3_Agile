@@ -1,5 +1,7 @@
 package decorator;
 
+import java.util.logging.Level;
+
 public class DecorateurNonNavigant extends Decorateur {
     /**
      * Constructeur d'un DecorateurNonNavigant
@@ -15,6 +17,6 @@ public class DecorateurNonNavigant extends Decorateur {
     @Override
     public void affichage() {
         a.affichage();
-        System.out.println(" 2 --> Ajouter un passager à un départ");
+        log.log(Level.INFO," 2 --> Ajouter un passager à un départ");
     }
 }

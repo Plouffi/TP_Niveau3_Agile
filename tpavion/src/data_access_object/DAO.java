@@ -2,10 +2,6 @@ package data_access_object;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-
-import data_model.Role;
-import data_model.TypeAvion;
 
 public abstract class DAO<T> {
 

@@ -1,8 +1,8 @@
 package state;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import data_model.Avion;
 import data_model.TypeAvion;
@@ -28,42 +28,42 @@ public class EtatMenuTechnique extends EtatTechnique {
                 ajoutPassager(systemeGestion);
                 break;
             case 3:
-                System.out.println("Ajout d'un nouvel avion");
+                log.log(Level.INFO,"Ajout d'un nouvel avion");
                 ajoutAvion(systemeGestion,d);
                 break;
             case 4:
-                System.out.println("Ajout d'un nouveau type d'avion");
+                log.log(Level.INFO,"Ajout d'un nouveau type d'avion");
                 ajoutTypeAvion(systemeGestion);
                 break;
             case 5:
-                System.out.println("Modifier un avion");
+                log.log(Level.INFO,"Modifier un avion");
                 systemeGestion.setState(new EtatModificationTechnique());
                 break;
             case 6:
-                System.out.println("Supprimer un avion");
+                log.log(Level.INFO,"Supprimer un avion");
                 List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
                 d.afficherAvions(avions);
                 String immatriculation = saisirString(" Immatriculation :");
                 if(systemeGestion.getSystemeGestionAvion().supprimerAvion(new Avion(immatriculation)))
-                    System.out.println("Avion supprimé .");
+                    log.log(Level.INFO,"Avion supprimé .");
                 else
-                    System.out.println("Erreur lors de la suppression");
+                    log.log(Level.INFO,"Erreur lors de la suppression");
                 break;
             case 7:
-                System.out.println("Supprimer un type d'avion");
+                log.log(Level.INFO,"Supprimer un type d'avion");
                 List<TypeAvion> types = systemeGestion.getSystemeGestionAvion().rechercherTypes();
                 d.affichageListeType(types);
                 int type = saisirInt(" Type :");
                 if(type <= types.size() && systemeGestion.getSystemeGestionAvion().supprimerTypeAvion(types.get(type-1)))
-                    System.out.println("Type d'avion supprimé.");
+                    log.log(Level.INFO,"Type d'avion supprimé.");
             else
-                System.out.println("Erreur lors de la suppression");
+                log.log(Level.INFO,"Erreur lors de la suppression");
                 break;
             case 8:
                 systemeGestion.retourMenuPrecedent();
                 break;
             default:
-                System.out.println("Erreur...");
+                log.log(Level.INFO,"Erreur...");
                 break;
         }
         systemeGestion.setState(this);
@@ -75,9 +75,9 @@ public class EtatMenuTechnique extends EtatTechnique {
     private void ajoutTypeAvion(SystemeGestion systemeGestion) {
             String type = saisirString(" Type d'avion :");
     if(systemeGestion.getSystemeGestionAvion().ajouterTypeAvion(new TypeAvion(type)))
-            System.out.println("Ajout de l'avion effectué.");
+            log.log(Level.INFO,"Ajout de l'avion effectué.");
     else
-            System.out.println("Erreur lors de l'ajout ...");
+            log.log(Level.INFO,"Erreur lors de l'ajout ...");
     }
 
     /**
@@ -91,8 +91,8 @@ public class EtatMenuTechnique extends EtatTechnique {
         d.affichageListeType(types);
         int type = saisirInt(" Type :");
         if(type <= types.size() && systemeGestion.getSystemeGestionAvion().ajouterAvion(new Avion(immatriculation,capacite,types.get(type - 1))))
-            System.out.println("Ajout de l'avion effectué.");
+            log.log(Level.INFO,"Ajout de l'avion effectué.");
         else
-            System.out.println("Erreur lors de l'ajout ...");
+            log.log(Level.INFO,"Erreur lors de l'ajout ...");
         }
 }

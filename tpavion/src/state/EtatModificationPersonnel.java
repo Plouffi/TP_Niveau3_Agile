@@ -1,10 +1,9 @@
 package state;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 
-import data_access_object.DepartPassagerDAO;
 import data_model.Personnel;
 import data_model.Role;
 import decorator.DecorateurMenuPrecedent;
@@ -22,19 +21,19 @@ public class EtatModificationPersonnel extends EtatPersonnel {
     public void goNext(SystemeGestion systemeGestion) {
         DecorateurModificationPersonnel d = new DecorateurModificationPersonnel(new DecorateurMenuPrecedent(new DecorateurNonNavigant(new Implementation())));
         d.afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
-        System.out.println("Numero du membre : ");
+        log.log(Level.INFO,"Numero du membre : ");
         Scanner sc = new Scanner(System.in);
         int id = sc.nextInt();
         Personnel personnel = systemeGestion.getSystemeGestionUtilisateur().rechercherUtilisateur(new Personnel(id));
         if(personnel==null) {
-            System.out.println(" ID incorrect : retour au menu précèdent");
+            log.log(Level.INFO," ID incorrect : retour au menu précèdent");
             systemeGestion.retourMenuPrecedent();
         } else {
             d.setPersonnel(personnel);
             d.affichage();
             boolean erreur = false;
-            sc = new Scanner(System.in);
-            id = sc.nextInt();
+            
+            id = saisirInt("");
             switch(id) {
                 case 1:
                     deconnexion(systemeGestion);
@@ -75,14 +74,14 @@ public class EtatModificationPersonnel extends EtatPersonnel {
                     }
                     break;
                 default:
-                    System.out.println("Erreur lors de la saisie ... ");
+                    log.log(Level.INFO,"Erreur lors de la saisie ... ");
                     systemeGestion.afficherInterface();
                     break;
             }
             if(!erreur && systemeGestion.getSystemeGestionUtilisateur().majUtilisateur(personnel))
-                System.out.println("Modification effectuée.");
+                log.log(Level.INFO,"Modification effectuée.");
             else 
-                System.out.println("Erreur lors de la modification");
+                log.log(Level.INFO,"Erreur lors de la modification");
             systemeGestion.afficherInterface();
         }
     }

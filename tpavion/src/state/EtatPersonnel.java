@@ -1,9 +1,6 @@
 package state;
 
-
-import data_model.Personnel;
-
-import java.util.List;
+import java.util.logging.Level;
 
 public abstract class EtatPersonnel extends Etat{
 
@@ -17,7 +14,7 @@ public abstract class EtatPersonnel extends Etat{
                 type = "nonnavigant";
                 break;
             default :
-                System.out.println("Erreur de saisie");
+                log.log(Level.INFO,"Erreur de saisie");
                 break;
         }
         return type;

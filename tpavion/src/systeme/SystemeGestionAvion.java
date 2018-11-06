@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import data_access_object.AvionDAO;
 import data_access_object.DAOFactory;
-import data_access_object.PersonnelDAO;
 import data_access_object.TypeAvionDAO;
 import data_model.Avion;
 import data_model.TypeAvion;

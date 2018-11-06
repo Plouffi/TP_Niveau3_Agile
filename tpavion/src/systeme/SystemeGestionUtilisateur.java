@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class SystemeGestionUtilisateur {
      * @param
      */
     public SystemeGestionUtilisateur(Connection conn) {
-        this.conn = conn;
+        this.setConn(conn);
         this.typeUtilisateur = new ArrayList<>();
         this.factory = new DAOFactory(conn);
     }
@@ -94,19 +95,22 @@ public class SystemeGestionUtilisateur {
      * @param message
      * @return
      */
-    private String encoderMessage(String message) {
+    @SuppressWarnings("unused")
+	private String encoderMessage(String message) {
         byte[] byteChaine = null;
         MessageDigest md=null;
         try {
             byteChaine = message.getBytes("UTF-8");
             md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException|UnsupportedEncodingException e) {
+            Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
+            logger.log(Level.SEVERE, e.getMessage());
         }
-        byte[] hash = md.digest(byteChaine);
-        return hash.toString();
+        if(md!=null) {
+        	byte[] hash = md.digest(byteChaine);
+        	return Arrays.toString(hash);
+        }
+        return "";
     }
 
     /**
@@ -266,6 +270,14 @@ public class SystemeGestionUtilisateur {
         }
         return false;
     }
+
+	public Connection getConn() {
+		return conn;
+	}
+
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
     
     
 }

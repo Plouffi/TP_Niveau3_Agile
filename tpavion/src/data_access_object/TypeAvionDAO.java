@@ -74,8 +74,9 @@ public class TypeAvionDAO extends DAO<TypeAvion> {
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getType());
             try(ResultSet result = statement.executeQuery();){
-                if(result.first())
-                return new TypeAvion(result.getString("type"));
+                if(result.first()) {
+                	return new TypeAvion(result.getString("type"));
+                }
                 return null;
             }
         }

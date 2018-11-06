@@ -4,6 +4,7 @@ import data_model.Personnel;
 import data_model.Role;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public abstract class DecorateurPersonnel extends Decorateur{
     
@@ -22,7 +23,8 @@ public abstract class DecorateurPersonnel extends Decorateur{
      */
     public void affichageListeRoles(List<Role> roles) {
         for(int i = 0; i<roles.size();i++) {
-            System.out.println((i+1)+" --> "+roles.get(i).getType()+" - "+roles.get(i).getRole());
+        	String chaine= (i+1)+" --> "+roles.get(i).getType()+" - "+roles.get(i).getRole();
+        	log.log(Level.INFO,chaine);
         }
     }
 
@@ -30,9 +32,9 @@ public abstract class DecorateurPersonnel extends Decorateur{
      * Méthode permettant l'affichage des types de rôles
      */
     public void affichageTypeRole() {
-        System.out.println(" Type de rôle ");
-        System.out.println(" 1 --> Navigant");
-        System.out.println(" 2 --> Non navigant");
+    	log.log(Level.INFO," Type de rôle ");
+    	log.log(Level.INFO," 1 --> Navigant");
+    	log.log(Level.INFO," 2 --> Non navigant");
     }
     
     /**
@@ -40,6 +42,6 @@ public abstract class DecorateurPersonnel extends Decorateur{
      */
     public void afficherPersonnels(List<Personnel> personnel) {
         for (Personnel p : personnel)
-            System.out.println(p);
+        	log.log(Level.INFO,p.toString());
     }
 }

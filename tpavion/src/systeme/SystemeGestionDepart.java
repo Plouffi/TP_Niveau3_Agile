@@ -5,12 +5,10 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import data_access_object.DAO;
 import data_access_object.DAOFactory;
 import data_model.Depart;
 import data_model.DepartAvion;
 import data_model.DepartPassager;
-import data_model.Passager;
 
 public class SystemeGestionDepart {
 	

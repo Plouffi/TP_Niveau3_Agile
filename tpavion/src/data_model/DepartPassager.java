@@ -1,7 +1,5 @@
 package data_model;
 
-import java.sql.Date;
-
 public class DepartPassager {
 	
     private Passager passager;

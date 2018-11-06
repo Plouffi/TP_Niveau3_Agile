@@ -1,24 +1,22 @@
 package state;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import data_model.Avion;
 import data_model.Depart;
 import data_model.DepartAvion;
-import data_model.DepartPassager;
-import data_model.Troncon;
 import data_model.Vol;
-import data_model.VolTroncon;
 import decorator.DecorateurMenuDepart;
-import decorator.DecorateurMenuGestionnaire;
 import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
 import systeme.SystemeGestion;
 
 public class EtatMenuDepart extends Etat{
-
+	private static final String CONSTANTEID = "Veuillez saisir l'identifiant du départ";
+	private static final String CONSTANTEDATE ="Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)";
+	private static final String CONSTANTEAVION = "Veuillez entrer l'immatriculation de l'avion qui effectuera le vol";
     /**
      * Méthode qui contient toutes les actions qu'un membre du service gestionnaire peut faire en relation avec la gestion des départs
      * @param systemeGestion
@@ -37,64 +35,64 @@ public class EtatMenuDepart extends Etat{
                 ajoutPassager(systemeGestion);
                 break;
             case 3:
-                System.out.println("Ajout d'un nouveau depart :");
+                log.log(Level.INFO,"Ajout d'un nouveau depart :");
                 systemeGestion.getSystemeGestionDepart().ajouteDepart(new Depart(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du départ"), 0, ""), 
-                    Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)"))));
+                    new Vol(saisirInt(CONSTANTEID), 0, ""), 
+                    Date.valueOf(saisirString(CONSTANTEDATE))));
                 break;
             case 4:
-                System.out.println("Modification un depart existant :");
+                log.log(Level.INFO,"Modification un depart existant :");
                 systemeGestion.getSystemeGestionDepart().majDepart(new Depart(
                     new Vol(saisirInt("Veuillez saisir l'identifiant du départ cible"), 0, ""), 
-                    Date.valueOf(saisirString("Veuillez saisir la nouvelle date du départ (format : yyyy-[m]m-[d]d)"))));
+                    Date.valueOf(saisirString(CONSTANTEDATE))));
                 break;
             case 5:
-                System.out.println("Suppression un depart existant :");
+                log.log(Level.INFO,"Suppression un depart existant :");
                 systemeGestion.getSystemeGestionDepart().supprimerDepart(new Depart(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du départ"), ""), 
+                    new Vol(saisirInt(CONSTANTEID), ""), 
                     null));
                 break;
             case 6:
-                System.out.println("Recherche d'un depart existant :");
+                log.log(Level.INFO,"Recherche d'un depart existant :");
                 Depart d16 = systemeGestion.getSystemeGestionDepart().rechercherDepart(new Depart(
-                    new Vol(saisirInt("Veuillez saisir l'identifiant du départ"), 0, ""),
-                    Date.valueOf(saisirString("Veuillez saisir la nouvelle date du départ (format : yyyy-[m]m-[d]d)"))));
+                    new Vol(saisirInt(CONSTANTEID), 0, ""),
+                    Date.valueOf(saisirString(CONSTANTEDATE))));
                 d16.toString();
                 break;
             case 7:
-                System.out.println("Programmation d'un vol en un départ :");
+                log.log(Level.INFO,"Programmation d'un vol en un départ :");
                 Vol v =  systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à programmer"),0, ""));
-                Depart date = new Depart(v,Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)")));
+                Depart date = new Depart(v,Date.valueOf(saisirString(CONSTANTEDATE)));
                 systemeGestion.getSystemeGestionDepart().ajouteDepartAvion(new DepartAvion(date,
-                    new Avion(saisirString("Veuillez entrer l'immatriculation de l'avion qui effectuera le vol")),
+                    new Avion(saisirString(CONSTANTEAVION)),
                     saisirInt("Veuillez entrer la quantit� de carburant nécéssaire pour le vol")));
                 break;
             case 8:
-                System.out.println("Modification de la programmation d'un départ existant :");
+                log.log(Level.INFO,"Modification de la programmation d'un départ existant :");
                 Vol vol =  systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à programmer"), 0, ""));
-                Depart dateModif = new Depart(vol,Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)")));
+                Depart dateModif = new Depart(vol,Date.valueOf(saisirString(CONSTANTEDATE)));
                 systemeGestion.getSystemeGestionDepart().majDepartAvion(new DepartAvion(dateModif,
-                        new Avion(saisirString("Veuillez entrer l'immatriculation de l'avion qui effectuera le vol")),
+                        new Avion(saisirString(CONSTANTEAVION)),
                         saisirInt("Veuillez entrer la quantit� de carburant nécéssaire pour le vol")));
                 break;
             case 9:
-                System.out.println("Suppression de la programmation d'un départ existant :");
+                log.log(Level.INFO,"Suppression de la programmation d'un départ existant :");
                 Vol volSuppr =  systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à supprimer"), 0, ""));
-                Depart departSuppr = new Depart(volSuppr,Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)")));
+                Depart departSuppr = new Depart(volSuppr,Date.valueOf(saisirString(CONSTANTEDATE)));
                 
                 systemeGestion.getSystemeGestionDepart().supprimerDepartAvion(new DepartAvion(
                     departSuppr,
-                    new Avion(saisirString("Veuillez entrer l'immatriculation de l'avion qui effectuera le vol")),
+                    new Avion(saisirString(CONSTANTEAVION)),
                     0));
                 break;
             case 10:
-                System.out.println("Recherche de la programmation d'un depart existant :");
+                log.log(Level.INFO,"Recherche de la programmation d'un depart existant :");
                 Vol volRech =  systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à supprimer"), 0, ""));
-                Depart departRech = new Depart(volRech,Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)")));
+                Depart departRech = new Depart(volRech,Date.valueOf(saisirString(CONSTANTEDATE)));
               
                 DepartAvion d9 = systemeGestion.getSystemeGestionDepart().rechercherDepartAvion(new DepartAvion(
                         departRech,
-                        new Avion(saisirString("Veuillez entrer l'immatriculation de l'avion qui effectuera le vol")),
+                        new Avion(saisirString(CONSTANTEAVION)),
                     0));
                 d9.toString();
                 break;
@@ -102,7 +100,7 @@ public class EtatMenuDepart extends Etat{
                 systemeGestion.retourMenuPrecedent();
                 break;
             default:
-                System.out.println("Erreur...");
+                log.log(Level.INFO,"Erreur...");
                 break;
         }
         systemeGestion.setState(this);

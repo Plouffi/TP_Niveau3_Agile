@@ -1,6 +1,7 @@
 package state;
 
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import decorator.DecorateurMenuConnecte;
 import decorator.Implementation;
@@ -22,23 +23,23 @@ public class EtatMenuConnecte extends Etat {
             deconnexion(systemeGestion);
             break;
         case 2:
-            System.out.println("Menu Personnel");
+            log.log(Level.INFO,"Menu Personnel");
             systemeGestion.setState(new EtatMenuPersonnel());
             break;
         case 3:
-            System.out.println("Menu Gestionnaire");
+            log.log(Level.INFO,"Menu Gestionnaire");
             systemeGestion.setState(new EtatMenuGestionnaire());
             break;
         case 4:
-            System.out.println("Menu Technique");
+            log.log(Level.INFO,"Menu Technique");
             systemeGestion.setState(new EtatMenuTechnique());
             break;
         case 5:
-            System.out.println("Menu Pilote");
+            log.log(Level.INFO,"Menu Pilote");
             systemeGestion.setState(new EtatMenuPilote());
             break;
         default:
-            System.out.println("Erreur...");
+            log.log(Level.INFO,"Erreur...");
     }
     systemeGestion.afficherInterface();
     }

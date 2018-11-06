@@ -5,12 +5,15 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import data_model.Passager;
 import systeme.SystemeGestion;
 
 public abstract class Etat 
 {
+	Logger log = Logger.getLogger(getClass().getName());
     /**
      * Méthode qui contient toutes les actions é effectuer
      * @param systemeGestion
@@ -24,7 +27,7 @@ public abstract class Etat
      * @param systemeGestion
      */
     void deconnexion(SystemeGestion systemeGestion) {
-		System.out.println("Déconnexion ...");
+		log.log(Level.INFO,"Déconnexion ...");
 		systemeGestion.deconnexion();
     }
 
@@ -33,8 +36,8 @@ public abstract class Etat
      * @param systemeGestion
      */
     void ajoutPassager(SystemeGestion systemeGestion) {
-		System.out.println("Ajout d'un passager à un départ");
-		System.out.println("Création / Recherche du passager :");
+		log.log(Level.INFO,"Ajout d'un passager à un départ");
+		log.log(Level.INFO,"Création / Recherche du passager :");
 		String passeport = saisirString(" numéro de passeport du passagé :");
 		Passager passager = systemeGestion.getSystemeGestionUtilisateur().rechercherPassager(new Passager(passeport));
 		if(passager == null) {
@@ -45,7 +48,7 @@ public abstract class Etat
 			passager = new Passager(passeport,nom,prenom,adresse,noTel);
 			systemeGestion.getSystemeGestionUtilisateur().creerPassager(passager);
 		}
-		System.out.println(" Recherche du depart : ");
+		log.log(Level.INFO," Recherche du depart : ");
 		Date date = Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)"));
 		String villeDepart = saisirString(" ville de départ :");
 		String villeArrivee = saisirString(" ville d'arrivée :");
@@ -60,13 +63,12 @@ public abstract class Etat
      * @return int
      */
     public int saisirInt(String intitule) {
-        System.out.println(intitule);
+        log.log(Level.INFO,intitule);
         try{
             Scanner sc = new Scanner(System.in);
-            int i = sc.nextInt();
-            return i;
+            return sc.nextInt();
         } catch (InputMismatchException e){
-            System.out.println("Erreur de saisie (type de donnée non conforme");
+            log.log(Level.INFO,"Erreur de saisie (type de donnée non conforme");
             return saisirInt(intitule);
         }
     }
@@ -77,10 +79,11 @@ public abstract class Etat
      * @return String
      */
     public String saisirString(String intitule) {
-        System.out.println(intitule);
+    	log.log(Level.INFO,intitule);
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
+
 
     /**
      * Méthode permettant de saisir un BigInteger
@@ -88,13 +91,14 @@ public abstract class Etat
      * @return BigInteger
      */
     public BigInteger saisirBigInteger(String intitule) {
-        System.out.println(intitule);
+        log.log(Level.INFO,intitule);
         try{
             Scanner sc = new Scanner(System.in);
             BigInteger bi = sc.nextBigInteger();
+            sc.close();
             return bi;
         } catch (InputMismatchException e){
-            System.out.println("Erreur de saisie (type de donnée non conforme");
+            log.log(Level.INFO,"Erreur de saisie (type de donnée non conforme");
             return saisirBigInteger(intitule);
         }
     }

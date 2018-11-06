@@ -1,7 +1,5 @@
 package data_model;
 
-import java.math.BigInteger;
-
 public class Personne {
 
     private String prenom;

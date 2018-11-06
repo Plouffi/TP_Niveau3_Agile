@@ -1,6 +1,5 @@
 package data_model;
 
-import java.sql.Date;
 
 public class DepartAvion {
     /* id -> id de depart */
