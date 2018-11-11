@@ -70,7 +70,7 @@ public class TypeAvionDAO extends DAO<TypeAvion> {
      */
     @Override
     public TypeAvion find(TypeAvion obj) throws SQLException {
-        String requete = "select * from typeAvion where type=?;";
+        String requete = "select * from TypeAvion where type=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getType());
             try(ResultSet result = statement.executeQuery();){
@@ -83,7 +83,7 @@ public class TypeAvionDAO extends DAO<TypeAvion> {
     }
 
     public List<TypeAvion> findAll() throws SQLException{
-        String requete = "select * from typeAvion";
+        String requete = "select * from TypeAvion";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             try(ResultSet result = statement.executeQuery();){
                 ArrayList<TypeAvion> retour = new ArrayList<>();

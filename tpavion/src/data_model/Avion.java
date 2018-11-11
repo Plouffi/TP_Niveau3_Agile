@@ -75,6 +75,6 @@ public class Avion {
 
     @Override
     public String toString() {
-        return "immatriculation : "+immatriculation+", capacite : "+capacite+", type : "+type.getType();
+        return "Avion [immatriculation="+immatriculation+", capacite="+capacite+", type="+type.getType()+"]";
     }
 }

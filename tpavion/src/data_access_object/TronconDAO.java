@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import data_model.Troncon;
+import data_model.Vol;
 
 public class TronconDAO extends DAO<Troncon> {
 
@@ -89,6 +93,27 @@ public class TronconDAO extends DAO<Troncon> {
                 if(result.first())
                     return new Troncon(result.getString("villeDepart"),result.getString("villeArrivee"),result.getInt("distance"));
                 return null;
+            }
+        }
+    }
+
+    /**
+     * Fonction permettant la récupération des Tronçons existant dans la base de données en utilisant l'identifiant
+     * @param obj
+     * @return Troncon
+     * @throws SQLException
+     */
+    public List<Troncon> findAll(Troncon obj) throws SQLException {
+        String requete = "select * from Troncon where villeDepart=? and villeArrivee=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setString(1, obj.getVilleDepart());	
+            statement.setString(2, obj.getVilleArrivee());	
+            try(ResultSet result = statement.executeQuery();){
+            	ArrayList<Troncon> retour = new ArrayList<>();
+                while (result.next()){
+                        retour.add(new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"), result.getString("villeArrivee"), result.getInt("distance"))));
+                }
+                return retour;
             }
         }
     }

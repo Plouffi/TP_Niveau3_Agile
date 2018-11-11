@@ -233,7 +233,7 @@ public class SystemeGestionUtilisateur {
             if(troncon==null)
                 throw new SQLException("--Erreur-- Le troncon est introuvable.");
 
-            VolTroncon voltroncon = ((VolTronconDAO) factory.createVolTronconDAO()).findWithCities(new VolTroncon(troncon,heureDepart));
+            VolTroncon voltroncon = ((VolTronconDAO) factory.createVolTronconDAO()).findWithCities(new VolTroncon(troncon, heureDepart));
             if(voltroncon==null)
                 throw new SQLException("--Erreur-- Le vol est introuvable.");
 

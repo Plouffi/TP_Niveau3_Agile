@@ -31,7 +31,7 @@ public class EtatMenuGestionnaire extends Etat{
                 systemeGestion.setState(new EtatMenuTroncon());
                 break;
             case 4:
-                log.log(Level.INFO,"Modifier un utilisateur");
+                System.out.println("Modifier un utilisateur");
                 systemeGestion.setState(new EtatMenuDepart());
                 break;
             case 5:

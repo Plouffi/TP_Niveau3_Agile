@@ -24,7 +24,7 @@ public class PiloteDAO extends DAO<Pilote> {
      */
     @Override
     public boolean create(Pilote obj) throws SQLException {
-        String requete ="insert into pilote values (?,?);";
+        String requete ="insert into Pilote values (?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId());
             statement.setTime(2, obj.getNombreHeureTotale());
@@ -41,7 +41,7 @@ public class PiloteDAO extends DAO<Pilote> {
      */
     @Override
     public boolean delete(Pilote obj) throws SQLException {
-        String requete = "delete from pilote where id=?;";
+        String requete = "delete from Pilote where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId());
             /* retourne true si la requete s'est bien effectuée */
@@ -57,7 +57,7 @@ public class PiloteDAO extends DAO<Pilote> {
      */
     @Override
     public boolean update(Pilote obj) throws SQLException {
-        String requete ="update pilote set nombreHeureTotale=? where id=?;";
+        String requete ="update Pilote set nombreHeureTotale=? where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setTime(1, obj.getNombreHeureTotale());
             statement.setInt(2, obj.getId());
@@ -74,7 +74,7 @@ public class PiloteDAO extends DAO<Pilote> {
      */
     @Override
     public Pilote find(Pilote obj) throws SQLException {
-        String requete = "select * from pilote where id=?;";
+        String requete = "select * from Pilote where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId());
             try(ResultSet result = statement.executeQuery();){

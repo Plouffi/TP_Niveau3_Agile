@@ -11,7 +11,7 @@ import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
 import systeme.SystemeGestion;
 
-public class EtatModificationTechnique extends EtatTechnique {
+public class EtatModificationTechnique extends Etat {
     /**
      * Méthode qui contient les modifications réalisables pour un avion
      * @param systemeGestion
@@ -41,7 +41,7 @@ public class EtatModificationTechnique extends EtatTechnique {
                     ajoutPassager(systemeGestion);
                     break;
                 case 3:
-                    int capacite = saisirInt(" Capacit� : ");
+                    int capacite = saisirInt(" Capacité : ");
                     avion.setCapacite(capacite);
                     break;
                 case 4:
@@ -59,7 +59,7 @@ public class EtatModificationTechnique extends EtatTechnique {
                     break;
             }
             if(!erreur && systemeGestion.getSystemeGestionAvion().majAvion(avion))
-                log.log(Level.INFO,"Modification effectu�e.");
+                log.log(Level.INFO,"Modification effectuée.");
             else 
                 log.log(Level.INFO,"Erreur lors de la modification");
 

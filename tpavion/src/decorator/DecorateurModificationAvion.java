@@ -1,7 +1,5 @@
 package decorator;
 
-import java.util.logging.Level;
-
 import data_model.Avion;
 
 public class DecorateurModificationAvion extends DecorateurTechnique{
@@ -26,7 +24,7 @@ public class DecorateurModificationAvion extends DecorateurTechnique{
      */
     public void affichage() {
         a.affichage();
-        log.log(Level.INFO," 3 --> Modifier la capacité (capacite actuelle : "+avion.getCapacite()+" )");
-        log.log(Level.INFO," 4 --> Modifier le type (type actuel : "+avion.getType()+" )");
+        System.out.println(" 3 --> Modifier la capacité (capacite actuelle : "+avion.getCapacite()+" )");
+        System.out.println(" 4 --> Modifier le type (type actuel : "+avion.getType()+" )");
     }
 }

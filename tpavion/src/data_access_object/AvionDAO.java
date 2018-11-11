@@ -31,7 +31,7 @@ public class AvionDAO extends DAO<Avion> {
         if( new TypeAvionDAO(connexion).find(obj.getType()) == null) 
             throw new SQLException(" --Erreur-- Le type n'existe pas.");
         String requete =
-        "insert into avion (immatriculation,capacite,type)" +
+        "insert into Avion (immatriculation,capacite,type)" +
         "values (?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getImmatriculation());
@@ -51,7 +51,7 @@ public class AvionDAO extends DAO<Avion> {
     @Override
     public boolean delete(Avion obj) throws SQLException {
         String requete =
-        "delete from avion where immatriculation=?;";
+        "delete from Avion where immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getImmatriculation());
             /* retourne true si la requete s'est bien effectué */
@@ -71,7 +71,7 @@ public class AvionDAO extends DAO<Avion> {
         if( new TypeAvionDAO(connexion).find(obj.getType()) == null) 
             throw new SQLException(" --Erreur-- Le type n'existe pas.");
         String requete =
-            "update avion set type=?, capacite=? where immatriculation=?;";
+            "update Avion set type=?, capacite=? where immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getType().getType());
             statement.setInt(2, obj.getCapacite());
@@ -89,7 +89,7 @@ public class AvionDAO extends DAO<Avion> {
      */
     @Override
     public Avion find(Avion obj) throws SQLException {
-        String requete = "select * from avion where immatriculation=?;";
+        String requete = "select * from Avion where immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1,obj.getImmatriculation());
             try(ResultSet result = statement.executeQuery();){
@@ -107,7 +107,7 @@ public class AvionDAO extends DAO<Avion> {
      * @throws SQLException
      */
     public boolean findType(TypeAvion typeAvion) throws SQLException {
-        String requete = "select * from avion where type=?;";
+        String requete = "select * from Avion where type=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1,typeAvion.getType());
             try(ResultSet result = statement.executeQuery();){
@@ -117,7 +117,7 @@ public class AvionDAO extends DAO<Avion> {
     }
 
     public List<Avion> findAll() throws SQLException {
-        String requete = "select * from avion";
+        String requete = "select * from Avion";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             try(ResultSet result = statement.executeQuery();){
                 ArrayList<Avion> retour = new ArrayList<>();

@@ -24,7 +24,7 @@ public class PassagerDAO extends DAO<Passager> {
      */
     @Override
     public boolean create(Passager obj) throws SQLException {
-        String requete ="insert into passager values (?,?,?,?,?);";
+        String requete ="insert into Passager values (?,?,?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getNumPasseport());
             statement.setString(2, obj.getPrenom());
@@ -44,7 +44,7 @@ public class PassagerDAO extends DAO<Passager> {
      */
     @Override
     public boolean delete(Passager obj) throws SQLException {		
-        String requete ="delete from passager where numPasseport=?;";
+        String requete ="delete from Passager where numPasseport=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getNumPasseport());
             /* retourne true si la requete s'est bien effectué */
@@ -60,7 +60,7 @@ public class PassagerDAO extends DAO<Passager> {
      */
     @Override
     public boolean update(Passager obj) throws SQLException {
-        String requete ="update passager set prenom=?, nom=?, adresse=?, noTelephone=? where numPasseport=?;";
+        String requete ="update Passager set prenom=?, nom=?, adresse=?, noTelephone=? where numPasseport=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getPrenom());
             statement.setString(2, obj.getNom());
@@ -80,7 +80,7 @@ public class PassagerDAO extends DAO<Passager> {
      */
     @Override
     public Passager find(Passager obj) throws SQLException {
-        String requete ="select * from passager where numPasseport=?;";
+        String requete ="select * from Passager where numPasseport=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getNumPasseport());
             try(ResultSet result = statement.executeQuery();){

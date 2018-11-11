@@ -67,5 +67,10 @@ public class DepartAvion {
     public void setQteCarburant(int qteCarburant) {
         this.qteCarburant = qteCarburant;
     }
+    
+    public String toString()
+    {
+    	return "DepartAvion [id="+id.toString()+", avion="+immatriculation.toString()+", qte carburant="+qteCarburant+"]";
+    }
 
 }

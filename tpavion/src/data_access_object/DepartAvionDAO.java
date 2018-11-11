@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import data_model.Avion;
 import data_model.Depart;
@@ -48,7 +50,7 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
      */
     @Override
     public boolean delete(DepartAvion obj) throws SQLException {	    
-        String requete = "delete from DepartAvion where id=?, dateDepart=?, immatriculation=?;";
+        String requete = "delete from DepartAvion where id=? and dateDepart=? and immatriculation=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId().getId().getId());
             statement.setDate(2, obj.getId().getDateDepart());
@@ -65,16 +67,29 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
      * @throws SQLException
      */
     @Override
-    public boolean update(DepartAvion obj) throws SQLException {	    
-        String requete = "update DepartAvion set qteCarburant=? where id=?, dateDepart=?, immatriculation=?;";
-        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
-            statement.setInt(1, obj.getQteCarburant());
-            statement.setInt(2, obj.getId().getId().getId());
-            statement.setDate(3, obj.getId().getDateDepart());
-            statement.setString(4, obj.getImmatriculation().getImmatriculation());
-            /* retourne true si la requete s'est bien effectué */
-            return statement.executeUpdate() > 0;
-        }
+    public boolean update(DepartAvion obj) throws SQLException {
+    	if(obj.getQteCarburant() == -1)
+    	{
+	        String requete = "update DepartAvion set immatriculation=? where id=? and dateDepart=?;";
+	        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+	            statement.setInt(2, obj.getId().getId().getId());
+	            statement.setDate(3, obj.getId().getDateDepart());
+	            statement.setString(1, obj.getImmatriculation().getImmatriculation());
+	            /* retourne true si la requete s'est bien effectué */
+	            return statement.executeUpdate() > 0;
+	        }
+    	}
+    	else
+    	{
+	        String requete = "update DepartAvion set qteCarburant=? where id=? and dateDepart=?;";
+	        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+	            statement.setInt(1, obj.getQteCarburant());
+	            statement.setInt(2, obj.getId().getId().getId());
+	            statement.setDate(3, obj.getId().getDateDepart());
+	            /* retourne true si la requete s'est bien effectué */
+	            return statement.executeUpdate() > 0;
+	        }
+    	}
     }
 
     /**
@@ -102,5 +117,28 @@ public class DepartAvionDAO extends DAO<DepartAvion> {
             }
         }
     }
+
+    /**
+     * Fonction permettant la récupération des DepartsAvion existant dans la base de données en utilisant l'identifiant
+     * @param obj
+     * @return DepartAvion
+     * @throws SQLException
+     */
+	public List<DepartAvion> findAll(DepartAvion obj) throws SQLException {
+		String requete = "select * from DepartAvion where id=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setInt(1, obj.getId().getId().getId());	
+            try(ResultSet result = statement.executeQuery();){
+            	ArrayList<DepartAvion> retour = new ArrayList<>();
+                while (result.next()){
+                    Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"), 0, ""));
+                    Depart depart = new DepartDAO(connexion).find(new Depart(vol,result.getDate("dateDepart")));
+                    Avion avion = new AvionDAO(connexion).find(new Avion(result.getString("immatriculation")));
+                    retour.add(new DepartAvion(depart, avion,result.getInt("qteCarburant")));
+                }
+                return retour;
+            }
+        }
+	}
 	
 }

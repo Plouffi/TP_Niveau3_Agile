@@ -1,6 +1,7 @@
 package state;
 
 import java.sql.Time;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 
@@ -30,6 +31,7 @@ public class EtatMenuTroncon extends Etat{
         d.affichage();
         Scanner sc = new Scanner(System.in);
         int choix = sc.nextInt();
+        boolean erreur = false;
         switch (choix){
             case 1 :
                 deconnexion(systemeGestion);
@@ -38,114 +40,160 @@ public class EtatMenuTroncon extends Etat{
                 ajoutPassager(systemeGestion);
                 break;    
             case 3:
-                log.log(Level.INFO,"Ajout d'un nouveau vol :");
-                systemeGestion.getSystemeGestionVol().ajouteVol(new Vol(
+            	System.out.println("Ajout d'un nouveau vol :");
+                if(systemeGestion.getSystemeGestionVol().ajouteVol(new Vol(
                     saisirInt("Veuillez saisir la fréquence du vol:"),
-                    saisirString("Unité (heure, jour, semaine, mois, an):")));
-                    break;
+                    saisirString("Unité (heure, jour, semaine, mois, an):")))
+                		)
+                	log.log(Level.INFO, "Le vol a bien été ajouté");
+                else
+                	erreur = true;
+                break;
             case 4:
-                log.log(Level.INFO,"Modification d'un vol existant (par identifiant) :");
-                systemeGestion.getSystemeGestionVol().majVol(new Vol(
+            	System.out.println("Modification d'un vol existant :");
+            	if(systemeGestion.getSystemeGestionVol().majVol(new Vol(
                     saisirInt("Veuillez saisir l'identifiant du vol cible"),
                     saisirInt("Veuillez saisir la nouvelle fréquence du vol:"),
-                    saisirString("Unité (heure, jour, semaine, mois, an):")));
-                    break;
+                    saisirString("Nouvelle unité (heure, jour, semaine, mois, an):")))
+            			)
+            		log.log(Level.INFO, "Le vol a bien été modifié");
+                else
+                	erreur = true;
+                break;
             case 5:
-                log.log(Level.INFO,"Suppression d'un vol existant (par identifiant) :");
-                systemeGestion.getSystemeGestionVol().supprimerVol(new Vol(
-                    saisirInt(CONSTANTEID),0,""));
+            	System.out.println("Suppression d'un vol existant :");
+                if(systemeGestion.getSystemeGestionVol().supprimerVol(new Vol(
+                    saisirInt(CONSTANTEID),0,"")))
+                	log.log(Level.INFO, "Le vol a bien été supprimé");
+                else
+                	erreur = true;
                 break;
             case 6:
-                log.log(Level.INFO,"Recherche d'un vol existant (par identifiant) :");
-                Vol v15 = systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(
-                    saisirInt(CONSTANTEID), 0,""));
-                String msg="";
-                if(v15!=null) {
-                	msg=v15.toString();
-                }
-                else {
-                	msg=ELEMENTNONTROUVE;
-                }
-                log.log(Level.INFO, msg);
+            	System.out.println("Recherche d'un vol existant :");
+                List<Vol> v = systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(
+                    0, 0,""));
+                d.affichageListeVol(v);
                 break;
             case 7:
-                log.log(Level.INFO,"Ajout d'un nouveau tronçon :");
-                systemeGestion.getSystemeGestionVol().ajouteTroncon(new Troncon(
+            	System.out.println("Ajout d'un nouveau tronçon :");
+                if(systemeGestion.getSystemeGestionVol().ajouteTroncon(new Troncon(
                     saisirString(DEPART),
                     saisirString(ARRIVEE),
-                    saisirInt("Veuillez saisir la distance du tronçon")));
-                break;
-            case 8:
-                log.log(Level.INFO,"Modification un tronçon existant (par identifiant) :");
-                systemeGestion.getSystemeGestionVol().majTroncon(new Troncon(
+                    saisirInt("Veuillez saisir la distance du tronçon"))))
+                	log.log(Level.INFO, "Le tronçon a bien été ajouté");
+                else
+                	erreur = true;
+                break;            case 8:
+            	System.out.println("Modification d'un tronçon existant :");
+                if(systemeGestion.getSystemeGestionVol().majTroncon(new Troncon(
                     saisirString(DEPART), 
                     saisirString(ARRIVEE), 
-                    saisirInt("Veuillez saisir la nouvelle distance du tronçon")));
-                    break;
-            case 9:
-                log.log(Level.INFO,"Suppression un tronçon existant (par identifiant) :");
-                systemeGestion.getSystemeGestionVol().supprimerTroncon(new Troncon(
-                        saisirString(DEPART), 
-                        saisirString(ARRIVEE),  0));
+                    saisirInt("Veuillez saisir la nouvelle distance du tronçon"))))
+                	log.log(Level.INFO, "Le tronçon a bien été modifé");
+                else
+                	erreur = true;
                 break;
-            case 10:
-                log.log(Level.INFO,"Recherche un tronçon existant (par identifiant) :");
-                Troncon t17 = systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
+            case 9:
+            	System.out.println("Suppression un tronçon existant :");
+                if(systemeGestion.getSystemeGestionVol().supprimerTroncon(new Troncon(
+                        saisirString(DEPART), 
+                        saisirString(ARRIVEE),  0)))
+                	log.log(Level.INFO, "Le tronçon a bien été supprimé");
+                else
+                	erreur = true;
+                break;
+                case 10:
+            	System.out.println("Recherche d'un tronçon existant :");
+                List<Troncon> listeTroncon = systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
                         saisirString(DEPART), 
                         saisirString(ARRIVEE),  0));
-                String message="";
-                if(t17!=null) {
-                	message=t17.toString();
-                }
-                else {
-                	message=ELEMENTNONTROUVE;
-                }
-                log.log(Level.INFO, message);
+                d.affichageListeTroncon(listeTroncon);
                 break;
             case 11:
-                log.log(Level.INFO,"Association d'un vol à un tronçon :");
-                systemeGestion.getSystemeGestionVol().associerVolTroncon(
-                    new Vol(saisirInt(CONSTANTEID), 0, ""),//SEUL L'IDENTIFIANT SERA UTILISE
-                    systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
-                            saisirString("Veuillez saisir la nouvelle ville de départ du tronçon"), 
-                            saisirString("Veuillez saisir la nouvelle ville d'arrivée du tronçon"),  0)),//SEUL L'IDENTIFIANT SERA UTILISE
-                    Time.valueOf(saisirString("Veuillez saisir l'heure de départ (format : hh:mm:ss)")), 
-                    Time.valueOf(saisirString("Veuillez saisir l'heure d'arrivée (format : hh:mm:ss)")));
-                break;
-            case 12://MODIFIER LE TEXTE
-                log.log(Level.INFO,"Modification d'une association d'un vol à un tronçon :");
-                systemeGestion.getSystemeGestionVol().majVolTroncon(
-                    new Vol(saisirInt(CONSTANTEID), 0, ""),//SEUL L'IDENTIFIANT SERA UTILIS�
-                    systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
-                            saisirString(DEPART), 
-                            saisirString(ARRIVEE),  0)),//SEUL L'IDENTIFIANT SERA UTILIS�
-                    Time.valueOf(saisirString("Veuillez saisir la nouvelle heure de départ (format : hh:mm:ss)")), 
-                    Time.valueOf(saisirString("Veuillez saisir la nouvelle heure d'arrivée (format : hh:mm:ss)")));
-                break;
+            	System.out.println("Association d'un tronçon à un vol :");
+            	List<Troncon> listeTronconAssociation = systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
+                        saisirString("Veuillez saisir la ville de départ du tronçon"), 
+                        saisirString("Veuillez saisir la ville d'arrivée du tronçon")));
+            	Troncon tronconAssociation = null;
+            	if(listeTronconAssociation != null & listeTronconAssociation.size() != 0)
+            	{
+            		tronconAssociation = listeTronconAssociation.get(0);
+            		if(systemeGestion.getSystemeGestionVol().associerVolTroncon(
+                            new Vol(saisirInt(CONSTANTEID), 0, ""),
+                            tronconAssociation,
+                            Time.valueOf(saisirHeure("Veuillez saisir l'heure de départ (format : hh:mm:ss)")), 
+                            Time.valueOf(saisirHeure("Veuillez saisir l'heure d'arrivée (format : hh:mm:ss)"))))
+        	                log.log(Level.INFO, "Le vol a bien été associé au tronçon");
+                        else
+                        	erreur = true;
+            	}
+            	else
+            		erreur = true;
+                
+                break;            
+            case 12:
+                System.out.println("Modification d'une association d'un tronçon à un vol :");
+                List<Troncon> listeTronconModification = systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
+                        saisirString("Veuillez saisir la ville de départ du tronçon"), 
+                        saisirString("Veuillez saisir la ville d'arrivée du tronçon")));
+            	Troncon tronconModification = null;
+            	if(listeTronconModification != null & listeTronconModification.size() != 0)
+            	{
+            		tronconModification = listeTronconModification.get(0);
+	                if(systemeGestion.getSystemeGestionVol().majVolTroncon(
+	                    new Vol(saisirInt(CONSTANTEID), 0, ""),
+	                    tronconModification,
+	                    Time.valueOf(saisirHeure("Veuillez saisir la nouvelle heure de départ (format : hh:mm:ss)")), 
+	                    Time.valueOf(saisirHeure("Veuillez saisir la nouvelle heure d'arrivée (format : hh:mm:ss)"))))
+		                log.log(Level.INFO, "L'association a bien été prise en modifiée");
+		                else
+		                	erreur = true;
+            	}
+            	else
+            		erreur = true;
+                break;            
             case 13:
-                log.log(Level.INFO,"Supression d'une association d'un vol à un tronçon :");
-                systemeGestion.getSystemeGestionVol().supprimerVolTroncon(
-                    new Vol(saisirInt(CONSTANTEID), 0, ""),//SEUL L'IDENTIFIANT SERA UTILIS�
-                    systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
-                            saisirString(DEPART), 
-                            saisirString(ARRIVEE),  0)),null, null);
-                break;
+                System.out.println("Supression d'une association d'un tronçon à un vol :");
+                List<Troncon> listeTronconSuppression = systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
+                        saisirString("Veuillez saisir la ville de départ du tronçon"), 
+                        saisirString("Veuillez saisir la ville d'arrivée du tronçon")));
+            	Troncon tronconSuppression= null;
+            	if(listeTronconSuppression != null & listeTronconSuppression.size() != 0)
+            	{
+            		tronconSuppression = listeTronconSuppression.get(0);
+	                if(systemeGestion.getSystemeGestionVol().supprimerVolTroncon(
+	                    new Vol(saisirInt(CONSTANTEID), 0, ""),
+	                    tronconSuppression,
+	                    null, null))
+	                	log.log(Level.INFO, "L'association a bien été supprimé");
+	                else
+	                	erreur = true;
+            	}
+            	else
+            		erreur = true;
+                break;            
             case 14:
-                log.log(Level.INFO,"Recherche d'une association d'un vol à un tronçon :");
-                VolTroncon v18 = systemeGestion.getSystemeGestionVol().rechercherVolTroncon(
-                    new Vol(saisirInt(CONSTANTEID), 0, ""), 
-                    systemeGestion.getSystemeGestionVol().rechercherTroncon(new Troncon(
-                            saisirString(DEPART), 
-                            saisirString(ARRIVEE),  0)), null, null);
-
-                String messag="";
-                if(v18!=null) {
-                	messag=v18.toString();
+            	System.out.println("Recherche d'une association d'un tronçon à un vol :");
+            	System.out.println(" 1 --> Par Id de Vol");
+            	System.out.println(" 2 --> Par villes depart/arrivee du Tronçon");
+            	List<VolTroncon> listeVolTroncon = null;
+            	choix = sc.nextInt();
+                switch (choix){
+                    case 1 :
+                    	listeVolTroncon = systemeGestion.getSystemeGestionVol().rechercherVolTroncon(
+                    			new Vol(saisirInt(CONSTANTEID), 0, ""), null, null, null);
+                    	break;
+                    case 2 :
+                    	listeVolTroncon = systemeGestion.getSystemeGestionVol().rechercherVolTroncon(
+                    			null, new Troncon(
+                                        saisirString(DEPART), 
+                                        saisirString(ARRIVEE),  0), null, null);
+                    	break;
+                    default:
+                        log.log(Level.INFO,"Erreur...");
+                        break;
                 }
-                else {
-                	messag=ELEMENTNONTROUVE;
-                }
-                log.log(Level.INFO, messag);
+                d.affichageListeVolTroncon(listeVolTroncon);
                 break;
             case 15:
                 systemeGestion.retourMenuPrecedent();
@@ -154,6 +202,8 @@ public class EtatMenuTroncon extends Etat{
                 log.log(Level.INFO,"Erreur...");
                 break;
         }
+        if(erreur)
+        	log.log(Level.INFO,"Erreur...");
         systemeGestion.setState(this);
     }
 }

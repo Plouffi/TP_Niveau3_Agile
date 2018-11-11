@@ -76,6 +76,6 @@ public class Vol {
     
         @Override
     public String toString() {
-        return "Vol [id=" + id + ", frequence=" + frequence + ", unite=" + uniteFrequence+" ]";
+        return "Vol [id=" + id + ", frequence=" + frequence + ", unite=" + uniteFrequence+"]";
     }
 }

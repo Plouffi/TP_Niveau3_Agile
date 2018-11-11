@@ -83,4 +83,5 @@ public class Troncon {
     public void setDistance(int distance) {
             this.distance = distance;
     }
+    
 }

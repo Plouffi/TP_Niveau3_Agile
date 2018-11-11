@@ -9,7 +9,7 @@ import data_model.TypeAvion;
 import decorator.*;
 import systeme.SystemeGestion;
 
-public class EtatMenuTechnique extends EtatTechnique {
+public class EtatMenuTechnique extends Etat {
     /**
      * Méthode qui contient toutes les actions qu'un membre du service technique peut effectuer
      * @param systemeGestion
@@ -28,19 +28,19 @@ public class EtatMenuTechnique extends EtatTechnique {
                 ajoutPassager(systemeGestion);
                 break;
             case 3:
-                log.log(Level.INFO,"Ajout d'un nouvel avion");
+            	System.out.println("Ajout d'un nouvel avion");
                 ajoutAvion(systemeGestion,d);
                 break;
             case 4:
-                log.log(Level.INFO,"Ajout d'un nouveau type d'avion");
+            	System.out.println("Ajout d'un nouveau type d'avion");
                 ajoutTypeAvion(systemeGestion);
                 break;
             case 5:
-                log.log(Level.INFO,"Modifier un avion");
+            	System.out.println("Modifier un avion");
                 systemeGestion.setState(new EtatModificationTechnique());
                 break;
             case 6:
-                log.log(Level.INFO,"Supprimer un avion");
+            	System.out.println("Supprimer un avion");
                 List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
                 d.afficherAvions(avions);
                 String immatriculation = saisirString(" Immatriculation :");
@@ -50,7 +50,7 @@ public class EtatMenuTechnique extends EtatTechnique {
                     log.log(Level.INFO,"Erreur lors de la suppression");
                 break;
             case 7:
-                log.log(Level.INFO,"Supprimer un type d'avion");
+            	System.out.println("Supprimer un type d'avion");
                 List<TypeAvion> types = systemeGestion.getSystemeGestionAvion().rechercherTypes();
                 d.affichageListeType(types);
                 int type = saisirInt(" Type :");

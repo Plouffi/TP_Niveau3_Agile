@@ -13,8 +13,8 @@ public class Implementation implements Abstraction {
 	public void affichage()
     {
 		// affichage commun a tous les decorateurs
-		 log.log(Level.INFO,"----------MENU-----------");
-		 log.log(Level.INFO," 1 --> Déconnexion");
+		 System.out.println("----------MENU-----------");
+		 System.out.println(" 1 --> Déconnexion");
     }
 
 }

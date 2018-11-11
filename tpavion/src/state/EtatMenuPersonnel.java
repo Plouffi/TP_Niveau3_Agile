@@ -29,18 +29,18 @@ public class EtatMenuPersonnel extends EtatPersonnel {
                 ajoutPassager(systemeGestion);
                 break;
             case 3:
-                log.log(Level.INFO,"Ajout d'un nouvel utilisateur");
-                ajoutUilisateur(systemeGestion, d);
+            	System.out.println("Ajout d'un nouvel utilisateur");
+                ajoutUtilisateur(systemeGestion, d);
                 break;
             case 4:
-                log.log(Level.INFO,"Ajout d'un nouveau rôle");
+                System.out.println("Ajout d'un nouveau rôle");
                 ajoutRole(systemeGestion);
                 break;
             case 5:
                 systemeGestion.setState(new EtatModificationPersonnel());
                 break;
             case 6:
-                log.log(Level.INFO,"Supprimer un utilisateur");
+            	System.out.println("Supprimer un utilisateur");
                 d.afficherPersonnels(systemeGestion.getSystemeGestionUtilisateur().getPersonnels());
                 int id = saisirInt("id du membre :");
                 if(systemeGestion.getSystemeGestionUtilisateur().supprimerUtilisateur(new Personnel(id)))
@@ -75,25 +75,20 @@ public class EtatMenuPersonnel extends EtatPersonnel {
      * Méthode permettant l'ajout d'un utilisateur
      * @param systemeGestion
      */
-    private void ajoutUilisateur(SystemeGestion systemeGestion, DecorateurMenuPersonnel d) {
+    private void ajoutUtilisateur(SystemeGestion systemeGestion, DecorateurMenuPersonnel d) {
         String nom = saisirString("Nom :");
         String prenom = saisirString("Prenom :");
         String adresse = saisirString("Adresse :");
         String noTelephone = saisirString("Numéro de téléphone :");
         String motDePasse = saisirString("Mot de passe :");
-        
-        d.affichageTypeRole();
-        int t = saisirInt("Type :");
-        String type = creerType(t);
-        
+
         List<Role> roles = systemeGestion.getSystemeGestionUtilisateur().getRoles();
         d.affichageListeRoles(roles);
         int role = saisirInt("Rôle :");
         
         Personnel personnel = null;
         if(role<=roles.size()) {
-            Role r = new Role(type, roles.get(role - 1).getRole());
-            personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,r);
+            personnel = new Personnel(nom,prenom,adresse,noTelephone,motDePasse,roles.get(role - 1));
         }
         if(personnel==null || !systemeGestion.getSystemeGestionUtilisateur().ajouterUtilisateur(personnel))
             log.log(Level.INFO,"erreur lors de l'ajout");

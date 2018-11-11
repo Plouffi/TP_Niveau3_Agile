@@ -1,11 +1,15 @@
 package data_access_object;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import data_model.Depart;
+import data_model.TypeAvion;
 import data_model.Vol;
 
 public class DepartDAO extends DAO<Depart> {
@@ -26,7 +30,7 @@ public class DepartDAO extends DAO<Depart> {
      */
     @Override
     public boolean create(Depart obj) throws SQLException {
-        String requete ="insert into depart values (?,?);";
+        String requete ="insert into Depart values (?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId().getId());
             statement.setDate(2, obj.getDateDepart());			
@@ -43,10 +47,10 @@ public class DepartDAO extends DAO<Depart> {
      */
     @Override
     public boolean delete(Depart obj) throws SQLException {
-    String requete = "delete from depart where id=? and dateDepart=?;";
+    String requete = "delete from Depart where id=? and dateDepart = ?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId().getId());
-            statement.setDate(2, obj.getDateDepart());		
+            statement.setDate(2, obj.getDateDepart());
             /* retourne true si la requete s'est bien effectuée */
             return statement.executeUpdate() > 0;
         }
@@ -63,6 +67,24 @@ public class DepartDAO extends DAO<Depart> {
         /* on ne doit pas modifier les rows de cette table */
         return false;
     }
+    
+    /**
+     * Fonction permettant la mise à jour d'un Depart existant dans la base de données
+     * @param obj, Date
+     * @return boolean
+     * @throws SQLException
+     */
+    public boolean update(Depart obj, Date d) throws SQLException {
+        String requete = "update Depart set dateDepart=? where id=? and dateDepart=?;";
+        try (PreparedStatement statement = super.connexion.prepareStatement(requete);) {
+            statement.setDate(1, d);
+            statement.setInt(2, obj.getId().getId());
+            statement.setDate(3, obj.getDateDepart());
+            /* retourne true si la requete s'est bien effectué */
+            System.out.println(statement.toString());
+            return statement.executeUpdate() > 0;
+        }
+    }
 
     /**
      * Fonction permettant la récupération d'un Depart existant dans la base de données en utilisant son identifiant
@@ -72,7 +94,7 @@ public class DepartDAO extends DAO<Depart> {
      */
     @Override
     public Depart find(Depart obj) throws SQLException {
-        String requete = "select * from depart where id=? and dateDepart=?;";
+        String requete = "select * from Depart where id=? and dateDepart=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId().getId());
             statement.setDate(2, obj.getDateDepart());		
@@ -85,4 +107,26 @@ public class DepartDAO extends DAO<Depart> {
             }
         }
     }
+    
+    /**
+     * Fonction permettant la récupération des Departs existant dans la base de données en utilisant l'identifiant
+     * @param obj
+     * @return Depart
+     * @throws SQLException
+     */
+    public List<Depart> findAll(Depart obj) throws SQLException {
+        String requete = "select * from Depart where id=?;";
+        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+            statement.setInt(1, obj.getId().getId());	
+            try(ResultSet result = statement.executeQuery();){
+            	ArrayList<Depart> retour = new ArrayList<>();
+                while (result.next()){
+                    Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"), 0, ""));
+                        retour.add(new Depart(vol,result.getDate("dateDepart")));
+                }
+                return retour;
+            }
+        }
+    }
+
 }

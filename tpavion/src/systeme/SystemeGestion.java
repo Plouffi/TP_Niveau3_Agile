@@ -16,10 +16,10 @@ public class SystemeGestion {
     SystemeGestionAvion sga;
     SystemeGestionVol sgv;
     SystemeGestionDepart sgd;
-    private static final String USER = "root";
-    private static final String PASS = "";
+    private static final String USER = "tpavion2";
+    private static final String PASS = "265fgjoy";
     private static final String DBCLASS = "com.mysql.cj.jdbc.Driver";
-    private static final String DBDRIVER = "jdbc:mysql://127.0.0.1:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String DBDRIVER = "jdbc:mysql://tpavion2.cuxgpqum2bql.us-east-2.rds.amazonaws.com:3306/tpavion?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private Connection conn = null;
     /* mauvais impact sur perf DEQUE */
     private Stack<Etat> etats;

@@ -1,6 +1,5 @@
 package decorator;
 
-import java.util.logging.Level;
 
 public class DecorateurMenuPilote extends DecorateurTechnique {
     /**
@@ -17,7 +16,7 @@ public class DecorateurMenuPilote extends DecorateurTechnique {
     @Override
     public void affichage() {
         a.affichage();
-        log.log(Level.INFO,"2 --> Saisir un rapport de vol");
-        log.log(Level.INFO,"3 --> Retour au menu précèdent...");
+        System.out.println("2 --> Saisir un rapport de vol");
+        System.out.println("3 --> Retour au menu précèdent...");
     }
 }

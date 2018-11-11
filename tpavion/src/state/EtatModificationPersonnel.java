@@ -49,7 +49,7 @@ public class EtatModificationPersonnel extends EtatPersonnel {
                     personnel.setNom(nom);
                     break;
                 case 5:
-                    String prenom = saisirString(" Pr�nom :");
+                    String prenom = saisirString(" Prénom :");
                     personnel.setPrenom(prenom);
                     break;
                 case 6:

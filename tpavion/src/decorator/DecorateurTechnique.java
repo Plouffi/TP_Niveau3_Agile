@@ -22,7 +22,7 @@ public abstract class DecorateurTechnique extends Decorateur {
     public void affichageListeType(List<TypeAvion> types) {
         for(int i = 0; i<types.size();i++) {
         	 String chaine = (i+1)+" --> "+types.get(i).getType();
-        	 log.log(Level.INFO,chaine);
+        	 System.out.println(chaine);
         }
     }
     
@@ -31,6 +31,6 @@ public abstract class DecorateurTechnique extends Decorateur {
      */
     public void afficherAvions(List<Avion> avions){
         for(Avion a : avions)
-        	 log.log(Level.INFO,a.toString());
+        	 a.toString();
     }
 }

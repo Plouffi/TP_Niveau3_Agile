@@ -3,10 +3,13 @@ package systeme;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import data_access_object.DAOFactory;
+import data_access_object.TronconDAO;
 import data_access_object.VolTronconDAO;
+import data_access_object.VolDAO;
 import data_model.Troncon;
 import data_model.Vol;
 import data_model.VolTroncon;
@@ -61,7 +64,7 @@ public class SystemeGestionVol {
      */
     public boolean supprimerVol(Vol v) {
         try {
-        	if(!((VolTronconDAO)factory.createVolTronconDAO()).volEstAttribue(v))
+        	if(((VolTronconDAO)factory.createVolTronconDAO()).volEstAttribue(v))
         		throw new SQLException("--Erreur-- Le vol est encore attribué");
             return factory.createVolDAO().delete(v);
         } catch (SQLException e) {
@@ -79,7 +82,7 @@ public class SystemeGestionVol {
      */
     public boolean supprimerTroncon(Troncon t) {
         try {
-        	if(!((VolTronconDAO)factory.createVolTronconDAO()).tronconEstAttribue(t))
+        	if(((VolTronconDAO)factory.createVolTronconDAO()).tronconEstAttribue(t))
         		throw new SQLException("--Erreur-- Le tronçon est encore attribué");
             return factory.createTronconDAO().delete(t);
         } catch (SQLException e) {
@@ -93,11 +96,11 @@ public class SystemeGestionVol {
     /**
      * Méthode permettant de voir si un vol existe dans la base de données
      * @param Vol
-     * @return Vol
+     * @return List<Vol>
      */
-    public Vol rechercherVol(Vol v) {
+    public List<Vol> rechercherVol(Vol v) {
         try {
-        	Vol vol = factory.createVolDAO().find(v);
+        	List<Vol> vol = ((VolDAO)factory.createVolDAO()).findAll(v);
         	if(vol == null)
             	throw new SQLException("--Erreur-- Le vol n'existe pas.");
             return vol;
@@ -114,9 +117,9 @@ public class SystemeGestionVol {
      * @param Troncon
      * @return Troncon
      */
-    public Troncon rechercherTroncon(Troncon t) {
+    public List<Troncon> rechercherTroncon(Troncon t) {
         try {
-            return factory.createTronconDAO().find(t);
+            return ((TronconDAO)factory.createTronconDAO()).findAll(t);
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionAvion.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -184,9 +187,9 @@ public class SystemeGestionVol {
         return false;
     }
 
-    public VolTroncon rechercherVolTroncon(Vol v, Troncon t, Time heureDepart, Time heureSortie){
+    public List<VolTroncon> rechercherVolTroncon(Vol v, Troncon t, Time heureDepart, Time heureSortie){
         try {
-            return factory.createVolTronconDAO().find(new VolTroncon(t, v, heureDepart, heureSortie));
+            return ((VolTronconDAO)factory.createVolTronconDAO()).findAll(new VolTroncon(t, v, heureDepart, heureSortie));
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());

@@ -37,7 +37,7 @@ public class PersonnelDAO extends DAO<Personnel> {
     public boolean create(Personnel obj) throws SQLException {
         if(new RoleDAO(connexion).find(obj.getRole()) == null)
             throw new SQLException(" -- Erreur -- Le rôle n'existe pas.");
-        String requete ="insert into personnel (prenom,nom,adresse,noTelephone,motDePasse,role) values (?,?,?,?,?,?);";
+        String requete ="insert into Personnel (prenom,nom,adresse,noTelephone,motDePasse,role) values (?,?,?,?,?,?);";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             preparerStmt(statement,obj);
             /* retourne true si la requete s'est bien effectué */
@@ -53,7 +53,7 @@ public class PersonnelDAO extends DAO<Personnel> {
      */
     @Override
     public boolean delete(Personnel obj) throws SQLException {
-        String requete ="delete from personnel where id=?;";
+        String requete ="delete from Personnel where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId());
             /* retourne true si la requete s'est bien effectué */
@@ -71,7 +71,7 @@ public class PersonnelDAO extends DAO<Personnel> {
     public boolean update(Personnel obj) throws SQLException {
         if(new RoleDAO(connexion).find(obj.getRole()) == null)
             throw new SQLException(" -- Erreur -- Le rôle n'existe pas.");
-        String requete ="update personnel set prenom=?,nom=?,adresse=?,noTelephone=?,role=?,motDePasse=? where id=?;";
+        String requete ="update Personnel set prenom=?,nom=?,adresse=?,noTelephone=?,role=?,motDePasse=? where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getPrenom());
             statement.setString(2, obj.getNom());
@@ -93,7 +93,7 @@ public class PersonnelDAO extends DAO<Personnel> {
      */
     @Override
     public Personnel find(Personnel obj) throws SQLException {
-        String requete = "select * from personnel where id=?;";
+        String requete = "select * from Personnel where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getId());
             try(ResultSet result = statement.executeQuery();){
@@ -108,7 +108,7 @@ public class PersonnelDAO extends DAO<Personnel> {
     }
 
     public List<Personnel> findAll() throws SQLException {
-        String requete = "select * from personnel";
+        String requete = "select * from Personnel";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             try(ResultSet result = statement.executeQuery();){
                 ArrayList<Personnel> retour = new ArrayList<>();

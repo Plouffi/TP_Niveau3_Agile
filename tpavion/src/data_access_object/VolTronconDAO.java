@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import data_model.Depart;
 import data_model.Troncon;
 import data_model.Vol;
 import data_model.VolTroncon;
@@ -114,12 +117,11 @@ public class VolTronconDAO extends DAO<VolTroncon> {
         }
     }
     public VolTroncon findWithCities(VolTroncon obj) throws SQLException {
-    	checkVolTroncon(obj);
     	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=? and heureDepart=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getTroncon().getVilleDepart());
             statement.setString(2, obj.getTroncon().getVilleArrivee());
-            statement.setTime(1, obj.getHeureDepart());
+            statement.setTime(3, obj.getHeureDepart());
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
                 	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
@@ -131,7 +133,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
         }
     }
     public boolean volEstAttribue(Vol vol) throws SQLException {
-    	String requete = "select * from VolTroncon and id=?;";
+    	String requete = "select * from VolTroncon where id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, vol.getId());
             try(ResultSet result = statement.executeQuery();){
@@ -149,5 +151,51 @@ public class VolTronconDAO extends DAO<VolTroncon> {
                 return result.first();
             }
         }
+    }
+
+    /**
+     * Fonction permettant la récupération des volsTronçon existant dans la base de données en utilisant l'identifiant
+     * @param obj
+     * @return VolTroncon
+     * @throws SQLException
+     */
+    public ArrayList<VolTroncon> findAll(VolTroncon obj) throws SQLException {
+    	if(obj.getVol() != null)
+    	{
+	        String requete = "select * from VolTroncon where id=?;";
+	        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+	            statement.setInt(1, obj.getVol().getId());	
+	            try(ResultSet result = statement.executeQuery();){
+	            	ArrayList<VolTroncon> retour = new ArrayList<>();
+	                while (result.next()){
+	                	VolTroncon volTroncon = new VolTronconDAO(connexion).find(
+	                			new VolTroncon(new Troncon(result.getString("villeDepart"), result.getString("villeArrivee"),0),
+	                			new Vol(result.getInt("id"),0,""), 
+	                			null, null));
+	                        retour.add(volTroncon);
+	                }
+	                return retour;
+	            }
+	        }
+    	}
+    	else
+    	{
+	        String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=?;";
+	        try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
+	            statement.setString(1, obj.getTroncon().getVilleDepart());
+	            statement.setString(2, obj.getTroncon().getVilleArrivee());
+	            try(ResultSet result = statement.executeQuery();){
+	            	ArrayList<VolTroncon> retour = new ArrayList<>();
+	                while (result.next()){
+	                	VolTroncon volTroncon = new VolTronconDAO(connexion).find(
+	                			new VolTroncon(new Troncon(result.getString("villeDepart"), result.getString("villeArrivee"),0),
+	                			new Vol(result.getInt("id"),0,""), 
+	                			null, null));
+	                        retour.add(volTroncon);
+	                }
+	                return retour;
+	            }
+	        }
+    	}
     }
 }

@@ -1,6 +1,5 @@
 package decorator;
 
-import java.util.logging.Level;
 
 public class DecorateurMenuPrecedent extends Decorateur{
     /**
@@ -17,6 +16,6 @@ public class DecorateurMenuPrecedent extends Decorateur{
     @Override
     public void affichage() {
         a.affichage();
-        log.log(Level.INFO," 3 --> Retour au menu précèdent");
+        System.out.println(" 3 --> Retour au menu précèdent");
     }
 }

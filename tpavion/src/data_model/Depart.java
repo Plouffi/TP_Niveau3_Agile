@@ -48,4 +48,9 @@ public class Depart {
     public void setDateDepart(Date dateDepart) {
         this.dateDepart = dateDepart;
     }
+    
+    public String toString()
+    {
+    	return "Depart [id="+id.toString()+", date de depart="+dateDepart.toString()+"]";
+    }
 }

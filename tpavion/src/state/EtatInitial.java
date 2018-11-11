@@ -11,8 +11,8 @@ public class EtatInitial extends Etat {
      */
     @Override
     public void goNext(SystemeGestion systemeGestion) {
-        log.log(Level.INFO,"----------MENU----------");
-        log.log(Level.INFO," Connexion : ");
+        System.out.println("----------MENU----------");
+        System.out.println(" Connexion : ");
         int id = saisirInt(" Identifiants :");
         String motDePasse = saisirString(" Mot de passe :");
         /* on vérifie si l'utilisateur s'est bien connecté */

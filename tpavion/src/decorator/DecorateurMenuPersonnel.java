@@ -26,11 +26,11 @@ public class DecorateurMenuPersonnel extends DecorateurPersonnel {
     @Override
     public void affichage() {
         a.affichage();
-        log.log(Level.INFO," 3 --> Ajouter un nouvel utilisateur");
-        log.log(Level.INFO," 4 --> Ajouter un nouveau rôle");
-        log.log(Level.INFO," 5 --> Modifier un utilisateur existant");
-        log.log(Level.INFO," 6 --> Supprimer un utilisateur existant");
-        log.log(Level.INFO," 7 --> Retour au menu précèdent...");
+        System.out.println(" 3 --> Ajouter un nouvel utilisateur");
+        System.out.println(" 4 --> Ajouter un nouveau rôle");
+        System.out.println(" 5 --> Modifier un utilisateur existant");
+        System.out.println(" 6 --> Supprimer un utilisateur existant");
+        System.out.println(" 7 --> Retour au menu précèdent...");
     }
 
     /**
@@ -40,7 +40,7 @@ public class DecorateurMenuPersonnel extends DecorateurPersonnel {
     public void affichageListeRoles() {
         for(int i = 0; i<roles.size();i++) {
         	String chaine =(i+1)+" --> {0}"+roles.get(i).getType()+" - "+roles.get(i).getRole();
-        	log.log(Level.INFO,chaine);
+        	System.out.println(chaine);
         }
     }
 

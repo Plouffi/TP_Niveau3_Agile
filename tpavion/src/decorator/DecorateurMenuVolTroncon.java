@@ -1,6 +1,12 @@
 package decorator;
 
-import java.util.logging.Level;
+import java.util.List;
+
+import data_model.Depart;
+import data_model.DepartAvion;
+import data_model.Troncon;
+import data_model.Vol;
+import data_model.VolTroncon;
 
 public class DecorateurMenuVolTroncon extends Decorateur{
     /**
@@ -17,18 +23,73 @@ public class DecorateurMenuVolTroncon extends Decorateur{
     @Override
     public void affichage() {
         a.affichage();
-        log.log(Level.INFO," 3 --> Ajouter un nouveau vol");
-        log.log(Level.INFO," 4 --> Modifier un vol existant");
-        log.log(Level.INFO," 5 --> Supprimer un vol existant");
-        log.log(Level.INFO," 6 --> Rechercher un vol existant");
-        log.log(Level.INFO," 7 --> Ajouter un nouveau tron�on");
-        log.log(Level.INFO," 8 --> Modifier un tronçon existant");
-        log.log(Level.INFO," 9 --> Supprimer un tronçon existant");
-        log.log(Level.INFO," 10 --> Rechercher un tronçon existant");
-        log.log(Level.INFO," 11 --> Associer un vol à un troncon");
-        log.log(Level.INFO," 12 --> Modifier une association vol-tronçon");
-        log.log(Level.INFO," 13 --> Supprimer une association vol-tronçon");
-        log.log(Level.INFO," 14 --> Rechercher une association vol-tronçon");
-        log.log(Level.INFO," 15 -> Retour au menu précèdent...");
+        System.out.println(" 3 --> Ajouter un nouveau vol");
+        System.out.println(" 4 --> Modifier un vol existant");
+        System.out.println(" 5 --> Supprimer un vol existant");
+        System.out.println(" 6 --> Rechercher un vol existant");
+        System.out.println(" 7 --> Ajouter un nouveau tronçon");
+        System.out.println(" 8 --> Modifier un tronçon existant");
+        System.out.println(" 9 --> Supprimer un tronçon existant");
+        System.out.println(" 10 --> Rechercher un tronçon existant");
+        System.out.println(" 11 --> Associer un vol à un tronçon");
+        System.out.println(" 12 --> Modifier une association vol-tronçon");
+        System.out.println(" 13 --> Supprimer une association vol-tronçon");
+        System.out.println(" 14 --> Rechercher une association vol-tronçon");
+        System.out.println(" 15 -> Retour au menu précédent...");
     }
+
+    /**
+     * Méthode permettant l'affichage de la liste des vols
+     */
+    public void affichageListeVol(List<Vol> vols) {
+    	if(vols != null && vols.size() != 0)
+    	{
+    		System.out.println("Résultats de la recherche :");
+	        for(int i = 0; i<vols.size();i++) {
+	        	 String chaine = "  "+(i+1)+" --> "+vols.get(i).toString();
+	        	 System.out.println(chaine);
+	        }
+    	}
+    	else
+    		System.out.println("Aucun vol trouvé");
+    }
+    
+	public void affichageListeDepartAvion(List<DepartAvion> departsAvion) {
+		if(departsAvion != null && departsAvion.size() != 0)
+    	{
+    		System.out.println("Résultats de la recherche :");
+	        for(int i = 0; i<departsAvion.size();i++) {
+	        	 String chaine = "  "+(i+1)+" --> "+departsAvion.get(i).toString();
+	        	 System.out.println(chaine);
+	        }
+    	}
+    	else
+    		System.out.println("Aucun départAvion trouvé");	
+	}
+
+	public void affichageListeVolTroncon(List<VolTroncon> listeVolTroncon) {
+		if(listeVolTroncon != null && listeVolTroncon.size() != 0)
+    	{
+    		System.out.println("Résultats de la recherche :");
+	        for(int i = 0; i<listeVolTroncon.size();i++) {
+	        	 String chaine = "  "+(i+1)+" --> "+listeVolTroncon.get(i).toString();
+	        	 System.out.println(chaine);
+	        }
+    	}
+    	else
+    		System.out.println("Aucun volTronçon trouvé");	
+	}
+
+	public void affichageListeTroncon(List<Troncon> listeTroncon) {
+		if(listeTroncon != null && listeTroncon.size() != 0)
+    	{
+    		System.out.println("Résultats de la recherche :");
+	        for(int i = 0; i<listeTroncon.size();i++) {
+	        	 String chaine = "  "+(i+1)+" --> "+listeTroncon.get(i).toString();
+	        	 System.out.println(chaine);
+	        }
+    	}
+    	else
+    		System.out.println("Aucun tronçon trouvé");
+	}
 }

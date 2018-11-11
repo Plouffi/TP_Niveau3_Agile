@@ -1,11 +1,16 @@
 package systeme;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import data_access_object.DAOFactory;
+import data_access_object.DepartAvionDAO;
+import data_access_object.DepartDAO;
+
 import data_model.Depart;
 import data_model.DepartAvion;
 import data_model.DepartPassager;
@@ -27,7 +32,7 @@ public class SystemeGestionDepart {
      * @param Depart
      * @return boolean
      */
-    public boolean ajouteDepart(Depart d) {//VERIFIER LA CONTRAINTE (1 depart / unité de temps(jour et heure): psa 2 départs au même moment.)
+    public boolean ajouteDepart(Depart d) {
         try {
             return factory.createDepartDAO().create(d);
         } catch (SQLException e) {
@@ -57,9 +62,9 @@ public class SystemeGestionDepart {
      * @param Depart
      * @return Depart
      */
-    public Depart rechercherDepart(Depart d) {
+    public List<Depart> rechercherDepart(Depart d) {
         try {
-            return factory.createDepartDAO().find(d);
+            return ((DepartDAO)factory.createDepartDAO()).findAll(d);
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionAvion.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -72,9 +77,18 @@ public class SystemeGestionDepart {
      * @param avion
      * @return boolean
      */
-    public boolean majDepart(Depart d) {
+    public boolean majDepart(Depart d) {//non utilisé
+        return false;
+    }
+    
+    /**
+     * Méthode mettant à jour un Depart
+     * @param avion
+     * @return boolean
+     */
+    public boolean majDepart(Depart d, Date date) {
         try {
-            return factory.createDepartDAO().update(d);
+            return ((DepartDAO)factory.createDepartDAO()).update(d, date);
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionUtilisateur.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());
@@ -117,9 +131,9 @@ public class SystemeGestionDepart {
      * @param DepartAvion
      * @return DepartAvion
      */
-    public DepartAvion rechercherDepartAvion(DepartAvion d) {
+    public List<DepartAvion> rechercherDepartAvion(DepartAvion d) {
         try {
-            return factory.createDepartAvionDAO().find(d);
+            return ((DepartAvionDAO)factory.createDepartAvionDAO()).findAll(d);
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(SystemeGestionAvion.class.getName());
             logger.log(Level.SEVERE, e.getSQLState()+" - "+e.getMessage());

@@ -36,24 +36,40 @@ public abstract class Etat
      * @param systemeGestion
      */
     void ajoutPassager(SystemeGestion systemeGestion) {
-		log.log(Level.INFO,"Ajout d'un passager à un départ");
-		log.log(Level.INFO,"Création / Recherche du passager :");
-		String passeport = saisirString(" numéro de passeport du passagé :");
+    	System.out.println("Ajout d'un passager à un départ");
+		System.out.println("Création / Recherche du passager :");
+		String passeport = saisirString(" numéro de passeport du passager :");
 		Passager passager = systemeGestion.getSystemeGestionUtilisateur().rechercherPassager(new Passager(passeport));
+		boolean erreur = false;
 		if(passager == null) {
 			String prenom = saisirString(" prénom :");
 			String nom = saisirString(" nom :");
 			String adresse = saisirString(" adresse :");
 			String noTel = saisirString(" numéro de téléphone :");
 			passager = new Passager(passeport,nom,prenom,adresse,noTel);
-			systemeGestion.getSystemeGestionUtilisateur().creerPassager(passager);
+			if(systemeGestion.getSystemeGestionUtilisateur().creerPassager(passager))
+				log.log(Level.INFO,"passager créé");
+			else
+				erreur = true;
 		}
-		log.log(Level.INFO," Recherche du depart : ");
-		Date date = Date.valueOf(saisirString("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)"));
-		String villeDepart = saisirString(" ville de départ :");
-		String villeArrivee = saisirString(" ville d'arrivée :");
-		Time heureDepart = Time.valueOf(saisirString("Veuillez saisir la nouvelle heure de départ (format : hh:mm:ss)"));
-		systemeGestion.getSystemeGestionUtilisateur().associerPassagerDepart(passager,date,villeDepart,villeArrivee,heureDepart);
+		if(!erreur)
+		{
+			log.log(Level.INFO,"passager trouvé");
+			System.out.println(" Recherche du depart : ");
+			String dateDepart = saisirDate("Veuillez saisir la date du départ (format : yyyy-[m]m-[d]d)");
+			Date date = Date.valueOf(dateDepart);
+			String villeDepart = saisirString(" ville de départ :");
+			String villeArrivee = saisirString(" ville d'arrivée :");
+			String heureDepart = saisirHeure("Veuillez saisir l'heure de départ (format : hh:mm:ss)");
+			if(heureDepart != null & systemeGestion.getSystemeGestionUtilisateur().associerPassagerDepart(passager,date,villeDepart,villeArrivee,Time.valueOf(heureDepart)))
+				log.log(Level.INFO,"Association passager / départ effectuée");
+			else
+				erreur = true;
+		}
+		if(erreur)
+		{
+			log.log(Level.INFO,"Erreur....");
+		}
 		systemeGestion.setState(this);
     }
 
@@ -63,7 +79,7 @@ public abstract class Etat
      * @return int
      */
     public int saisirInt(String intitule) {
-        log.log(Level.INFO,intitule);
+    	System.out.println(intitule);
         try{
             Scanner sc = new Scanner(System.in);
             return sc.nextInt();
@@ -79,27 +95,68 @@ public abstract class Etat
      * @return String
      */
     public String saisirString(String intitule) {
-    	log.log(Level.INFO,intitule);
+    	System.out.println(intitule);
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
-
-
-    /**
-     * Méthode permettant de saisir un BigInteger
-     * @param intitule
-     * @return BigInteger
-     */
-    public BigInteger saisirBigInteger(String intitule) {
-        log.log(Level.INFO,intitule);
-        try{
-            Scanner sc = new Scanner(System.in);
-            BigInteger bi = sc.nextBigInteger();
-            sc.close();
-            return bi;
-        } catch (InputMismatchException e){
-            log.log(Level.INFO,"Erreur de saisie (type de donnée non conforme");
-            return saisirBigInteger(intitule);
-        }
+    
+    public String saisirDate(String s)
+    {
+    	s = saisirString(s);
+    	String erreur = "La date saisie est incorrecte";
+    	if(s.split("-").length != 3)
+    	{
+    		log.log(Level.INFO,erreur);
+    		return saisirDate(s);
+    	}
+    	try {
+    		int cpt = 0;
+	    	for(String elt : s.split("-"))
+	    	{
+	    		if((cpt == 0 & elt.length() != 4) | ((cpt != 0 & cpt < 3) & elt.length() > 2))
+	    		{
+	    			log.log(Level.INFO,erreur);
+	        		return saisirDate(s);
+	    		}
+	    		Integer.parseInt(elt);
+	    		cpt++;
+	    	}
+    	}
+    	catch(NumberFormatException e){
+    		log.log(Level.INFO,erreur);						//VERIFIER
+    		return saisirDate(s);
+    	}
+    	return s;
     }
+    
+    public String saisirHeure(String s)
+    {
+    	s = saisirString(s);
+    	String erreur = "L'heure saisie est incorrecte";
+    	if(s.split(":").length != 3)
+    	{
+    		log.log(Level.INFO,erreur);
+    		return saisirHeure(s);
+    	}
+    	try {
+    		int cpt = 0;
+	    	for(String elt : s.split(":"))
+	    	{
+	    		if(elt.length() != 2)
+	    		{
+	    			log.log(Level.INFO,erreur);
+	        		return saisirHeure(s);
+	    		}
+	    		Integer.parseInt(elt);
+	    		cpt++;
+	    	}
+    	}
+    	catch(NumberFormatException e){
+    		log.log(Level.INFO,erreur);						//VERIFIER
+    		return saisirHeure(s);
+    	}
+    	return s;
+    }
+
+
 }

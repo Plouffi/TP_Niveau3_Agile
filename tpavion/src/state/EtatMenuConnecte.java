@@ -23,19 +23,19 @@ public class EtatMenuConnecte extends Etat {
             deconnexion(systemeGestion);
             break;
         case 2:
-            log.log(Level.INFO,"Menu Personnel");
+        	System.out.println("Menu Personnel");
             systemeGestion.setState(new EtatMenuPersonnel());
             break;
         case 3:
-            log.log(Level.INFO,"Menu Gestionnaire");
+        	System.out.println("Menu Gestionnaire");
             systemeGestion.setState(new EtatMenuGestionnaire());
             break;
         case 4:
-            log.log(Level.INFO,"Menu Technique");
+        	System.out.println("Menu Technique");
             systemeGestion.setState(new EtatMenuTechnique());
             break;
         case 5:
-            log.log(Level.INFO,"Menu Pilote");
+        	System.out.println("Menu Pilote");
             systemeGestion.setState(new EtatMenuPilote());
             break;
         default:
