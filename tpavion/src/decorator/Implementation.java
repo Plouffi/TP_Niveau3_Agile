@@ -1,6 +1,5 @@
 package decorator;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Implementation implements Abstraction {

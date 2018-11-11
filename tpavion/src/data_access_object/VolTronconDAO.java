@@ -7,14 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import data_model.Depart;
 import data_model.Troncon;
 import data_model.Vol;
 import data_model.VolTroncon;
 
 public class VolTronconDAO extends DAO<VolTroncon> {
 
-    /**
+    private static final String VILLEDEPART = "villeDepart";
+	private static final String VILLEARRIVEE = "villeArrivee";
+
+	/**
      * Constructeur appelant le constructeur de la super classe
      * @param connexion
      */
@@ -58,7 +60,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
     @Override
     public boolean delete(VolTroncon obj) throws SQLException {
     	checkVolTroncon(obj);
-        String requete = "delete from VolTroncon where villeDepart=? and villeArrivee=? and id=?;";
+        String requete = "delete from VolTroncon where "+VILLEDEPART+"=? and "+VILLEARRIVEE+"=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getTroncon().getVilleDepart());
             statement.setString(2, obj.getTroncon().getVilleArrivee());
@@ -77,7 +79,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
     @Override
     public boolean update(VolTroncon obj) throws SQLException {
     	checkVolTroncon(obj);
-    	String requete = "update VolTroncon set id=?,villeDepart=?,villeArrivee=?,heureDepart=?,heureArrivee=? where villeDepart=? and villeArrivee=? and id=?;";
+    	String requete = "update VolTroncon set id=?,"+VILLEDEPART+"=?,"+VILLEARRIVEE+"=?,heureDepart=?,heureArrivee=? where villeDepart=? and villeArrivee=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setInt(1, obj.getVol().getId());
             statement.setString(2, obj.getTroncon().getVilleDepart());
@@ -101,14 +103,14 @@ public class VolTronconDAO extends DAO<VolTroncon> {
     @Override
     public VolTroncon find(VolTroncon obj) throws SQLException {
     	checkVolTroncon(obj);
-    	String requete = "select * from VolTroncon where villeDepart=? and villeArrivee=? and id=?;";
+    	String requete = "select * from VolTroncon where "+VILLEDEPART+"=? and "+VILLEARRIVEE+"=? and id=?;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             statement.setString(1, obj.getTroncon().getVilleDepart());
             statement.setString(2, obj.getTroncon().getVilleArrivee());
             statement.setInt(3, obj.getVol().getId());
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
-                	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
+                	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString(VILLEDEPART),result.getString(VILLEARRIVEE)));
                 	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0, ""));
                     return new VolTroncon(t,vol,result.getTime("heureDepart"),result.getTime("heureArrivee"));
                 }
@@ -124,7 +126,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
             statement.setTime(3, obj.getHeureDepart());
             try(ResultSet result = statement.executeQuery();){
                 if(result.first()) {
-                	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString("villeDepart"),result.getString("villeArrivee")));
+                	Troncon t = new TronconDAO(connexion).find(new Troncon(result.getString(VILLEDEPART),result.getString(VILLEARRIVEE)));
                 	Vol vol = new VolDAO(connexion).find(new Vol(result.getInt("id"),0, ""));
                     return new VolTroncon(t,vol,result.getTime("heureDepart"),result.getTime("heureArrivee"));
                 }
@@ -159,7 +161,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
      * @return VolTroncon
      * @throws SQLException
      */
-    public ArrayList<VolTroncon> findAll(VolTroncon obj) throws SQLException {
+    public List<VolTroncon> findAll(VolTroncon obj) throws SQLException {
     	if(obj.getVol() != null)
     	{
 	        String requete = "select * from VolTroncon where id=?;";
@@ -169,7 +171,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
 	            	ArrayList<VolTroncon> retour = new ArrayList<>();
 	                while (result.next()){
 	                	VolTroncon volTroncon = new VolTronconDAO(connexion).find(
-	                			new VolTroncon(new Troncon(result.getString("villeDepart"), result.getString("villeArrivee"),0),
+	                			new VolTroncon(new Troncon(result.getString(VILLEDEPART), result.getString(VILLEARRIVEE),0),
 	                			new Vol(result.getInt("id"),0,""), 
 	                			null, null));
 	                        retour.add(volTroncon);
@@ -188,7 +190,7 @@ public class VolTronconDAO extends DAO<VolTroncon> {
 	            	ArrayList<VolTroncon> retour = new ArrayList<>();
 	                while (result.next()){
 	                	VolTroncon volTroncon = new VolTronconDAO(connexion).find(
-	                			new VolTroncon(new Troncon(result.getString("villeDepart"), result.getString("villeArrivee"),0),
+	                			new VolTroncon(new Troncon(result.getString(VILLEDEPART), result.getString(VILLEARRIVEE),0),
 	                			new Vol(result.getInt("id"),0,""), 
 	                			null, null));
 	                        retour.add(volTroncon);

@@ -1,6 +1,5 @@
 package state;
 
-import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.InputMismatchException;
@@ -61,7 +60,8 @@ public abstract class Etat
 			String villeDepart = saisirString(" ville de départ :");
 			String villeArrivee = saisirString(" ville d'arrivée :");
 			String heureDepart = saisirHeure("Veuillez saisir l'heure de départ (format : hh:mm:ss)");
-			if(heureDepart != null & systemeGestion.getSystemeGestionUtilisateur().associerPassagerDepart(passager,date,villeDepart,villeArrivee,Time.valueOf(heureDepart)))
+			boolean assoc =  systemeGestion.getSystemeGestionUtilisateur().associerPassagerDepart(passager,date,villeDepart,villeArrivee,Time.valueOf(heureDepart));
+			if(heureDepart != null && assoc)
 				log.log(Level.INFO,"Association passager / départ effectuée");
 			else
 				erreur = true;
@@ -113,7 +113,9 @@ public abstract class Etat
     		int cpt = 0;
 	    	for(String elt : s.split("-"))
 	    	{
-	    		if((cpt == 0 & elt.length() != 4) | ((cpt != 0 & cpt < 3) & elt.length() > 2))
+	    		boolean verifDate = cpt == 0 && elt.length() != 4;
+				boolean verifFin =  ((cpt != 0 && cpt < 3) && elt.length() > 2);
+	    		if(verifDate || verifFin)
 	    		{
 	    			log.log(Level.INFO,erreur);
 	        		return saisirDate(s);

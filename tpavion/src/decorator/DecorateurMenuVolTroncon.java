@@ -1,15 +1,16 @@
 package decorator;
 
 import java.util.List;
-
-import data_model.Depart;
 import data_model.DepartAvion;
 import data_model.Troncon;
 import data_model.Vol;
 import data_model.VolTroncon;
 
 public class DecorateurMenuVolTroncon extends Decorateur{
-    /**
+    private static final String RES = "Résultats de la recherche :";
+	private static final String FLE = " --> ";
+
+	/**
      * Constructeur d'un DecorateurMenuVolTroncon
      * @param a
      */
@@ -42,11 +43,11 @@ public class DecorateurMenuVolTroncon extends Decorateur{
      * Méthode permettant l'affichage de la liste des vols
      */
     public void affichageListeVol(List<Vol> vols) {
-    	if(vols != null && vols.size() != 0)
+    	if(vols != null && !vols.isEmpty())
     	{
-    		System.out.println("Résultats de la recherche :");
+    		System.out.println(RES);
 	        for(int i = 0; i<vols.size();i++) {
-	        	 String chaine = "  "+(i+1)+" --> "+vols.get(i).toString();
+	        	 String chaine = "  "+(i+1)+FLE+vols.get(i).toString();
 	        	 System.out.println(chaine);
 	        }
     	}
@@ -55,11 +56,11 @@ public class DecorateurMenuVolTroncon extends Decorateur{
     }
     
 	public void affichageListeDepartAvion(List<DepartAvion> departsAvion) {
-		if(departsAvion != null && departsAvion.size() != 0)
+		if(departsAvion != null && !departsAvion.isEmpty())
     	{
-    		System.out.println("Résultats de la recherche :");
+    		System.out.println(RES);
 	        for(int i = 0; i<departsAvion.size();i++) {
-	        	 String chaine = "  "+(i+1)+" --> "+departsAvion.get(i).toString();
+	        	 String chaine = "  "+(i+1)+FLE+departsAvion.get(i).toString();
 	        	 System.out.println(chaine);
 	        }
     	}
@@ -68,11 +69,11 @@ public class DecorateurMenuVolTroncon extends Decorateur{
 	}
 
 	public void affichageListeVolTroncon(List<VolTroncon> listeVolTroncon) {
-		if(listeVolTroncon != null && listeVolTroncon.size() != 0)
+		if(listeVolTroncon != null && !listeVolTroncon.isEmpty())
     	{
-    		System.out.println("Résultats de la recherche :");
+    		System.out.println(RES);
 	        for(int i = 0; i<listeVolTroncon.size();i++) {
-	        	 String chaine = "  "+(i+1)+" --> "+listeVolTroncon.get(i).toString();
+	        	 String chaine = "  "+(i+1)+FLE+listeVolTroncon.get(i).toString();
 	        	 System.out.println(chaine);
 	        }
     	}
@@ -81,11 +82,11 @@ public class DecorateurMenuVolTroncon extends Decorateur{
 	}
 
 	public void affichageListeTroncon(List<Troncon> listeTroncon) {
-		if(listeTroncon != null && listeTroncon.size() != 0)
+		if(listeTroncon != null && !listeTroncon.isEmpty())
     	{
-    		System.out.println("Résultats de la recherche :");
+    		System.out.println(RES);
 	        for(int i = 0; i<listeTroncon.size();i++) {
-	        	 String chaine = "  "+(i+1)+" --> "+listeTroncon.get(i).toString();
+	        	 String chaine = "  "+(i+1)+FLE+listeTroncon.get(i).toString();
 	        	 System.out.println(chaine);
 	        }
     	}

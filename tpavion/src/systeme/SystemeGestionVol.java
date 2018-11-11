@@ -100,7 +100,7 @@ public class SystemeGestionVol {
      */
     public List<Vol> rechercherVol(Vol v) {
         try {
-        	List<Vol> vol = ((VolDAO)factory.createVolDAO()).findAll(v);
+        	List<Vol> vol = ((VolDAO)factory.createVolDAO()).findAll();
         	if(vol == null)
             	throw new SQLException("--Erreur-- Le vol n'existe pas.");
             return vol;

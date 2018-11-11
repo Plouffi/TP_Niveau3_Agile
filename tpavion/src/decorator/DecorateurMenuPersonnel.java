@@ -2,7 +2,6 @@ package decorator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import data_model.Role;
 

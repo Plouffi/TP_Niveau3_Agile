@@ -8,10 +8,7 @@ import java.util.logging.Level;
 import data_model.Avion;
 import data_model.Depart;
 import data_model.DepartAvion;
-import data_model.TypeAvion;
 import data_model.Vol;
-import decorator.DecorateurMenuDepart;
-import decorator.DecorateurModificationAvion;
 import decorator.DecorateurModificationDepartAvion;
 import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
@@ -25,12 +22,11 @@ public class EtatModificationDepartAvion extends Etat {
     @Override
     public void goNext(SystemeGestion systemeGestion) {
         DecorateurModificationDepartAvion d = new DecorateurModificationDepartAvion(new DecorateurNonNavigant(new Implementation()));
-        List<Avion> avions = systemeGestion.getSystemeGestionAvion().rechercherAvions();
         System.out.println("Veuillez saisir l'identifiant du départ : ");
         Scanner sc = new Scanner(System.in);
         int id = sc.nextInt();
         List<DepartAvion> listeDepartAvion = systemeGestion.getSystemeGestionDepart().rechercherDepartAvion(new DepartAvion(new Depart(new Vol(id, 0, ""), Date.valueOf(saisirDate("Veuillez saisir la date de départ"))), null, 0));
-        if(listeDepartAvion==null | listeDepartAvion.size() == 0) {
+        if(listeDepartAvion==null || listeDepartAvion.isEmpty()) {
             log.log(Level.INFO," ID incorrect : retour au menu précèdent");
             systemeGestion.retourMenuPrecedent();
         } else {

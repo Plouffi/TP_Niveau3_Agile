@@ -4,7 +4,6 @@ import data_model.Avion;
 import data_model.TypeAvion;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public abstract class DecorateurTechnique extends Decorateur {
     /**

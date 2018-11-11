@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data_model.Depart;
-import data_model.TypeAvion;
 import data_model.Vol;
 
 public class DepartDAO extends DAO<Depart> {

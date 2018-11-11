@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data_model.Troncon;
-import data_model.Vol;
 
 public class TronconDAO extends DAO<Troncon> {
 

@@ -9,12 +9,8 @@ import java.util.logging.Level;
 import data_model.Avion;
 import data_model.Depart;
 import data_model.DepartAvion;
-import data_model.Personnel;
-import data_model.Role;
-import data_model.TypeAvion;
 import data_model.Vol;
 import decorator.DecorateurMenuDepart;
-import decorator.DecorateurMenuPersonnel;
 import decorator.DecorateurNonNavigant;
 import decorator.Implementation;
 import systeme.SystemeGestion;
@@ -83,7 +79,7 @@ public class EtatMenuDepart extends Etat{
                 break;
             case 6:
             	System.out.println("Recherche d'un depart existant :");
-                List<Depart> departs = (List<Depart>) systemeGestion.getSystemeGestionDepart().rechercherDepart(new Depart(
+                List<Depart> departs = systemeGestion.getSystemeGestionDepart().rechercherDepart(new Depart(
                         new Vol(saisirInt(CONSTANTEID), 0, ""),
                         null));
                 d.affichageListeDepart(departs);
@@ -91,17 +87,7 @@ public class EtatMenuDepart extends Etat{
             case 7:
             	System.out.println("Programmation d'un vol en un départ :");
             	List<Vol> v = systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à programmer"),0, ""));
-	            if(v != null & v.size()>0)
-	            {
-	                if(systemeGestion.getSystemeGestionDepart().ajouteDepartAvion(new DepartAvion(new Depart(v.get(0),Date.valueOf(saisirDate(CONSTANTEDATE))),
-	                		new Avion(saisirString(CONSTANTEAVION)),
-	                		saisirInt("Veuillez entrer la quantité de carburant nécéssaire pour le vol"))))
-	                	log.log(Level.INFO,"DepartAvion Ajouté");
-	                else
-	                	erreur = true;
-	            }
-	            else
-	                erreur = true;
+	            erreur = checkProgVol(systemeGestion,v);
                 break;
             case 8:
                 systemeGestion.setState(new EtatModificationDepartAvion());
@@ -115,32 +101,12 @@ public class EtatMenuDepart extends Etat{
             case 9:
             	System.out.println("Suppression de la programmation d'un départ existant :");
 	            List<Vol> volSuppr =  systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à supprimer"), 0, ""));
-	            if(volSuppr != null & volSuppr.size()>0)
-	            {
-		            Depart departSuppr = new Depart(volSuppr.get(0),Date.valueOf(saisirDate(CONSTANTEDATE)));
-		            if(systemeGestion.getSystemeGestionDepart().supprimerDepartAvion(new DepartAvion(
-		                departSuppr,
-		                new Avion(saisirString(CONSTANTEAVION)),
-		                0)))
-		                log.log(Level.INFO,"DepartAvion supprimé");
-		            else
-		                erreur = true;
-	                break;
-	            }
-	            else
-	                erreur = true;
+	            erreur = checkSupprVol(systemeGestion,volSuppr);
+	            break;
             case 10:
             	System.out.println("Recherche de la programmation d'un depart existant :");
 	            List<Vol> volRech =  systemeGestion.getSystemeGestionVol().rechercherVol(new Vol(saisirInt("Veuillez saisir l'identifiant du vol à rechercher"), 0, ""));
-	            if(volRech != null & volRech.size()>0)
-	            {
-	            	Depart departRech = new Depart(volRech.get(0),null);
-	                		List<DepartAvion> departsAvion = (List<DepartAvion>) systemeGestion.getSystemeGestionDepart().rechercherDepartAvion(new DepartAvion(
-	                			departRech,
-	                    	new Avion(""),
-	                    0));
-	    	            d.affichageListeDepartAvion(departsAvion);
-	            }
+	            checkRechVol(systemeGestion,volRech,d);
                 break;
             case 11:
                 systemeGestion.retourMenuPrecedent();
@@ -154,5 +120,54 @@ public class EtatMenuDepart extends Etat{
            log.log(Level.INFO,"Erreur...");
         }
         systemeGestion.setState(this);
-    } 
+    }
+	private boolean checkSupprVol(SystemeGestion systemeGestion, List<Vol> volSuppr) {
+		boolean erreur = false;
+		if(volSuppr != null && !volSuppr.isEmpty())
+        {
+            Depart departSuppr = new Depart(volSuppr.get(0),Date.valueOf(saisirDate(CONSTANTEDATE)));
+            erreur = checkSupprProgVol(systemeGestion,departSuppr);
+        }
+        else
+            erreur = true;
+		return erreur;
+	}
+	private void checkRechVol(SystemeGestion systemeGestion, List<Vol> volRech,DecorateurMenuDepart d) {
+		if(volRech != null && !volRech.isEmpty())
+        {
+        	Depart departRech = new Depart(volRech.get(0),null);
+            		List<DepartAvion> departsAvion = systemeGestion.getSystemeGestionDepart().rechercherDepartAvion(new DepartAvion(
+            			departRech,
+                	new Avion(""),
+                0));
+	            d.affichageListeDepartAvion(departsAvion);
+        }
+	}
+	private boolean checkSupprProgVol(SystemeGestion systemeGestion, Depart departSuppr) {
+		boolean erreur = false;
+		if(systemeGestion.getSystemeGestionDepart().supprimerDepartAvion(new DepartAvion(
+                departSuppr,
+                new Avion(saisirString(CONSTANTEAVION)),
+                0)))
+                log.log(Level.INFO,"DepartAvion supprimé");
+            else
+                erreur = true;
+		return erreur;
+	}
+	
+	private boolean checkProgVol(SystemeGestion systemeGestion,List<Vol> v) {
+		boolean erreur = false;
+    	if(v != null && !v.isEmpty())
+        {
+            if(systemeGestion.getSystemeGestionDepart().ajouteDepartAvion(new DepartAvion(new Depart(v.get(0),Date.valueOf(saisirDate(CONSTANTEDATE))),
+            		new Avion(saisirString(CONSTANTEAVION)),
+            		saisirInt("Veuillez entrer la quantité de carburant nécéssaire pour le vol"))))
+            	log.log(Level.INFO,"DepartAvion Ajouté");
+            else
+            	erreur = true;
+        }
+        else
+            erreur = true;
+    	return erreur;
+	} 
 }

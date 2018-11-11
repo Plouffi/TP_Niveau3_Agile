@@ -4,7 +4,6 @@ import java.util.List;
 
 import data_model.Depart;
 import data_model.DepartAvion;
-import data_model.TypeAvion;
 
 public class DecorateurMenuDepart extends Decorateur{
     /**
@@ -36,7 +35,7 @@ public class DecorateurMenuDepart extends Decorateur{
      * Méthode permettant l'affichage de la liste des departs
      */
     public void affichageListeDepart(List<Depart> departs) {
-    	if(departs != null && departs.size() != 0)
+    	if(departs != null && !departs.isEmpty())
     	{
     		System.out.println("Résultats de la recherche :");
 	        for(int i = 0; i<departs.size();i++) {
@@ -49,7 +48,7 @@ public class DecorateurMenuDepart extends Decorateur{
     }
 
 	public void affichageListeDepartAvion(List<DepartAvion> departsAvion) {
-		if(departsAvion != null && departsAvion.size() != 0)
+		if(departsAvion != null && !departsAvion.isEmpty())
     	{
     		System.out.println("Résultats de la recherche :");
 	        for(int i = 0; i<departsAvion.size();i++) {

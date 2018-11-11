@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import data_model.Depart;
 import data_model.Vol;
 
 public class VolDAO extends DAO<Vol> {
@@ -100,7 +98,7 @@ public class VolDAO extends DAO<Vol> {
      * @return Vol
      * @throws SQLException
      */
-    public List<Vol> findAll(Vol obj) throws SQLException {
+    public List<Vol> findAll() throws SQLException {
         String requete = "select * from Vol;";
         try(PreparedStatement statement = super.connexion.prepareStatement(requete);){
             try(ResultSet result = statement.executeQuery();){

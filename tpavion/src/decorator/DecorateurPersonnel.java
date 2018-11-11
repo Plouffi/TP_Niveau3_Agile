@@ -4,7 +4,6 @@ import data_model.Personnel;
 import data_model.Role;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public abstract class DecorateurPersonnel extends Decorateur{
     
